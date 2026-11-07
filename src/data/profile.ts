@@ -4,14 +4,14 @@
  */
 
 export const profile = {
-  name: "Arif Rahman",
-  firstName: "ARIF",
-  monogram: "AR",
+  name: "Riha Begum",
+  firstName: "RIHA",
+  monogram: "RB",
   role: "Full-Stack Developer",
   tagline: "Design × Engineering",
   location: "Dhaka, Bangladesh",
   timezone: "Asia/Dhaka",
-  email: "hello@arifrahman.dev",
+  email: "rihabegum.dev@gmail.com",
   phoneLabel: "REMOTE — WORLDWIDE",
   availability: "Available for opportunities",
   availabilityShort: "OPEN TO WORK",
@@ -21,14 +21,18 @@ export const profile = {
    */
   resumePath:
     process.env.NEXT_PUBLIC_STATIC_MODE === "1" ? "/resume.pdf" : "/api/resume",
+  /**
+   * Only set the profiles that actually exist. The UI hides any social link
+   * that is an empty string, so no dead links ever ship.
+   */
   socials: {
-    github: "https://github.com/arifrahman-dev",
-    linkedin: "https://www.linkedin.com/in/arifrahman-dev",
-    x: "https://x.com/arifrahman_dev",
+    github: "https://github.com/messi10istheGoat",
+    linkedin: "",
+    x: "",
   },
   handles: {
-    github: "@arifrahman-dev",
-    linkedin: "in/arifrahman-dev",
+    github: "@messi10istheGoat",
+    linkedin: "",
   },
   hero: {
     lines: ["BUILDING", "BEYOND", "THE ORDINARY."],
@@ -72,7 +76,7 @@ export const profile = {
     currentFocus:
       "Currently exploring AI-assisted product surfaces, edge-rendered applications, and design-engineering workflows that keep interfaces fast under pressure.",
     facts: [
-      { label: "NAME", value: "ARIF RAHMAN" },
+      { label: "NAME", value: "RIHA BEGUM" },
       { label: "ROLE", value: "FULL-STACK DEVELOPER" },
       { label: "LOCATION", value: "BANGLADESH" },
       { label: "FOCUS", value: "WEB APPLICATIONS" },
@@ -86,10 +90,10 @@ export const profile = {
     ],
   },
   meta: {
-    /** Used for downloadable file names: "Arif Rahman" -> "arif-rahman". */
-    slug: "arif-rahman",
+    /** Used for downloadable file names: "Riha Begum" -> "riha-begum". */
+    slug: "riha-begum",
     description:
-      "Portfolio of Arif Rahman — a full-stack developer engineering scalable applications and designing interfaces at the intersection of raw structure and refined execution.",
+      "Portfolio of Riha Begum — a full-stack developer engineering scalable applications and designing interfaces at the intersection of raw structure and refined execution.",
     version: "PORTFOLIO_V1",
     crafted: "CRAFTED WITH PRECISION.",
     location: "DHAKA, BD",

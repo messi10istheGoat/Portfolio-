@@ -1,8 +1,15 @@
-# Arif Rahman — Portfolio
+# Riha Begum — Portfolio
 
 A dark, editorial portfolio for a full-stack developer: hand-built interface
 mockups, case studies, a live GitHub contribution graph, an interactive terminal,
 a command palette, and four switchable accent themes.
+
+The case studies describe real, shipped work — **Spendwise** (offline-first
+personal finance), **Sylhet Live** (crowdsourced monsoon hazard map with
+vehicle-aware routing), **DroidMatrix** (Android fleet console), **Kinetic Type**,
+**Bookora** and **Storefront**. Every stack listed is read from the project's own
+`package.json`; no performance numbers are claimed that cannot be verified from
+the repository.
 
 Built with **Next.js 16 (App Router) · React 19 · TypeScript · Tailwind CSS 4 ·
 Framer Motion · Drizzle ORM · PostgreSQL**.
@@ -15,6 +22,13 @@ Framer Motion · Drizzle ORM · PostgreSQL**.
 npm install
 cp .env.example .env.local   # optional — the site runs fine without it
 npm run dev                  # http://localhost:3000
+```
+
+Regenerating the social card and icons (needs ImageMagick + the fonts in
+`src/app/fonts` installed with fontconfig — see the script header):
+
+```bash
+bash scripts/make-brand-assets.sh
 ```
 
 No configuration is required to run the site. The contact form and live GitHub
@@ -85,7 +99,7 @@ publishes it on every push to `main`.
 1. Repository **Settings → Pages → Source** must be **GitHub Actions**.
    (An admin has to click this once; the workflow cannot enable Pages itself.)
 2. Push to `main`. The workflow builds, verifies, and publishes.
-3. Live at `https://<user>.github.io/<repo>/`.
+3. Live at `https://messi10isthegoat.github.io/Portfolio-/`.
 
 Because the site is static in this mode:
 

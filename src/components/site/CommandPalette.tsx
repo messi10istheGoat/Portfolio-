@@ -108,7 +108,17 @@ export function CommandPalette() {
       },
     }));
 
-    const connect: Command[] = [
+    const connect: (Command | false)[] = [
+      Boolean(profile.socials.linkedin) && {
+        id: "linkedin-profile",
+        label: "Open LinkedIn",
+        hint: "EXTERNAL",
+        group: "CONNECT",
+        run: () => {
+          close();
+          window.open(profile.socials.linkedin, "_blank", "noopener,noreferrer");
+        },
+      },
       {
         id: "github-profile",
         label: "Open GitHub",
@@ -117,16 +127,6 @@ export function CommandPalette() {
         run: () => {
           close();
           window.open(profile.socials.github, "_blank", "noopener,noreferrer");
-        },
-      },
-      {
-        id: "linkedin-profile",
-        label: "Open LinkedIn",
-        hint: "EXTERNAL",
-        group: "CONNECT",
-        run: () => {
-          close();
-          window.open(profile.socials.linkedin, "_blank", "noopener,noreferrer");
         },
       },
       {
@@ -167,7 +167,10 @@ export function CommandPalette() {
       run: () => setAccent(option.key),
     }));
 
-    return [...nav, ...projectCommands, ...connect, ...appearance];
+    // LinkedIn is only offered when a profile is configured.
+    const connectCommands = connect.filter((command): command is Command => Boolean(command));
+
+    return [...nav, ...projectCommands, ...connectCommands, ...appearance];
   }, [accent, close, goToSection, router, setAccent]);
 
   const filtered = useMemo(() => {

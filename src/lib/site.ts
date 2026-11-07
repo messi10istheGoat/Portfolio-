@@ -27,7 +27,7 @@ function resolve(): string {
 
   if (process.env.NODE_ENV === "development") return "http://localhost:3000";
 
-  return "https://arifrahman.dev";
+  return "https://messi10isthegoat.github.io/Portfolio-";
 }
 
 export const siteUrl = resolve();
