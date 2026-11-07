@@ -10,6 +10,7 @@ import { profile } from "@/data/profile";
 import { ACCENTS, useAccent } from "@/components/providers/AccentProvider";
 import { cn } from "@/lib/utils";
 import { Magnetic } from "@/components/ui/Magnetic";
+import { lockScroll, unlockScroll } from "@/lib/scroll-lock";
 
 const links = [
   { id: "home", label: "HOME" },
@@ -65,13 +66,25 @@ export function Navigation() {
   }, [menuOpen]);
 
   useEffect(() => {
-    document.body.style.overflow = menuOpen ? "hidden" : "";
-    return () => {
-      document.body.style.overflow = "";
-    };
+    if (!menuOpen) return;
+    lockScroll();
+    return () => unlockScroll();
   }, [menuOpen]);
 
+
   const hrefFor = (id: string) => (isHome ? `#${id}` : `/#${id}`);
+
+  const onSectionClick = (id: string) => {
+    setMenuOpen(false);
+    if (!isHome) {
+      // Cross-route: let the Link/anchor navigate; the menu is already closed.
+      return;
+    }
+    // Native hash navigation does not re-scroll when the hash is unchanged.
+    window.setTimeout(() => {
+      document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 0);
+  };
 
   const openPalette = () => {
     window.dispatchEvent(new CustomEvent("open-command-palette"));
@@ -116,6 +129,7 @@ export function Navigation() {
                 <a
                   key={link.id}
                   href={hrefFor(link.id)}
+                  onClick={() => onSectionClick(link.id)}
                   aria-current={isActive ? "true" : undefined}
                   className={cn(
                     "relative px-2.5 py-2 font-mono text-[10px] tracking-[0.14em] transition-colors duration-300 xl:px-3",
@@ -235,7 +249,7 @@ export function Navigation() {
                   <motion.a
                     key={link.id}
                     href={hrefFor(link.id)}
-                    onClick={() => setMenuOpen(false)}
+                    onClick={() => onSectionClick(link.id)}
                     initial={{ opacity: 0, y: 16 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.05 + index * 0.045, duration: 0.5 }}

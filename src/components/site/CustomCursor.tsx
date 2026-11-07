@@ -4,6 +4,13 @@ import { useEffect, useRef } from "react";
 
 type CursorState = "default" | "hover" | "label";
 
+/**
+ * Pointer-following cursor.
+ *
+ * The transform is driven directly from requestAnimationFrame (never React
+ * state), the label is written only when it changes, and the whole thing
+ * unmounts its listeners behind the reduced-motion / coarse-pointer guards.
+ */
 export function CustomCursor() {
   const dotRef = useRef<HTMLDivElement>(null);
   const ringRef = useRef<HTMLDivElement>(null);
@@ -12,8 +19,9 @@ export function CustomCursor() {
 
   useEffect(() => {
     const finePointer = window.matchMedia("(pointer: fine)").matches;
+    const hoverCapable = window.matchMedia("(hover: hover)").matches;
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (!finePointer || reduced) return;
+    if (!finePointer || !hoverCapable || reduced) return;
 
     const dot = dotRef.current;
     const ring = ringRef.current;
@@ -30,56 +38,57 @@ export function CustomCursor() {
     let dotY = pointerY;
     let visible = false;
     let frame = 0;
+    let pressed = false;
 
     const setState = (next: CursorState, text = "") => {
-      if (stateRef.current === next && label.textContent === text) return;
+      const labelChanged = label.textContent !== text;
+      if (stateRef.current === next && !labelChanged) return;
       stateRef.current = next;
-      label.textContent = text;
+      if (labelChanged) label.textContent = text;
 
       if (next === "label") {
         ring.style.width = "82px";
         ring.style.height = "82px";
         ring.style.backgroundColor = "rgba(8,9,12,0.82)";
         ring.style.borderColor = "rgba(255,255,255,0.5)";
-        label.style.opacity = "1";
-        dot.style.opacity = "0";
       } else if (next === "hover") {
         ring.style.width = "52px";
         ring.style.height = "52px";
         ring.style.backgroundColor = "rgba(255,255,255,0.06)";
         ring.style.borderColor = "rgba(255,255,255,0.55)";
-        label.style.opacity = "0";
-        dot.style.opacity = "1";
       } else {
         ring.style.width = "30px";
         ring.style.height = "30px";
         ring.style.backgroundColor = "transparent";
         ring.style.borderColor = "rgba(244,244,245,0.38)";
-        label.style.opacity = "0";
-        dot.style.opacity = "1";
       }
+      label.style.opacity = next === "label" ? "1" : "0";
+      dot.style.opacity = next === "label" ? "0" : "1";
+    };
+
+    const setVisible = (next: boolean) => {
+      if (visible === next) return;
+      visible = next;
+      dot.style.opacity = next && stateRef.current !== "label" ? "1" : "0";
+      ring.style.opacity = next ? "1" : "0";
     };
 
     const onMove = (event: PointerEvent) => {
       if (event.pointerType === "touch") return;
       pointerX = event.clientX;
       pointerY = event.clientY;
-      if (!visible) {
-        visible = true;
-        dot.style.opacity = "1";
-        ring.style.opacity = "1";
-      }
 
       const target = event.target as HTMLElement | null;
       if (target?.closest("input, textarea, select, [contenteditable='true']")) {
-        dot.style.opacity = "0";
-        ring.style.opacity = "0";
-        visible = false;
+        setVisible(false);
         return;
       }
+
+      setVisible(true);
+
       const labelled = target?.closest<HTMLElement>("[data-cursor]");
       const interactive = target?.closest<HTMLElement>(
-        "a, button, input, textarea, select, [role='button'], [data-magnetic]",
+        "a, button, [role='button'], summary, [data-magnetic], [data-interactive]",
       );
 
       if (labelled?.dataset.cursor) {
@@ -91,14 +100,16 @@ export function CustomCursor() {
       }
     };
 
-    const onLeave = () => {
-      visible = false;
-      dot.style.opacity = "0";
-      ring.style.opacity = "0";
+    const onLeave = () => setVisible(false);
+    const onEnter = () => {
+      if (pointerX > 0 && pointerY > 0) setVisible(true);
     };
 
     const onDown = () => {
-      ring.style.transform += " scale(0.86)";
+      pressed = true;
+    };
+    const onUp = () => {
+      pressed = false;
     };
 
     const render = () => {
@@ -106,20 +117,25 @@ export function CustomCursor() {
       dotY += (pointerY - dotY) * 0.55;
       ringX += (pointerX - ringX) * 0.16;
       ringY += (pointerY - ringY) * 0.16;
-      dot.style.transform = `translate3d(${dotX}px, ${dotY}px, 0) translate(-50%, -50%)`;
-      ring.style.transform = `translate3d(${ringX}px, ${ringY}px, 0) translate(-50%, -50%)`;
+      const press = pressed ? " scale(0.86)" : "";
+      dot.style.transform = `translate3d(${dotX}px, ${dotY}px, 0) translate(-50%, -50%)${press}`;
+      ring.style.transform = `translate3d(${ringX}px, ${ringY}px, 0) translate(-50%, -50%)${press}`;
       frame = requestAnimationFrame(render);
     };
 
     window.addEventListener("pointermove", onMove, { passive: true });
-    window.addEventListener("pointerdown", onDown);
+    window.addEventListener("pointerdown", onDown, { passive: true });
+    window.addEventListener("pointerup", onUp, { passive: true });
     document.addEventListener("pointerleave", onLeave);
+    document.addEventListener("pointerenter", onEnter);
     frame = requestAnimationFrame(render);
 
     return () => {
       window.removeEventListener("pointermove", onMove);
       window.removeEventListener("pointerdown", onDown);
+      window.removeEventListener("pointerup", onUp);
       document.removeEventListener("pointerleave", onLeave);
+      document.removeEventListener("pointerenter", onEnter);
       cancelAnimationFrame(frame);
       document.body.classList.remove("no-cursor");
     };

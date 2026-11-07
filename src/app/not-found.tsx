@@ -1,5 +1,13 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
+
+export const metadata: Metadata = {
+  title: "404 — Signal lost",
+  description: "This route does not exist. Head back to the index to keep exploring.",
+  robots: { index: false, follow: false },
+  alternates: { canonical: "/" },
+};
 
 export default function NotFound() {
   return (

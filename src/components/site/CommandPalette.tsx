@@ -16,9 +16,11 @@ import {
 import { ACCENTS, useAccent } from "@/components/providers/AccentProvider";
 import { profile } from "@/data/profile";
 import { projects } from "@/data/projects";
+import { lockScroll, unlockScroll } from "@/lib/scroll-lock";
+import { withBasePath } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
-type Group = "NAVIGATE" | "PROJECTS" | "CONNECT" | "APPEARANCE" | "SYSTEM";
+type Group = "NAVIGATE" | "PROJECTS" | "CONNECT" | "APPEARANCE";
 
 interface Command {
   id: string;
@@ -28,6 +30,8 @@ interface Command {
   keywords?: string;
   run: () => void;
 }
+
+const OPEN_EVENT = "open-command-palette";
 
 export function CommandPalette() {
   const [open, setOpen] = useState(false);
@@ -43,6 +47,14 @@ export function CommandPalette() {
 
   const close = useCallback(() => setOpen(false), []);
 
+  /* Reset transient UI when the palette is (re)opened — done in the openers
+     rather than an effect so React never cascades a render. */
+  const openPalette = useCallback(() => {
+    setQuery("");
+    setActiveIndex(0);
+    setOpen((value) => !value);
+  }, []);
+
   const goToSection = useCallback(
     (id: string) => {
       close();
@@ -52,7 +64,9 @@ export function CommandPalette() {
       }
       window.setTimeout(() => {
         document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
-      }, 60);
+        // Keep the URL shareable without a full navigation.
+        window.history.replaceState(null, "", `#${id}`);
+      }, 80);
     },
     [close, pathname, router],
   );
@@ -61,8 +75,9 @@ export function CommandPalette() {
     const nav: Command[] = [
       { id: "nav-home", label: "Go to Home", hint: "TOP", group: "NAVIGATE", run: () => goToSection("home") },
       { id: "nav-about", label: "Open About", hint: "01", group: "NAVIGATE", run: () => goToSection("about") },
-      { id: "nav-work", label: "View Projects", hint: "03", group: "NAVIGATE", run: () => goToSection("work") },
       { id: "nav-stack", label: "Explore Skills", hint: "02", group: "NAVIGATE", run: () => goToSection("stack") },
+      { id: "nav-work", label: "View Projects", hint: "03", group: "NAVIGATE", run: () => goToSection("work") },
+      { id: "nav-github", label: "GitHub Activity", hint: "04", group: "NAVIGATE", run: () => goToSection("github") },
       {
         id: "nav-experience",
         label: "View Experience",
@@ -70,20 +85,7 @@ export function CommandPalette() {
         group: "NAVIGATE",
         run: () => goToSection("experience"),
       },
-      {
-        id: "nav-process",
-        label: "See the Process",
-        hint: "06",
-        group: "NAVIGATE",
-        run: () => goToSection("process"),
-      },
-      {
-        id: "nav-github",
-        label: "GitHub Activity",
-        hint: "04",
-        group: "NAVIGATE",
-        run: () => goToSection("github"),
-      },
+      { id: "nav-process", label: "See the Process", hint: "06", group: "NAVIGATE", run: () => goToSection("process") },
       {
         id: "nav-contact",
         label: "Contact Me",
@@ -99,7 +101,7 @@ export function CommandPalette() {
       label: `Case study — ${project.title}`,
       hint: project.number,
       group: "PROJECTS",
-      keywords: `${project.subtitle} ${project.stack.join(" ")} ${project.categoryLabel}`,
+      keywords: `${project.subtitle} ${project.stack.join(" ")} ${project.categoryLabel} ${project.year}`,
       run: () => {
         close();
         router.push(`/work/${project.slug}`);
@@ -135,14 +137,15 @@ export function CommandPalette() {
         keywords: "cv curriculum",
         run: () => {
           close();
-          window.open(profile.resumePath, "_blank", "noopener,noreferrer");
+          window.open(withBasePath(profile.resumePath), "_blank", "noopener,noreferrer");
         },
       },
       {
         id: "email",
-        label: "Copy email address",
+        label: "Copy Email Address",
         hint: profile.email,
         group: "CONNECT",
+        keywords: profile.email,
         run: async () => {
           try {
             await navigator.clipboard.writeText(profile.email);
@@ -170,56 +173,67 @@ export function CommandPalette() {
   const filtered = useMemo(() => {
     const value = query.trim().toLowerCase();
     if (!value) return commands;
-    return commands.filter((command) =>
-      `${command.label} ${command.hint ?? ""} ${command.keywords ?? ""} ${command.group}`
-        .toLowerCase()
-        .includes(value),
-    );
+    const terms = value.split(/\s+/);
+    return commands.filter((command) => {
+      const haystack = `${command.label} ${command.hint ?? ""} ${command.keywords ?? ""} ${command.group}`.toLowerCase();
+      return terms.every((term) => haystack.includes(term));
+    });
   }, [commands, query]);
 
+  /* Scroll lock, focus restore and initial focus. */
   useEffect(() => {
-    setActiveIndex(0);
-  }, [query]);
+    if (!open) {
+      restoreFocus.current?.focus?.();
+      return;
+    }
+    restoreFocus.current = document.activeElement as HTMLElement;
+    lockScroll();
+    const timer = window.setTimeout(() => {
+      inputRef.current?.focus();
+      inputRef.current?.select();
+    }, 30);
+    return () => {
+      window.clearTimeout(timer);
+      unlockScroll();
+    };
+  }, [open]);
 
+  /* Global key bindings. */
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
+      const target = event.target as HTMLElement | null;
+      const typingInField =
+        target?.tagName === "INPUT" || target?.tagName === "TEXTAREA" || target?.isContentEditable;
+
       if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
         event.preventDefault();
-        setOpen((value) => !value);
+        openPalette();
       } else if (event.key === "Escape") {
         setOpen(false);
+      } else if (event.key === "/" && !open && !typingInField) {
+        event.preventDefault();
+        openPalette();
       }
     };
     const onOpen = () => setOpen(true);
     window.addEventListener("keydown", onKey);
-    window.addEventListener("open-command-palette", onOpen as EventListener);
+    window.addEventListener(OPEN_EVENT, onOpen as EventListener);
     return () => {
       window.removeEventListener("keydown", onKey);
-      window.removeEventListener("open-command-palette", onOpen as EventListener);
+      window.removeEventListener(OPEN_EVENT, onOpen as EventListener);
     };
-  }, []);
+  }, [open, openPalette]);
 
-  useEffect(() => {
-    if (open) {
-      restoreFocus.current = document.activeElement as HTMLElement;
-      setQuery("");
-      setActiveIndex(0);
-      window.setTimeout(() => inputRef.current?.focus(), 40);
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-      restoreFocus.current?.focus?.();
-    }
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [open]);
+  /* Derived rather than stored: the highlight can never point past the end of
+     the result list, and no effect has to chase it. */
+  const highlighted = filtered.length === 0 ? -1 : Math.min(activeIndex, filtered.length - 1);
 
+  /* Keep the highlighted row in view. */
   useEffect(() => {
-    if (!open) return;
-    const node = listRef.current?.querySelector<HTMLElement>(`[data-index="${activeIndex}"]`);
+    if (!open || highlighted < 0) return;
+    const node = listRef.current?.querySelector<HTMLElement>(`[data-index="${highlighted}"]`);
     node?.scrollIntoView({ block: "nearest" });
-  }, [activeIndex, open]);
+  }, [highlighted, open]);
 
   const handleInputKey = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "ArrowDown") {
@@ -230,9 +244,19 @@ export function CommandPalette() {
       setActiveIndex((index) => (filtered.length ? (index - 1 + filtered.length) % filtered.length : 0));
     } else if (event.key === "Enter") {
       event.preventDefault();
-      filtered[activeIndex]?.run();
-      if (filtered[activeIndex]?.id !== "email") close();
+      const command = filtered[highlighted];
+      if (!command) return;
+      command.run();
+      if (command.id !== "email") close();
+    } else if (event.key === "Tab") {
+      // Only the input and the list are interactive: keep focus inside.
+      event.preventDefault();
     }
+  };
+
+  const onQueryChange = (value: string) => {
+    setQuery(value);
+    setActiveIndex(0);
   };
 
   let lastGroup: Group | null = null;
@@ -262,20 +286,22 @@ export function CommandPalette() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -10, scale: 0.99 }}
             transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
-            className="glass-strong relative w-full max-w-[640px] overflow-hidden"
-            style={{ borderRadius: 3 }}
+            className="glass-strong relative w-full max-w-[640px] overflow-hidden rounded-[3px]"
           >
             <div className="flex items-center gap-3 border-b border-white/10 px-4 py-3.5">
               <Search className="h-4 w-4 shrink-0 text-accent" />
               <input
                 ref={inputRef}
                 value={query}
-                onChange={(event) => setQuery(event.target.value)}
+                onChange={(event) => onQueryChange(event.target.value)}
                 onKeyDown={handleInputKey}
                 placeholder="Search commands, projects, sections…"
                 aria-label="Search commands"
+                role="combobox"
+                aria-expanded
                 aria-controls="command-list"
-                aria-activedescendant={filtered[activeIndex]?.id}
+                aria-autocomplete="list"
+                aria-activedescendant={filtered[highlighted]?.id}
                 className="w-full bg-transparent font-mono text-[12px] uppercase tracking-[0.08em] text-bone placeholder:text-fog focus:outline-none"
               />
               <span className="mono-sm hidden shrink-0 border border-white/15 px-1.5 py-0.5 text-[8px] text-fog sm:block">
@@ -307,22 +333,23 @@ export function CommandPalette() {
                       type="button"
                       role="option"
                       id={command.id}
-                      aria-selected={index === activeIndex}
+                      aria-selected={index === highlighted}
                       data-index={index}
                       onMouseEnter={() => setActiveIndex(index)}
+                      onMouseMove={() => setActiveIndex(index)}
                       onClick={() => {
                         command.run();
                         if (command.id !== "email") close();
                       }}
                       className={cn(
                         "flex w-full items-center gap-3 px-4 py-2.5 text-left transition-colors",
-                        index === activeIndex ? "bg-white/[0.07]" : "hover:bg-white/[0.04]",
+                        index === highlighted ? "bg-white/[0.07]" : "hover:bg-white/[0.04]",
                       )}
                     >
                       <span
                         className={cn(
                           "grid h-6 w-6 shrink-0 place-items-center border text-[9px]",
-                          index === activeIndex
+                          index === highlighted
                             ? "border-accent/70 bg-accent/10 text-accent"
                             : "border-white/12 text-fog",
                         )}
@@ -335,7 +362,7 @@ export function CommandPalette() {
                           <Download className="h-3 w-3" />
                         ) : command.id === "email" ? (
                           copied ? (
-                            <Check className="h-3 w-3" />
+                            <Check className="h-3 w-3 text-lime" />
                           ) : (
                             <Copy className="h-3 w-3" />
                           )

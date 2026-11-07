@@ -20,6 +20,7 @@ export interface RepoHighlight {
   language: string;
   stars: number;
   updated: string;
+  url: string;
 }
 
 export interface GithubData {
@@ -40,6 +41,7 @@ export interface GithubData {
 }
 
 const WEEKS = 53;
+const REVALIDATE_SECONDS = 1800;
 
 function mulberry32(seed: number) {
   return function random() {
@@ -58,27 +60,62 @@ function levelFor(count: number): ContributionLevel {
   return 4;
 }
 
+const MONTH_LABELS = [
+  "JAN",
+  "FEB",
+  "MAR",
+  "APR",
+  "MAY",
+  "JUN",
+  "JUL",
+  "AUG",
+  "SEP",
+  "OCT",
+  "NOV",
+  "DEC",
+];
+
+/**
+ * Derive month labels from an actual set of weeks.
+ * Previously live mode reused the *sample* month positions, so labels drifted
+ * out of alignment with the real calendar.
+ */
+function monthsFor(weeks: ContributionDay[][]): { label: string; column: number }[] {
+  const raw: { label: string; column: number }[] = [];
+  let lastMonth = -1;
+
+  weeks.forEach((week, column) => {
+    const first = week[0];
+    if (!first) return;
+    const month = new Date(`${first.date}T12:00:00Z`).getUTCMonth();
+    if (month !== lastMonth) {
+      lastMonth = month;
+      raw.push({ label: MONTH_LABELS[month], column });
+    }
+  });
+
+  // Keep labels that are at least four columns apart so they never collide.
+  return raw.filter((entry, index) => index === 0 || entry.column - raw[index - 1].column > 3);
+}
+
 function buildSampleWeeks(): { weeks: ContributionDay[][]; months: { label: string; column: number }[] } {
   const today = new Date();
   today.setHours(12, 0, 0, 0);
-  const dayOfWeek = today.getDay();
   const end = new Date(today);
-  end.setDate(end.getDate() - dayOfWeek + 6);
+  end.setDate(end.getDate() - today.getDay() + 6);
 
   const start = new Date(end);
   start.setDate(start.getDate() - (WEEKS * 7 - 1));
 
   const random = mulberry32(0x5eed1234);
   const weeks: ContributionDay[][] = [];
-  const months: { label: string; column: number }[] = [];
-  let lastMonth = -1;
 
   for (let w = 0; w < WEEKS; w++) {
     const week: ContributionDay[] = [];
     for (let d = 0; d < 7; d++) {
       const cell = new Date(start);
       cell.setDate(start.getDate() + w * 7 + d);
-      const isFuture = cell > end;
+      const isFuture = cell > today;
       const weekend = d === 0 || d === 6;
       const seasonal = 0.55 + 0.45 * Math.sin((w / WEEKS) * Math.PI * 3);
       const base = isFuture ? 0 : Math.floor(random() * (weekend ? 6 : 14) * seasonal);
@@ -88,18 +125,11 @@ function buildSampleWeeks(): { weeks: ContributionDay[][]; months: { label: stri
         count,
         level: levelFor(count),
       });
-      if (d === 0 && cell.getMonth() !== lastMonth) {
-        lastMonth = cell.getMonth();
-        months.push({
-          label: cell.toLocaleString("en-US", { month: "short" }).toUpperCase(),
-          column: w,
-        });
-      }
     }
     weeks.push(week);
   }
 
-  return { weeks, months: months.filter((m, i) => i === 0 || m.column - months[i - 1].column > 3) };
+  return { weeks, months: monthsFor(weeks) };
 }
 
 function sumCounts(weeks: ContributionDay[][]): number {
@@ -128,30 +158,48 @@ const sampleRepos: RepoHighlight[] = [
     description: "Personal finance workspace — typed ledger, server-side aggregates, zero drift.",
     language: "TypeScript",
     stars: 148,
-    updated: "2 days ago",
+    updated: "2 DAYS AGO",
+    url: "https://github.com/arifrahman-dev/ledgerly",
   },
   {
     name: "relay",
     description: "Local-first API capture workbench. Response to fixture in one command.",
     language: "TypeScript",
     stars: 96,
-    updated: "1 week ago",
+    updated: "1 WEEK AGO",
+    url: "https://github.com/arifrahman-dev/relay",
   },
   {
     name: "pulse",
     description: "Realtime API observability for small teams, on one Postgres instance.",
     language: "Node.js",
     stars: 74,
-    updated: "3 weeks ago",
+    updated: "3 WEEKS AGO",
+    url: "https://github.com/arifrahman-dev/pulse",
   },
   {
     name: "kinetic-type-lab",
     description: "Four browser typography experiments using variable fonts and geometry.",
     language: "React",
     stars: 51,
-    updated: "1 month ago",
+    updated: "1 MONTH AGO",
+    url: "https://github.com/arifrahman-dev/kinetic-type-lab",
   },
 ];
+
+/** Relative wording for repository freshness — stable between renders. */
+function relativeUpdated(iso: string): string {
+  const then = new Date(iso).getTime();
+  if (Number.isNaN(then)) return "RECENTLY";
+
+  const days = Math.floor((Date.now() - then) / 86_400_000);
+  if (days <= 0) return "TODAY";
+  if (days === 1) return "YESTERDAY";
+  if (days < 14) return `${days} DAYS AGO`;
+  if (days < 60) return `${Math.round(days / 7)} WEEKS AGO`;
+  if (days < 365) return `${Math.round(days / 30)} MONTHS AGO`;
+  return `${Math.floor(days / 365)}+ YEARS AGO`;
+}
 
 function sampleData(): GithubData {
   const { weeks, months } = buildSampleWeeks();
@@ -189,12 +237,24 @@ interface GraphQLResponse {
       following?: { totalCount: number };
     };
   };
+  errors?: { message: string }[];
+}
+
+interface RestRepo {
+  name: string;
+  description: string | null;
+  language: string | null;
+  stargazers_count: number;
+  updated_at: string;
+  html_url: string;
+  fork: boolean;
+  archived: boolean;
 }
 
 /** Server-side fetch. Never throws: any failure falls back to labelled sample data. */
 export async function getGithubData(): Promise<GithubData> {
   const token = process.env.GITHUB_TOKEN;
-  const username = process.env.GITHUB_USERNAME;
+  const username = process.env.GITHUB_USERNAME ?? process.env.NEXT_PUBLIC_GITHUB_USERNAME;
   const fallback = sampleData();
 
   if (!token || !username) return fallback;
@@ -206,19 +266,27 @@ export async function getGithubData(): Promise<GithubData> {
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
+        "User-Agent": "portfolio-site",
       },
       body: JSON.stringify({ query, variables: { login: username } }),
-      signal: AbortSignal.timeout(6000),
-      next: { revalidate: 3600 },
+      signal: AbortSignal.timeout(7000),
+      next: { revalidate: REVALIDATE_SECONDS, tags: ["github-activity"] },
     });
 
-    if (!res.ok) return fallback;
+    if (!res.ok) {
+      console.warn(`[github] GraphQL responded ${res.status}; using sample data`);
+      return fallback;
+    }
+
     const json = (await res.json()) as GraphQLResponse;
     const user = json.data?.user;
     const calendar = user?.contributionsCollection?.contributionCalendar;
-    if (!calendar?.weeks?.length) return fallback;
+    if (!calendar?.weeks?.length) {
+      if (json.errors?.length) console.warn("[github] GraphQL errors", json.errors[0]?.message);
+      return fallback;
+    }
 
-    const weeks = calendar.weeks.map((week) =>
+    const weeks: ContributionDay[][] = calendar.weeks.map((week) =>
       week.contributionDays.map((day) => ({
         date: day.date,
         count: day.contributionCount,
@@ -226,24 +294,33 @@ export async function getGithubData(): Promise<GithubData> {
       })),
     );
 
-    const random = mulberry32(0xabc123);
     const reposRes = await fetch(
-      `https://api.github.com/users/${username}/repos?sort=updated&per_page=4`,
+      `https://api.github.com/users/${encodeURIComponent(username)}/repos?sort=updated&per_page=8&type=owner`,
       {
-        headers: { Authorization: `Bearer ${token}`, Accept: "application/vnd.github+json" },
-        signal: AbortSignal.timeout(6000),
-        next: { revalidate: 3600 },
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/vnd.github+json",
+          "User-Agent": "portfolio-site",
+        },
+        signal: AbortSignal.timeout(7000),
+        next: { revalidate: REVALIDATE_SECONDS, tags: ["github-activity"] },
       },
     );
-    const reposJson = reposRes.ok
-      ? ((await reposRes.json()) as {
-          name: string;
-          description: string | null;
-          language: string | null;
-          stargazers_count: number;
-          updated_at: string;
-        }[])
-      : [];
+
+    const reposJson: RestRepo[] = reposRes.ok ? ((await reposRes.json()) as RestRepo[]) : [];
+
+    const repos: RepoHighlight[] = reposJson
+      .filter((repo) => !repo.fork && !repo.archived)
+      .sort((a, b) => b.stargazers_count - a.stargazers_count || Date.parse(b.updated_at) - Date.parse(a.updated_at))
+      .slice(0, 4)
+      .map((repo) => ({
+        name: repo.name,
+        description: repo.description ?? "No description provided.",
+        language: repo.language ?? "Other",
+        stars: repo.stargazers_count,
+        updated: relativeUpdated(repo.updated_at),
+        url: repo.html_url || `https://github.com/${username}/${repo.name}`,
+      }));
 
     return {
       live: true,
@@ -252,30 +329,17 @@ export async function getGithubData(): Promise<GithubData> {
       profileUrl: `https://github.com/${username}`,
       totals: {
         contributions: calendar.totalContributions,
-        repositories: user?.repositories?.totalCount ?? 0,
+        repositories: user?.repositories?.totalCount ?? repos.length,
         followers: user?.followers?.totalCount ?? 0,
         following: user?.following?.totalCount ?? 0,
         streak: longestStreak(weeks),
       },
       weeks,
-      months: fallback.months,
-      repos: reposJson.length
-        ? reposJson.map((repo, index) => ({
-            name: repo.name,
-            description: repo.description ?? "No description provided.",
-            language: repo.language ?? "Other",
-            stars: repo.stargazers_count,
-            updated: new Date(repo.updated_at || Date.now()).toLocaleDateString("en-GB", {
-              day: "2-digit",
-              month: "short",
-            }),
-          }))
-        : sampleRepos.slice(0, 4).map((repo) => ({
-            ...repo,
-            stars: Math.round(repo.stars * (0.6 + random() * 0.8)),
-          })),
+      months: monthsFor(weeks),
+      repos,
     };
-  } catch {
-    return sampleRepos.length ? fallback : fallback;
+  } catch (error) {
+    console.warn("[github] live fetch failed; using sample data", error);
+    return fallback;
   }
 }

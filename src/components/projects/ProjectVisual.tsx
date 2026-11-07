@@ -1,4 +1,4 @@
-import type { CSSProperties } from "react";
+import { useId, type CSSProperties } from "react";
 import type { ProjectPreview } from "@/data/projects";
 import { cn } from "@/lib/utils";
 
@@ -75,6 +75,9 @@ export function ProjectVisual({
 
 function DashboardPreview({ compact }: { compact: boolean }) {
   const bars = [38, 62, 45, 72, 58, 84, 66, 94, 78, 88, 70, 96];
+  // Every card renders its own dashboard, so gradient ids must be unique or
+  // the first definition wins and later cards inherit the wrong fill.
+  const gradientId = `area-grad-${useId().replace(/[:]/g, "")}`;
   return (
     <div className="grid h-full grid-cols-[52px_1fr] gap-2 sm:grid-cols-[64px_1fr]">
       <div className="hidden flex-col justify-between border border-white/10 bg-white/[0.02] p-2 sm:flex">
@@ -119,12 +122,12 @@ function DashboardPreview({ compact }: { compact: boolean }) {
           </div>
           <svg viewBox="0 0 200 60" preserveAspectRatio="none" className="mt-1 h-[calc(100%-24px)] w-full">
             <defs>
-              <linearGradient id="area-grad" x1="0" y1="0" x2="0" y2="1">
+              <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
                 <stop offset="0%" stopColor="var(--pv-accent)" stopOpacity="0.35" />
                 <stop offset="100%" stopColor="var(--pv-accent)" stopOpacity="0" />
               </linearGradient>
             </defs>
-            <path d="M0 48 L18 40 L34 44 L52 28 L70 34 L88 18 L106 24 L124 12 L142 20 L160 8 L180 16 L200 6 L200 60 L0 60 Z" fill="url(#area-grad)" />
+            <path d="M0 48 L18 40 L34 44 L52 28 L70 34 L88 18 L106 24 L124 12 L142 20 L160 8 L180 16 L200 6 L200 60 L0 60 Z" fill={`url(#${gradientId})`} />
             <path
               d="M0 48 L18 40 L34 44 L52 28 L70 34 L88 18 L106 24 L124 12 L142 20 L160 8 L180 16 L200 6"
               fill="none"

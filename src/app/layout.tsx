@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
-import { Inter, JetBrains_Mono, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { AccentProvider, accentBootstrapScript } from "@/components/providers/AccentProvider";
 import { CustomCursor } from "@/components/site/CustomCursor";
@@ -9,38 +8,17 @@ import { Footer } from "@/components/site/Footer";
 import { CommandPalette } from "@/components/site/CommandPalette";
 import { ScrollProgress } from "@/components/ui/Motion";
 import { profile } from "@/data/profile";
-
-const spaceGrotesk = Space_Grotesk({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-space-grotesk",
-  display: "swap",
-});
-
-const inter = Inter({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
-  variable: "--font-inter",
-  display: "swap",
-});
-
-const jetbrains = JetBrains_Mono({
-  subsets: ["latin"],
-  weight: ["400", "500", "700"],
-  variable: "--font-jetbrains",
-  display: "swap",
-});
-
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://arifrahman.dev";
+import { basePath, siteUrl } from "@/lib/site";
+import { fontVariables } from "@/app/fonts";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
+  metadataBase: new URL(`${siteUrl}${basePath}`),
   title: {
-    default: `${profile.name} — Full-Stack Developer`,
+    default: `${profile.name} — ${profile.role}`,
     template: `%s — ${profile.name}`,
   },
-  description:
-    "Portfolio of Arif Rahman, a full-stack developer engineering scalable applications and designing interfaces at the intersection of raw structure and refined execution.",
+  description: profile.meta.description,
+  applicationName: `${profile.name} — Portfolio`,
   keywords: [
     "full-stack developer",
     "Next.js developer",
@@ -49,22 +27,39 @@ export const metadata: Metadata = {
     "portfolio",
     "Bangladesh developer",
   ],
-  authors: [{ name: profile.name }],
+  authors: [{ name: profile.name, url: siteUrl }],
   creator: profile.name,
+  publisher: profile.name,
+  category: "technology",
+  alternates: { canonical: "/" },
   openGraph: {
     type: "website",
-    title: `${profile.name} — Full-Stack Developer`,
-    description:
-      "Building beyond the ordinary. Full-stack engineering, interface systems, and digital products.",
+    title: `${profile.name} — ${profile.role}`,
+    description: profile.meta.description,
     url: siteUrl,
     siteName: `${profile.name} — Portfolio`,
+    locale: "en_US",
+    images: [
+      {
+        url: "/opengraph-image.png",
+        width: 1200,
+        height: 630,
+        alt: `${profile.name} — ${profile.role}. ${profile.tagline}.`,
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: `${profile.name} — Full-Stack Developer`,
-    description: "Building beyond the ordinary. Full-stack engineering & interface systems.",
+    title: `${profile.name} — ${profile.role}`,
+    description: `${profile.tagline}. ${profile.hero.intro.slice(0, 100)}…`,
+    images: ["/opengraph-image.png"],
+  },
+  icons: {
+    icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
+    apple: [{ url: "/apple-icon.png" }],
   },
   robots: { index: true, follow: true },
+  formatDetection: { email: false, address: false, telephone: false },
 };
 
 export const viewport: Viewport = {
@@ -79,21 +74,17 @@ const personSchema = {
   "@type": "Person",
   name: profile.name,
   jobTitle: profile.role,
-  email: profile.email,
+  description: profile.meta.description,
+  email: `mailto:${profile.email}`,
   url: siteUrl,
-  address: { "@type": "PostalAddress", addressCountry: "BD", addressLocality: "Dhaka" },
-  sameAs: [profile.socials.github, profile.socials.linkedin],
+  sameAs: [profile.socials.github, profile.socials.linkedin, profile.socials.x].filter(Boolean),
   knowsAbout: ["TypeScript", "React", "Next.js", "Node.js", "PostgreSQL", "UI Engineering"],
+  knowsLanguage: ["en", "bn"],
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html
-      lang="en"
-      data-accent="blue"
-      className={`${spaceGrotesk.variable} ${inter.variable} ${jetbrains.variable}`}
-      suppressHydrationWarning
-    >
+    <html lang="en" data-accent="blue" className={fontVariables} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: accentBootstrapScript }} />
         <script

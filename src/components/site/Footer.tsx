@@ -7,6 +7,7 @@ import { profile } from "@/data/profile";
 import { ACCENTS, useAccent } from "@/components/providers/AccentProvider";
 import { GithubIcon, LinkedinIcon, XIcon } from "@/components/ui/BrandIcons";
 import { cn } from "@/lib/utils";
+import { withBasePath } from "@/lib/site";
 
 const navLinks = [
   { id: "about", label: "ABOUT" },
@@ -138,12 +139,14 @@ export function Footer() {
                 { label: "LINKEDIN", href: profile.socials.linkedin },
                 { label: "X / TWITTER", href: profile.socials.x },
                 { label: "EMAIL", href: `mailto:${profile.email}` },
-                { label: "RÉSUMÉ", href: profile.resumePath },
+                { label: "RÉSUMÉ", href: withBasePath(profile.resumePath) },
               ].map((item) => (
                 <li key={item.label}>
                   <a
                     href={item.href}
-                    target={item.href.startsWith("mailto") ? undefined : "_blank"}
+                    target={
+                      item.href.startsWith("mailto") || item.href.startsWith("/") ? undefined : "_blank"
+                    }
                     rel="noreferrer noopener"
                     className="mono-sm inline-flex items-center gap-1 text-[9px] text-ash transition-colors hover:text-accent"
                   >

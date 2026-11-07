@@ -1,7 +1,7 @@
 "use client";
 
 import { useMotionValue, useReducedMotion, useSpring, useTransform, motion } from "framer-motion";
-import { useEffect, useRef } from "react";
+import { useEffect, useId, useRef } from "react";
 
 /**
  * Hero centerpiece — a layered glass/metal structure built entirely from CSS
@@ -9,6 +9,8 @@ import { useEffect, useRef } from "react";
  */
 export function HeroObject() {
   const containerRef = useRef<HTMLDivElement>(null);
+  // Unique per instance so the SVG gradient is never shared by accident.
+  const ringGradientId = `ring-grad-${useId().replace(/[:]/g, "")}`;
   const reduced = useReducedMotion();
   const px = useMotionValue(0);
   const py = useMotionValue(0);
@@ -91,13 +93,13 @@ export function HeroObject() {
         >
           <svg viewBox="0 0 400 400" className="h-[92%] w-[92%] opacity-60">
             <defs>
-              <linearGradient id="ring-grad" x1="0" y1="0" x2="1" y2="1">
+              <linearGradient id={ringGradientId} x1="0" y1="0" x2="1" y2="1">
                 <stop offset="0%" stopColor="rgba(255,255,255,0.35)" />
                 <stop offset="55%" stopColor="rgba(255,255,255,0.05)" />
                 <stop offset="100%" stopColor="rgba(var(--accent-rgb),0.5)" />
               </linearGradient>
             </defs>
-            <circle cx="200" cy="200" r="152" fill="none" stroke="url(#ring-grad)" strokeWidth="0.75" />
+            <circle cx="200" cy="200" r="152" fill="none" stroke={`url(#${ringGradientId})`} strokeWidth="0.75" />
             <circle
               cx="200"
               cy="200"

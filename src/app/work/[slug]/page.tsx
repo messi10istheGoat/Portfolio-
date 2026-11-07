@@ -25,11 +25,20 @@ export async function generateMetadata({
   return {
     title: `${project.title} — ${project.subtitle}`,
     description: project.description,
+    keywords: [...project.stack, project.categoryLabel, "case study", project.title],
     alternates: { canonical: `/work/${project.slug}` },
     openGraph: {
-      title: `${project.title} — Case Study`,
+      title: `${project.title} — ${project.subtitle}`,
       description: project.description,
       type: "article",
+      url: `/work/${project.slug}`,
+      publishedTime: `${project.year}-01-01T00:00:00.000Z`,
+      tags: [...project.stack, project.categoryLabel],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${project.title} — ${project.subtitle}`,
+      description: project.description,
     },
   };
 }
@@ -82,8 +91,24 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
   const { caseStudy } = project;
   const related = relatedProjects(project.slug, 2);
 
+  const caseSchema = {
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    name: project.title,
+    headline: `${project.title} — ${project.subtitle}`,
+    description: project.description,
+    dateCreated: project.year,
+    keywords: project.stack.join(", "),
+    creator: { "@type": "Person", name: profile.name },
+    about: project.categoryLabel,
+  };
+
   return (
     <article>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(caseSchema) }}
+      />
       {/* hero */}
       <header className="relative overflow-hidden pt-28 sm:pt-32">
         <div className="pointer-events-none absolute inset-0 -z-10">
@@ -101,8 +126,8 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
               BACK TO SELECTED WORK
             </Link>
             <span className="mono-sm text-[8px] text-fog">
-              CASE STUDY {project.number} / 06 <span className="text-white/20">·</span>{" "}
-              <span className="text-accent">{project.year}</span>
+              CASE STUDY {project.number} / {String(projects.length).padStart(2, "0")}{" "}
+              <span className="text-white/20">·</span> <span className="text-accent">{project.year}</span>
             </span>
           </div>
 

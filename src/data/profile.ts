@@ -15,7 +15,12 @@ export const profile = {
   phoneLabel: "REMOTE — WORLDWIDE",
   availability: "Available for opportunities",
   availabilityShort: "OPEN TO WORK",
-  resumePath: "/api/resume",
+  /**
+   * Static exports ship a pre-generated PDF in /public; server deployments
+   * generate it on demand from the same source data.
+   */
+  resumePath:
+    process.env.NEXT_PUBLIC_STATIC_MODE === "1" ? "/resume.pdf" : "/api/resume",
   socials: {
     github: "https://github.com/arifrahman-dev",
     linkedin: "https://www.linkedin.com/in/arifrahman-dev",
@@ -81,6 +86,10 @@ export const profile = {
     ],
   },
   meta: {
+    /** Used for downloadable file names: "Arif Rahman" -> "arif-rahman". */
+    slug: "arif-rahman",
+    description:
+      "Portfolio of Arif Rahman — a full-stack developer engineering scalable applications and designing interfaces at the intersection of raw structure and refined execution.",
     version: "PORTFOLIO_V1",
     crafted: "CRAFTED WITH PRECISION.",
     location: "DHAKA, BD",

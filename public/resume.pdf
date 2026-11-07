@@ -1,0 +1,86 @@
+%PDF-1.4
+%âãÏÓ
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 4 0 R /F2 5 0 R >> >> /Contents 6 0 R >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>
+endobj
+6 0 obj
+<< /Length 4532 >>
+stream
+BT /F2 26 Tf 0 g 1 0 0 1 52 790 Tm (ARIF RAHMAN) Tj ET
+BT /F1 9.5 Tf 0 g 1 0 0 1 52 770 Tm (FULL-STACK DEVELOPER / DESIGN x ENGINEERING) Tj ET
+BT /F1 8.5 Tf 0 g 1 0 0 1 52 756 Tm (hello@arifrahman.dev - Dhaka, Bangladesh) Tj ET
+BT /F1 8 Tf 0 g 1 0 0 1 52 745 Tm (https://github.com/arifrahman-dev - https://www.linkedin.com/in/arifrahman-dev) Tj ET
+BT /F1 8 Tf 0 g 1 0 0 1 52 734 Tm (AVAILABLE FOR OPPORTUNITIES) Tj ET
+BT /F2 10 Tf 0 g 1 0 0 1 52 718 Tm (PROFILE) Tj ET
+BT /F1 8 Tf 0 g 1 0 0 1 52 714 Tm (______________________________________________________________________________________________________________) Tj ET
+BT /F1 9 Tf 0 g 1 0 0 1 52 698 Tm (I'm a Full-Stack Developer focused on engineering scalable applications, designing intuitive) Tj ET
+BT /F1 9 Tf 0 g 1 0 0 1 52 685.5 Tm (interfaces, and transforming ambitious ideas into meaningful digital products.) Tj ET
+BT /F2 10 Tf 0 g 1 0 0 1 52 663 Tm (TECHNICAL STACK) Tj ET
+BT /F1 8 Tf 0 g 1 0 0 1 52 659 Tm (______________________________________________________________________________________________________________) Tj ET
+BT /F1 9 Tf 0 g 1 0 0 1 52 643 Tm (FRONTEND: HTML, CSS, JavaScript, TypeScript, React, Next.js, Tailwind CSS) Tj ET
+BT /F1 9 Tf 0 g 1 0 0 1 52 631 Tm (BACKEND: Node.js, Express, REST APIs, Authentication, Server-side) Tj ET
+BT /F1 9 Tf 0 g 1 0 0 1 52 619 Tm (DATABASE: PostgreSQL, MongoDB, MySQL, Prisma) Tj ET
+BT /F1 9 Tf 0 g 1 0 0 1 52 607 Tm (TOOLS & WORKFLOW: Git, GitHub, VS Code, Docker, Postman, Figma) Tj ET
+BT /F1 9 Tf 0 g 1 0 0 1 52 595 Tm (DEPLOYMENT: Vercel, Netlify, CI/CD, Cloud) Tj ET
+BT /F2 10 Tf 0 g 1 0 0 1 52 573 Tm (SELECTED PROJECTS) Tj ET
+BT /F1 8 Tf 0 g 1 0 0 1 52 569 Tm (______________________________________________________________________________________________________________) Tj ET
+BT /F2 9.5 Tf 0 g 1 0 0 1 52 553 Tm (01 LEDGERLY - PERSONAL FINANCE TRACKER \(2025\)) Tj ET
+BT /F1 8.5 Tf 0 g 1 0 0 1 52 541 Tm (A financial command centre for tracking income, expenses, budgets, and month-over-month behaviour) Tj ET
+BT /F1 8.5 Tf 0 g 1 0 0 1 52 529.5 Tm (without spreadsheet friction.) Tj ET
+BT /F1 8 Tf 0 g 1 0 0 1 52 518 Tm (Stack: Next.js, TypeScript, PostgreSQL, Drizzle, Tailwind) Tj ET
+BT /F2 9.5 Tf 0 g 1 0 0 1 52 505 Tm (02 SYNTH - AI-POWERED RESEARCH PLATFORM \(2025\)) Tj ET
+BT /F1 8.5 Tf 0 g 1 0 0 1 52 493 Tm (An intelligent reading environment that turns scattered sources into structured notes, citations, and) Tj ET
+BT /F1 8.5 Tf 0 g 1 0 0 1 52 481.5 Tm (defensible answers.) Tj ET
+BT /F1 8 Tf 0 g 1 0 0 1 52 470 Tm (Stack: Next.js, TypeScript, PostgreSQL, Streaming APIs, Vector Search) Tj ET
+BT /F2 9.5 Tf 0 g 1 0 0 1 52 457 Tm (03 FORM & FIELD - MODERN E-COMMERCE SYSTEM \(2024\)) Tj ET
+BT /F1 8.5 Tf 0 g 1 0 0 1 52 445 Tm (A complete commerce experience: catalogue, product detail, cart, authentication, and order management) Tj ET
+BT /F1 8.5 Tf 0 g 1 0 0 1 52 433.5 Tm (with a considered editorial interface.) Tj ET
+BT /F1 8 Tf 0 g 1 0 0 1 52 422 Tm (Stack: Next.js, Node.js, PostgreSQL, Prisma, Stripe-ready) Tj ET
+BT /F2 10 Tf 0 g 1 0 0 1 52 399 Tm (EXPERIENCE) Tj ET
+BT /F1 8 Tf 0 g 1 0 0 1 52 395 Tm (______________________________________________________________________________________________________________) Tj ET
+BT /F2 9.5 Tf 0 g 1 0 0 1 52 379 Tm (INDEPENDENT PRACTICE - Full-Stack Developer) Tj ET
+BT /F1 8 Tf 0 g 1 0 0 1 52 367 Tm (2023 - PRESENT | REMOTE / BANGLADESH) Tj ET
+BT /F1 8.5 Tf 0 g 1 0 0 1 52 355 Tm (Designing and shipping end-to-end web products for small teams: architecture, interface systems, and) Tj ET
+BT /F1 8.5 Tf 0 g 1 0 0 1 52 343.5 Tm (deployment.) Tj ET
+BT /F2 9.5 Tf 0 g 1 0 0 1 52 329 Tm (STUDIO COLLABORATION - Frontend Engineer) Tj ET
+BT /F1 8 Tf 0 g 1 0 0 1 52 317 Tm (2022 - 2023 | CONTRACT) Tj ET
+BT /F1 8.5 Tf 0 g 1 0 0 1 52 305 Tm (Partnered with a small design studio translating editorial interfaces into production-grade frontend) Tj ET
+BT /F1 8.5 Tf 0 g 1 0 0 1 52 293.5 Tm (systems.) Tj ET
+BT /F2 10 Tf 0 g 1 0 0 1 52 269 Tm (LINKS) Tj ET
+BT /F1 8 Tf 0 g 1 0 0 1 52 265 Tm (______________________________________________________________________________________________________________) Tj ET
+BT /F1 8.5 Tf 0 g 1 0 0 1 52 249 Tm (GitHub: https://github.com/arifrahman-dev) Tj ET
+BT /F1 8.5 Tf 0 g 1 0 0 1 52 237 Tm (LinkedIn: https://www.linkedin.com/in/arifrahman-dev) Tj ET
+BT /F1 8.5 Tf 0 g 1 0 0 1 52 225 Tm (Portfolio: https://arifrahman.dev) Tj ET
+BT /F1 7 Tf 0 g 1 0 0 1 52 62 Tm (Generated 2026-11-07 from arifrahman.dev) Tj ET
+endstream
+endobj
+7 0 obj
+<< /Title (Arif Rahman - Full-Stack Developer) /Author (Arif Rahman) /Subject (Resume) /Creator (Portfolio resume generator) /Producer (Portfolio resume generator) >>
+endobj
+xref
+0 8
+0000000000 65535 f 
+0000000019 00000 n 
+0000000068 00000 n 
+0000000125 00000 n 
+0000000261 00000 n 
+0000000358 00000 n 
+0000000460 00000 n 
+0000005044 00000 n 
+trailer
+<< /Size 8 /Root 1 0 R /Info 7 0 R >>
+startxref
+5226
+%%EOF
