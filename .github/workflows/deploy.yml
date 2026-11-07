@@ -54,6 +54,8 @@ jobs:
 
       - name: Configure Pages
         id: pages
+        # Requires an existing Pages site; skipped until an admin enables it.
+        if: steps.pages-state.outputs.enabled == 'true'
         uses: actions/configure-pages@v5
 
       - name: Install dependencies
@@ -61,24 +63,39 @@ jobs:
 
       - name: Compute public URL
         id: site
+        env:
+          # A repository variable overrides everything; otherwise derive the
+          # Pages origin from the repo so the build is correct before Pages
+          # has ever been enabled.
+          CONFIGURED_URL: ${{ vars.NEXT_PUBLIC_SITE_URL }}
+          PAGES_ORIGIN: ${{ steps.pages.outputs.origin }}
+          PAGES_BASE: ${{ steps.pages.outputs.base_path }}
+          OWNER: ${{ github.repository_owner }}
+          REPO: ${{ github.event.repository.name }}
         run: |
-          if [ -n "${{ vars.NEXT_PUBLIC_SITE_URL }}" ]; then
-            echo "url=${{ vars.NEXT_PUBLIC_SITE_URL }}" >> "$GITHUB_OUTPUT"
-          elif [ -n "${{ steps.pages.outputs.origin }}" ]; then
-            echo "url=${{ steps.pages.outputs.origin }}" >> "$GITHUB_OUTPUT"
+          if [ -n "$CONFIGURED_URL" ]; then
+            echo "url=$CONFIGURED_URL" >> "$GITHUB_OUTPUT"
+          elif [ -n "$PAGES_ORIGIN" ]; then
+            echo "url=$PAGES_ORIGIN" >> "$GITHUB_OUTPUT"
           else
-            echo "url=https://${{ github.repository_owner }}.github.io" >> "$GITHUB_OUTPUT"
+            echo "url=https://${OWNER,,}.github.io" >> "$GITHUB_OUTPUT"
           fi
-          echo "base=${{ steps.pages.outputs.base_path }}" >> "$GITHUB_OUTPUT"
+
+          if [ -n "$PAGES_BASE" ]; then
+            echo "base=$PAGES_BASE" >> "$GITHUB_OUTPUT"
+          elif [[ "${REPO,,}" == "${OWNER,,}.github.io" ]]; then
+            echo "base=" >> "$GITHUB_OUTPUT"
+          else
+            echo "base=/${REPO}" >> "$GITHUB_OUTPUT"
+          fi
 
       - name: Build
         env:
-          # `configure-pages` provides "" for user sites and "/repo" for project
-          # sites. Both are fed straight into the Next.js basePath.
-          NEXT_BASE_PATH: ${{ steps.pages.outputs.base_path }}
-          NEXT_PUBLIC_BASE_PATH: ${{ steps.pages.outputs.base_path }}
+          # "" for user sites and "/repo" for project sites; fed straight into
+          # the Next.js basePath.
+          NEXT_BASE_PATH: ${{ steps.site.outputs.base }}
+          NEXT_PUBLIC_BASE_PATH: ${{ steps.site.outputs.base }}
           NEXT_PUBLIC_SITE_URL: ${{ steps.site.outputs.url }}
-          NEXT_PUBLIC_PAGES_ORIGIN: ${{ steps.pages.outputs.origin }}
           # Optional: real contribution graph when a token exists.
           GITHUB_TOKEN: ${{ secrets.GH_ACTIVITY_TOKEN }}
           GITHUB_USERNAME: ${{ vars.GITHUB_USERNAME }}
