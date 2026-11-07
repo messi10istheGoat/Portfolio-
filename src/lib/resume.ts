@@ -96,7 +96,8 @@ export function generateResumePdf(): Uint8Array {
   place(profile.name.toUpperCase(), 26, "F2", 20);
   place(`${profile.role.toUpperCase()}  /  ${profile.tagline.toUpperCase()}`, 9.5, "F1", 14);
   place(`${profile.email}  -  ${profile.location}`, 8.5, "F1", 11);
-  place(`${profile.socials.github}  -  ${profile.socials.linkedin}`, 8, "F1", 11);
+  // Join only the profiles that exist so no dangling separator is printed.
+  place([profile.socials.github, profile.socials.linkedin].filter(Boolean).join("  -  "), 8, "F1", 11);
   place(profile.availability.toUpperCase(), 8, "F1", 6);
 
   /* ---------------- profile ---------------- */
@@ -130,7 +131,7 @@ export function generateResumePdf(): Uint8Array {
   /* ---------------- links ---------------- */
   section("LINKS");
   place(`GitHub: ${profile.socials.github}`, 8.5, "F1", 12);
-  place(`LinkedIn: ${profile.socials.linkedin}`, 8.5, "F1", 12);
+  if (profile.socials.linkedin) place(`LinkedIn: ${profile.socials.linkedin}`, 8.5, "F1", 12);
   place(`Portfolio: ${siteUrl}`, 8.5, "F1", 12);
 
   /* ---------------- footer note ---------------- */

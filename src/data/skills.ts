@@ -25,6 +25,7 @@ export const techCategories: TechCategory[] = [
       { name: "React", glyph: "⚛", note: "Component architecture & hooks", level: "core" },
       { name: "Next.js", glyph: "N", note: "App Router, RSC, edge delivery", level: "core" },
       { name: "Tailwind CSS", glyph: "≈", note: "Utility systems & design tokens", level: "core" },
+      { name: "Vite", glyph: "⚡", note: "Fast builds, static output", level: "strong" },
     ],
   },
   {
@@ -36,7 +37,7 @@ export const techCategories: TechCategory[] = [
       { name: "Express", glyph: "EX", note: "REST services & middleware", level: "strong" },
       { name: "REST APIs", glyph: "⇄", note: "Resource modelling & contracts", level: "core" },
       { name: "Authentication", glyph: "⌘", note: "Sessions, JWT, OAuth flows", level: "strong" },
-      { name: "Server-side", glyph: "SSR", note: "Server rendering & actions", level: "strong" },
+      { name: "Server-Sent Events", glyph: "SSE", note: "Live push without sockets", level: "strong" },
     ],
   },
   {
@@ -47,7 +48,8 @@ export const techCategories: TechCategory[] = [
       { name: "PostgreSQL", glyph: "PG", note: "Relational modelling, indexes", level: "core" },
       { name: "MongoDB", glyph: "MO", note: "Document stores & aggregation", level: "strong" },
       { name: "MySQL", glyph: "MY", note: "Schema design & queries", level: "working" },
-      { name: "Prisma", glyph: "△", note: "Typed ORM & migrations", level: "strong" },
+      { name: "Drizzle", glyph: "DR", note: "Typed SQL & versioned migrations", level: "strong" },
+      { name: "SQLite", glyph: "SQ", note: "Embedded data, WAL mode", level: "working" },
     ],
   },
   {
@@ -58,9 +60,9 @@ export const techCategories: TechCategory[] = [
       { name: "Git", glyph: "⑂", note: "Branching & history hygiene", level: "core" },
       { name: "GitHub", glyph: "GH", note: "Review flow & automation", level: "core" },
       { name: "VS Code", glyph: "◧", note: "Daily editor environment", level: "core" },
-      { name: "Docker", glyph: "◫", note: "Reproducible environments", level: "strong" },
-      { name: "Postman", glyph: "PM", note: "API exploration & testing", level: "strong" },
-      { name: "Figma", glyph: "FG", note: "Design handoff & systems", level: "strong" },
+      { name: "Vitest", glyph: "VT", note: "Unit & domain testing", level: "strong" },
+      { name: "Playwright", glyph: "PW", note: "End-to-end + a11y checks", level: "strong" },
+      { name: "Capacitor", glyph: "CP", note: "Shared web → Android shell", level: "working" },
     ],
   },
   {
@@ -68,10 +70,10 @@ export const techCategories: TechCategory[] = [
     title: "DEPLOYMENT",
     caption: "From localhost to production, safely.",
     items: [
-      { name: "Vercel", glyph: "▲", note: "Preview deploys & edge runtime", level: "core" },
+      { name: "GitHub Pages", glyph: "▲", note: "Static export on a CDN", level: "strong" },
       { name: "Netlify", glyph: "NT", note: "Static builds & functions", level: "strong" },
       { name: "CI/CD", glyph: "↻", note: "GitHub Actions pipelines", level: "strong" },
-      { name: "Cloud", glyph: "☁", note: "Managed infra & storage", level: "working" },
+      { name: "GitHub Actions", glyph: "☁", note: "Managed infra & storage", level: "working" },
     ],
   },
 ];
@@ -83,8 +85,8 @@ export const marqueeTech = [
   "NODE.JS",
   "POSTGRESQL",
   "TAILWIND",
-  "PRISMA",
-  "DOCKER",
-  "FIGMA",
+  "DRIZZLE",
+  "VITE",
+  "LEAFLET",
   "GIT",
 ];

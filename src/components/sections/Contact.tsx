@@ -81,7 +81,7 @@ export function Contact() {
       "",
       form.message,
       "",
-      "— sent from arifrahman.dev",
+      "— sent from the portfolio site",
     ].join("\n");
     const href = `mailto:${profile.email}?subject=${encodeURIComponent(
       `[Portfolio] ${form.subject}`,
@@ -237,7 +237,9 @@ export function Contact() {
                 { href: profile.socials.github, label: "GITHUB", Icon: GithubIcon },
                 { href: profile.socials.linkedin, label: "LINKEDIN", Icon: LinkedinIcon },
                 { href: withBasePath(profile.resumePath), label: "RÉSUMÉ", Icon: ArrowUpRight },
-              ].map(({ href, label, Icon }) => (
+              ]
+                .filter(({ href }) => Boolean(href))
+                .map(({ href, label, Icon }) => (
                 <a
                   key={label}
                   href={href}

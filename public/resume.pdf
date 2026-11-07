@@ -16,12 +16,12 @@ endobj
 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>
 endobj
 6 0 obj
-<< /Length 4532 >>
+<< /Length 4540 >>
 stream
-BT /F2 26 Tf 0 g 1 0 0 1 52 790 Tm (ARIF RAHMAN) Tj ET
+BT /F2 26 Tf 0 g 1 0 0 1 52 790 Tm (RIHA BEGUM) Tj ET
 BT /F1 9.5 Tf 0 g 1 0 0 1 52 770 Tm (FULL-STACK DEVELOPER / DESIGN x ENGINEERING) Tj ET
-BT /F1 8.5 Tf 0 g 1 0 0 1 52 756 Tm (hello@arifrahman.dev - Dhaka, Bangladesh) Tj ET
-BT /F1 8 Tf 0 g 1 0 0 1 52 745 Tm (https://github.com/arifrahman-dev - https://www.linkedin.com/in/arifrahman-dev) Tj ET
+BT /F1 8.5 Tf 0 g 1 0 0 1 52 756 Tm (rihabegum.dev@gmail.com - Dhaka, Bangladesh) Tj ET
+BT /F1 8 Tf 0 g 1 0 0 1 52 745 Tm (https://github.com/messi10istheGoat) Tj ET
 BT /F1 8 Tf 0 g 1 0 0 1 52 734 Tm (AVAILABLE FOR OPPORTUNITIES) Tj ET
 BT /F2 10 Tf 0 g 1 0 0 1 52 718 Tm (PROFILE) Tj ET
 BT /F1 8 Tf 0 g 1 0 0 1 52 714 Tm (______________________________________________________________________________________________________________) Tj ET
@@ -29,45 +29,44 @@ BT /F1 9 Tf 0 g 1 0 0 1 52 698 Tm (I'm a Full-Stack Developer focused on enginee
 BT /F1 9 Tf 0 g 1 0 0 1 52 685.5 Tm (interfaces, and transforming ambitious ideas into meaningful digital products.) Tj ET
 BT /F2 10 Tf 0 g 1 0 0 1 52 663 Tm (TECHNICAL STACK) Tj ET
 BT /F1 8 Tf 0 g 1 0 0 1 52 659 Tm (______________________________________________________________________________________________________________) Tj ET
-BT /F1 9 Tf 0 g 1 0 0 1 52 643 Tm (FRONTEND: HTML, CSS, JavaScript, TypeScript, React, Next.js, Tailwind CSS) Tj ET
-BT /F1 9 Tf 0 g 1 0 0 1 52 631 Tm (BACKEND: Node.js, Express, REST APIs, Authentication, Server-side) Tj ET
-BT /F1 9 Tf 0 g 1 0 0 1 52 619 Tm (DATABASE: PostgreSQL, MongoDB, MySQL, Prisma) Tj ET
-BT /F1 9 Tf 0 g 1 0 0 1 52 607 Tm (TOOLS & WORKFLOW: Git, GitHub, VS Code, Docker, Postman, Figma) Tj ET
-BT /F1 9 Tf 0 g 1 0 0 1 52 595 Tm (DEPLOYMENT: Vercel, Netlify, CI/CD, Cloud) Tj ET
+BT /F1 9 Tf 0 g 1 0 0 1 52 643 Tm (FRONTEND: HTML, CSS, JavaScript, TypeScript, React, Next.js, Tailwind CSS, Vite) Tj ET
+BT /F1 9 Tf 0 g 1 0 0 1 52 631 Tm (BACKEND: Node.js, Express, REST APIs, Authentication, Server-Sent Events) Tj ET
+BT /F1 9 Tf 0 g 1 0 0 1 52 619 Tm (DATABASE: PostgreSQL, MongoDB, MySQL, Drizzle, SQLite) Tj ET
+BT /F1 9 Tf 0 g 1 0 0 1 52 607 Tm (TOOLS & WORKFLOW: Git, GitHub, VS Code, Vitest, Playwright, Capacitor) Tj ET
+BT /F1 9 Tf 0 g 1 0 0 1 52 595 Tm (DEPLOYMENT: GitHub Pages, Netlify, CI/CD, GitHub Actions) Tj ET
 BT /F2 10 Tf 0 g 1 0 0 1 52 573 Tm (SELECTED PROJECTS) Tj ET
 BT /F1 8 Tf 0 g 1 0 0 1 52 569 Tm (______________________________________________________________________________________________________________) Tj ET
-BT /F2 9.5 Tf 0 g 1 0 0 1 52 553 Tm (01 LEDGERLY - PERSONAL FINANCE TRACKER \(2025\)) Tj ET
-BT /F1 8.5 Tf 0 g 1 0 0 1 52 541 Tm (A financial command centre for tracking income, expenses, budgets, and month-over-month behaviour) Tj ET
-BT /F1 8.5 Tf 0 g 1 0 0 1 52 529.5 Tm (without spreadsheet friction.) Tj ET
-BT /F1 8 Tf 0 g 1 0 0 1 52 518 Tm (Stack: Next.js, TypeScript, PostgreSQL, Drizzle, Tailwind) Tj ET
-BT /F2 9.5 Tf 0 g 1 0 0 1 52 505 Tm (02 SYNTH - AI-POWERED RESEARCH PLATFORM \(2025\)) Tj ET
-BT /F1 8.5 Tf 0 g 1 0 0 1 52 493 Tm (An intelligent reading environment that turns scattered sources into structured notes, citations, and) Tj ET
-BT /F1 8.5 Tf 0 g 1 0 0 1 52 481.5 Tm (defensible answers.) Tj ET
-BT /F1 8 Tf 0 g 1 0 0 1 52 470 Tm (Stack: Next.js, TypeScript, PostgreSQL, Streaming APIs, Vector Search) Tj ET
-BT /F2 9.5 Tf 0 g 1 0 0 1 52 457 Tm (03 FORM & FIELD - MODERN E-COMMERCE SYSTEM \(2024\)) Tj ET
-BT /F1 8.5 Tf 0 g 1 0 0 1 52 445 Tm (A complete commerce experience: catalogue, product detail, cart, authentication, and order management) Tj ET
-BT /F1 8.5 Tf 0 g 1 0 0 1 52 433.5 Tm (with a considered editorial interface.) Tj ET
-BT /F1 8 Tf 0 g 1 0 0 1 52 422 Tm (Stack: Next.js, Node.js, PostgreSQL, Prisma, Stripe-ready) Tj ET
+BT /F2 9.5 Tf 0 g 1 0 0 1 52 553 Tm (01 SPENDWISE - OFFLINE-FIRST PERSONAL FINANCE \(2026\)) Tj ET
+BT /F1 8.5 Tf 0 g 1 0 0 1 52 541 Tm (A privacy-first money tracker for web and Android that keeps every record on the device - no account, no) Tj ET
+BT /F1 8.5 Tf 0 g 1 0 0 1 52 529.5 Tm (cloud, no bank connection.) Tj ET
+BT /F1 8 Tf 0 g 1 0 0 1 52 518 Tm (Stack: React 19, TypeScript, Vite, Tailwind CSS, Capacitor, Recharts) Tj ET
+BT /F2 9.5 Tf 0 g 1 0 0 1 52 505 Tm (02 SYLHET LIVE - MONSOON HAZARD MAP \(2026\)) Tj ET
+BT /F1 8.5 Tf 0 g 1 0 0 1 52 493 Tm (A crowdsourced civic GIS platform that maps street waterlogging in Sylhet and routes vehicles around) Tj ET
+BT /F1 8.5 Tf 0 g 1 0 0 1 52 481.5 Tm (flooded roads.) Tj ET
+BT /F1 8 Tf 0 g 1 0 0 1 52 470 Tm (Stack: React 19, TypeScript, Express, Leaflet, Tailwind CSS, SQLite, SSE) Tj ET
+BT /F2 9.5 Tf 0 g 1 0 0 1 52 457 Tm (03 DROIDMATRIX - DEVICE FLEET ORCHESTRATOR \(2026\)) Tj ET
+BT /F1 8.5 Tf 0 g 1 0 0 1 52 445 Tm (A three-pane operations console for provisioning and monitoring a large fleet of cloud Android nodes) Tj ET
+BT /F1 8.5 Tf 0 g 1 0 0 1 52 433.5 Tm (with per-device proxies.) Tj ET
+BT /F1 8 Tf 0 g 1 0 0 1 52 422 Tm (Stack: Next.js 16, React 19, TypeScript, PostgreSQL, Drizzle, Tailwind CSS) Tj ET
 BT /F2 10 Tf 0 g 1 0 0 1 52 399 Tm (EXPERIENCE) Tj ET
 BT /F1 8 Tf 0 g 1 0 0 1 52 395 Tm (______________________________________________________________________________________________________________) Tj ET
-BT /F2 9.5 Tf 0 g 1 0 0 1 52 379 Tm (INDEPENDENT PRACTICE - Full-Stack Developer) Tj ET
-BT /F1 8 Tf 0 g 1 0 0 1 52 367 Tm (2023 - PRESENT | REMOTE / BANGLADESH) Tj ET
-BT /F1 8.5 Tf 0 g 1 0 0 1 52 355 Tm (Designing and shipping end-to-end web products for small teams: architecture, interface systems, and) Tj ET
-BT /F1 8.5 Tf 0 g 1 0 0 1 52 343.5 Tm (deployment.) Tj ET
-BT /F2 9.5 Tf 0 g 1 0 0 1 52 329 Tm (STUDIO COLLABORATION - Frontend Engineer) Tj ET
-BT /F1 8 Tf 0 g 1 0 0 1 52 317 Tm (2022 - 2023 | CONTRACT) Tj ET
-BT /F1 8.5 Tf 0 g 1 0 0 1 52 305 Tm (Partnered with a small design studio translating editorial interfaces into production-grade frontend) Tj ET
-BT /F1 8.5 Tf 0 g 1 0 0 1 52 293.5 Tm (systems.) Tj ET
+BT /F2 9.5 Tf 0 g 1 0 0 1 52 379 Tm (INDEPENDENT PROJECTS - Full-Stack Developer) Tj ET
+BT /F1 8 Tf 0 g 1 0 0 1 52 367 Tm (2025 - PRESENT | REMOTE / BANGLADESH) Tj ET
+BT /F1 8.5 Tf 0 g 1 0 0 1 52 355 Tm (Building end-to-end web products independently: data modelling, interface systems, and deployment - from) Tj ET
+BT /F1 8.5 Tf 0 g 1 0 0 1 52 343.5 Tm (an offline-first finance app to a civic GIS platform.) Tj ET
+BT /F2 9.5 Tf 0 g 1 0 0 1 52 329 Tm (ACADEMIC COURSEWORK - Frontend & Interface Development) Tj ET
+BT /F1 8 Tf 0 g 1 0 0 1 52 317 Tm (2025 - 2026 | BANGLADESH) Tj ET
+BT /F1 8.5 Tf 0 g 1 0 0 1 52 305 Tm (Coursework and self-directed study in frontend engineering, interface design, and applied data) Tj ET
+BT /F1 8.5 Tf 0 g 1 0 0 1 52 293.5 Tm (structures.) Tj ET
 BT /F2 10 Tf 0 g 1 0 0 1 52 269 Tm (LINKS) Tj ET
 BT /F1 8 Tf 0 g 1 0 0 1 52 265 Tm (______________________________________________________________________________________________________________) Tj ET
-BT /F1 8.5 Tf 0 g 1 0 0 1 52 249 Tm (GitHub: https://github.com/arifrahman-dev) Tj ET
-BT /F1 8.5 Tf 0 g 1 0 0 1 52 237 Tm (LinkedIn: https://www.linkedin.com/in/arifrahman-dev) Tj ET
-BT /F1 8.5 Tf 0 g 1 0 0 1 52 225 Tm (Portfolio: https://arifrahman.dev) Tj ET
-BT /F1 7 Tf 0 g 1 0 0 1 52 62 Tm (Generated 2026-11-07 from arifrahman.dev) Tj ET
+BT /F1 8.5 Tf 0 g 1 0 0 1 52 249 Tm (GitHub: https://github.com/messi10istheGoat) Tj ET
+BT /F1 8.5 Tf 0 g 1 0 0 1 52 237 Tm (Portfolio: https://messi10isthegoat.github.io) Tj ET
+BT /F1 7 Tf 0 g 1 0 0 1 52 62 Tm (Generated 2026-11-07 from messi10isthegoat.github.io) Tj ET
 endstream
 endobj
 7 0 obj
-<< /Title (Arif Rahman - Full-Stack Developer) /Author (Arif Rahman) /Subject (Resume) /Creator (Portfolio resume generator) /Producer (Portfolio resume generator) >>
+<< /Title (Riha Begum - Full-Stack Developer) /Author (Riha Begum) /Subject (Resume) /Creator (Portfolio resume generator) /Producer (Portfolio resume generator) >>
 endobj
 xref
 0 8
@@ -78,9 +77,9 @@ xref
 0000000261 00000 n 
 0000000358 00000 n 
 0000000460 00000 n 
-0000005044 00000 n 
+0000005052 00000 n 
 trailer
 << /Size 8 /Root 1 0 R /Info 7 0 R >>
 startxref
-5226
+5232
 %%EOF

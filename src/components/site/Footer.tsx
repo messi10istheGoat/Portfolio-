@@ -85,7 +85,9 @@ export function Footer() {
                 { href: profile.socials.linkedin, label: "LinkedIn", Icon: LinkedinIcon },
                 { href: profile.socials.x, label: "X", Icon: XIcon },
                 { href: `mailto:${profile.email}`, label: "Email", Icon: Mail },
-              ].map(({ href, label, Icon }) => (
+              ]
+                .filter(({ href }) => Boolean(href))
+                .map(({ href, label, Icon }) => (
                 <a
                   key={label}
                   href={href}
@@ -140,7 +142,9 @@ export function Footer() {
                 { label: "X / TWITTER", href: profile.socials.x },
                 { label: "EMAIL", href: `mailto:${profile.email}` },
                 { label: "RÉSUMÉ", href: withBasePath(profile.resumePath) },
-              ].map((item) => (
+              ]
+                .filter((item) => Boolean(item.href))
+                .map((item) => (
                 <li key={item.label}>
                   <a
                     href={item.href}

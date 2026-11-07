@@ -195,18 +195,20 @@ export function Navigation() {
                 <GithubIcon className="h-3.5 w-3.5" />
               </a>
             </Magnetic>
-            <Magnetic strength={5}>
-              <a
-                href={profile.socials.linkedin}
-                target="_blank"
-                rel="noreferrer noopener"
-                aria-label="LinkedIn profile (opens in a new tab)"
-                data-cursor="open"
-                className="hidden h-8 w-8 place-items-center border border-white/10 text-ash transition-colors hover:border-accent/60 hover:text-accent sm:grid"
-              >
-                <LinkedinIcon className="h-3.5 w-3.5" />
-              </a>
-            </Magnetic>
+            {profile.socials.linkedin && (
+              <Magnetic strength={5}>
+                <a
+                  href={profile.socials.linkedin}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  aria-label="LinkedIn profile (opens in a new tab)"
+                  data-cursor="open"
+                  className="hidden h-8 w-8 place-items-center border border-white/10 text-ash transition-colors hover:border-accent/60 hover:text-accent sm:grid"
+                >
+                  <LinkedinIcon className="h-3.5 w-3.5" />
+                </a>
+              </Magnetic>
+            )}
 
             <button
               type="button"
@@ -273,14 +275,16 @@ export function Navigation() {
                   >
                     GITHUB <ArrowUpRight className="h-3.5 w-3.5" />
                   </a>
-                  <a
-                    href={profile.socials.linkedin}
-                    target="_blank"
-                    rel="noreferrer noopener"
-                    className="btn btn-ghost flex-1 justify-between py-3 text-[10px]"
-                  >
-                    LINKEDIN <ArrowUpRight className="h-3.5 w-3.5" />
-                  </a>
+                  {profile.socials.linkedin && (
+                    <a
+                      href={profile.socials.linkedin}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      className="btn btn-ghost flex-1 justify-between py-3 text-[10px]"
+                    >
+                      LINKEDIN <ArrowUpRight className="h-3.5 w-3.5" />
+                    </a>
+                  )}
                 </div>
                 <div className="flex items-center justify-between border border-white/10 p-3">
                   <div className="flex items-center gap-2">
