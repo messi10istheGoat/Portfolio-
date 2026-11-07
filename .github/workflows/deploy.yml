@@ -1,0 +1,96 @@
+name: Deploy site
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+  schedule:
+    # Refresh live GitHub-activity data nightly (main branch only).
+    - cron: "17 3 * * *"
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  NEXT_TELEMETRY_DISABLED: "1"
+
+jobs:
+  build:
+    name: Build static export
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Configure Pages
+        id: pages
+        uses: actions/configure-pages@v5
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Compute public URL
+        id: site
+        run: |
+          if [ -n "${{ vars.NEXT_PUBLIC_SITE_URL }}" ]; then
+            echo "url=${{ vars.NEXT_PUBLIC_SITE_URL }}" >> "$GITHUB_OUTPUT"
+          elif [ -n "${{ steps.pages.outputs.origin }}" ]; then
+            echo "url=${{ steps.pages.outputs.origin }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "url=https://${{ github.repository_owner }}.github.io" >> "$GITHUB_OUTPUT"
+          fi
+          echo "base=${{ steps.pages.outputs.base_path }}" >> "$GITHUB_OUTPUT"
+
+      - name: Build
+        env:
+          # `configure-pages` provides "" for user sites and "/repo" for project
+          # sites. Both are fed straight into the Next.js basePath.
+          NEXT_BASE_PATH: ${{ steps.pages.outputs.base_path }}
+          NEXT_PUBLIC_BASE_PATH: ${{ steps.pages.outputs.base_path }}
+          NEXT_PUBLIC_SITE_URL: ${{ steps.site.outputs.url }}
+          NEXT_PUBLIC_PAGES_ORIGIN: ${{ steps.pages.outputs.origin }}
+          # Optional: real contribution graph when a token exists.
+          GITHUB_TOKEN: ${{ secrets.GH_ACTIVITY_TOKEN }}
+          GITHUB_USERNAME: ${{ vars.GITHUB_USERNAME }}
+        run: npm run build:static
+
+      - name: Verify export
+        run: |
+          test -f out/index.html
+          test -f out/resume.pdf
+          test -f out/404.html
+          test -f out/feed.xml
+          echo "Export OK — $(find out -type f | wc -l) files, $(du -sh out | cut -f1)"
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: out
+
+  deploy:
+    name: Publish
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

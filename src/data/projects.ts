@@ -836,6 +836,24 @@ export function getProject(slug: string): Project | undefined {
   return projects.find((project) => project.slug === slug);
 }
 
+/**
+ * Related case studies: same category first, then the most recent others.
+ * Falling back to `slice(0, count)` previously showed the same two projects
+ * on every page.
+ */
 export function relatedProjects(slug: string, count = 2): Project[] {
-  return projects.filter((project) => project.slug !== slug).slice(0, count);
+  const current = getProject(slug);
+  const others = projects.filter((project) => project.slug !== slug);
+  if (!current) return others.slice(0, count);
+
+  return others
+    .map((project) => ({
+      project,
+      score:
+        (project.category === current.category ? 2 : 0) +
+        (Math.abs(Number(project.year) - Number(current.year)) <= 1 ? 1 : 0),
+    }))
+    .sort((a, b) => b.score - a.score)
+    .slice(0, count)
+    .map((entry) => entry.project);
 }

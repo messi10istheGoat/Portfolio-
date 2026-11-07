@@ -1,26 +1,38 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowUpRight, Check, Loader2, Mail, MapPin, Send } from "lucide-react";
 import { profile } from "@/data/profile";
 import { SplitLines, Reveal } from "@/components/ui/Motion";
 import { GithubIcon, LinkedinIcon } from "@/components/ui/BrandIcons";
 import { cn } from "@/lib/utils";
+import { withBasePath } from "@/lib/site";
 
 interface FormState {
   name: string;
   email: string;
   subject: string;
   message: string;
+  /** Honeypot — visually hidden, never announced, must stay empty. */
+  website: string;
 }
 
 type FieldName = keyof FormState;
 type Errors = Partial<Record<FieldName, string>>;
 
-const emptyForm: FormState = { name: "", email: "", subject: "", message: "" };
+const emptyForm: FormState = {
+  name: "",
+  email: "",
+  subject: "",
+  message: "",
+  website: "",
+};
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+/** Inlined at build time — true for `output: "export"` deployments. */
+const STATIC_MODE = process.env.NEXT_PUBLIC_STATIC_MODE === "1";
 
 const fields: {
   name: FieldName;
@@ -41,6 +53,13 @@ export function Contact() {
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [feedback, setFeedback] = useState("");
   const [reference, setReference] = useState("");
+  // Timestamp of when the form was first shown — used to reject instant bot
+  // submissions. Initialised in an effect so render stays pure.
+  const openedAt = useRef<number>(0);
+
+  useEffect(() => {
+    openedAt.current = Date.now();
+  }, []);
 
   const validate = (): Errors => {
     const next: Errors = {};
@@ -49,6 +68,25 @@ export function Contact() {
     if (form.subject.trim().length < 3) next.subject = "Add a subject (3+ characters).";
     if (form.message.trim().length < 12) next.message = "Add a message (12+ characters).";
     return next;
+  };
+
+  /**
+   * Static deployments (GitHub Pages and friends) have no API route. Rather
+   * than showing a broken form, compose a prefilled email in the visitor's own
+   * mail client — the message still reaches the same inbox.
+   */
+  const openMailtoFallback = () => {
+    const body = [
+      `From: ${form.name} <${form.email}>`,
+      "",
+      form.message,
+      "",
+      "— sent from arifrahman.dev",
+    ].join("\n");
+    const href = `mailto:${profile.email}?subject=${encodeURIComponent(
+      `[Portfolio] ${form.subject}`,
+    )}&body=${encodeURIComponent(body)}`;
+    window.location.href = href;
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -61,22 +99,42 @@ export function Contact() {
       return;
     }
 
+    if (STATIC_MODE) {
+      openMailtoFallback();
+      setStatus("success");
+      setReference("MAILTO");
+      setFeedback("Your mail app should be open with the message ready to send.");
+      return;
+    }
+
     setStatus("submitting");
     setFeedback("");
     try {
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify({ ...form, elapsed: Date.now() - openedAt.current }),
       });
       const data = (await response.json()) as {
         ok: boolean;
         message?: string;
         errors?: Errors;
         reference?: string;
+        fallbackEmail?: string;
       };
 
       if (!response.ok || !data.ok) {
+        // 503 + NO_INBOX means this deployment has no inbox wired up yet; the
+        // form is still useful as a mail composer.
+        if (response.status === 503) {
+          openMailtoFallback();
+          setStatus("success");
+          setReference("MAILTO");
+          setFeedback(
+            data.message ?? "Opening your mail app — the message is ready to send.",
+          );
+          return;
+        }
         setErrors(data.errors ?? {});
         setStatus("error");
         setFeedback(data.message ?? "Something went wrong. Please try again.");
@@ -87,6 +145,7 @@ export function Contact() {
       setReference(data.reference ?? "");
       setFeedback(data.message ?? "Message received.");
       setForm(emptyForm);
+      openedAt.current = Date.now();
     } catch {
       setStatus("error");
       setFeedback("Network error — please email me directly instead.");
@@ -177,12 +236,12 @@ export function Contact() {
               {[
                 { href: profile.socials.github, label: "GITHUB", Icon: GithubIcon },
                 { href: profile.socials.linkedin, label: "LINKEDIN", Icon: LinkedinIcon },
-                { href: profile.resumePath, label: "RÉSUMÉ", Icon: ArrowUpRight },
+                { href: withBasePath(profile.resumePath), label: "RÉSUMÉ", Icon: ArrowUpRight },
               ].map(({ href, label, Icon }) => (
                 <a
                   key={label}
                   href={href}
-                  target="_blank"
+                  target={href.startsWith("/") ? undefined : "_blank"}
                   rel="noreferrer noopener"
                   className="mono-sm inline-flex items-center gap-2 border border-white/12 px-3 py-2 text-[8px] text-ash transition-colors hover:border-accent/60 hover:text-accent"
                 >
@@ -230,6 +289,7 @@ export function Contact() {
                           setStatus("idle");
                           setFeedback("");
                           setReference("");
+                          openedAt.current = Date.now();
                         }}
                         className="btn btn-ghost mt-7 w-full justify-center text-[9px]"
                       >
@@ -244,6 +304,20 @@ export function Contact() {
                       noValidate
                       className="space-y-4 pt-4"
                     >
+                      {/* Honeypot: hidden from people, irresistible to bots. */}
+                      <div aria-hidden className="absolute -left-[9999px] top-0 h-0 w-0 overflow-hidden">
+                        <label htmlFor="contact-website">Leave this field empty</label>
+                        <input
+                          id="contact-website"
+                          name="website"
+                          type="text"
+                          tabIndex={-1}
+                          autoComplete="off"
+                          value={form.website}
+                          onChange={update("website")}
+                        />
+                      </div>
+
                       <div className="grid gap-4 sm:grid-cols-2">
                         {fields.map((field) => (
                           <div key={field.name} className={field.span}>

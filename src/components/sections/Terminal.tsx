@@ -18,8 +18,17 @@ export function Terminal() {
   const [lines, setLines] = useState<Line[]>(boot);
   const [value, setValue] = useState("");
   const [history, setHistory] = useState<string[]>([]);
+  /** Index into `history` while browsing with ↑/↓ (-1 = editing a new line). */
+  const [historyIndex, setHistoryIndex] = useState(-1);
   const inputRef = useRef<HTMLInputElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  const scrollToBottom = () => {
+    requestAnimationFrame(() => {
+      const node = scrollRef.current;
+      if (node) node.scrollTop = node.scrollHeight;
+    });
+  };
 
   const run = (raw: string) => {
     const command = raw.trim().toLowerCase();
@@ -31,7 +40,7 @@ export function Terminal() {
       case "help":
         next.push({
           type: "output",
-          value: "available: about · projects · stack · contact · socials · clear",
+          value: "about · projects · stack · contact · socials · resume · whoami · date · ls · clear",
         });
         break;
       case "about":
@@ -67,9 +76,25 @@ export function Terminal() {
       case "clear":
         setLines([]);
         setHistory((previous) => [...previous, command]);
+        setHistoryIndex(-1);
         return;
       case "whoami":
         next.push({ type: "output", value: "visitor — and that's exactly how it should be." });
+        break;
+      case "resume":
+      case "cv":
+        next.push({ type: "output", value: `resume: ${profile.resumePath}` });
+        break;
+      case "help me":
+      case "ls":
+        next.push({ type: "output", value: "sections: home · about · stack · work · github · experience · process · contact" });
+        break;
+      case "date":
+        next.push({ type: "output", value: new Date().toString() });
+        break;
+      case "exit":
+      case "quit":
+        next.push({ type: "output", value: "there is no escape — but the contact form works." });
         break;
       default:
         next.push({
@@ -79,7 +104,23 @@ export function Terminal() {
     }
 
     setLines((previous) => [...previous, ...next].slice(-60));
-    setHistory((previous) => [...previous, command]);
+    setHistory((previous) => [...previous, command].slice(-50));
+    setHistoryIndex(-1);
+    scrollToBottom();
+  };
+
+  const browseHistory = (direction: -1 | 1) => {
+    if (!history.length) return;
+    const nextIndex =
+      direction === -1
+        ? historyIndex === -1
+          ? history.length - 1
+          : Math.max(0, historyIndex - 1)
+        : historyIndex === -1
+          ? -1
+          : Math.min(history.length - 1, historyIndex + 1);
+    setHistoryIndex(nextIndex);
+    setValue(nextIndex === -1 ? "" : history[nextIndex]);
   };
 
   return (
@@ -123,9 +164,6 @@ export function Terminal() {
           event.preventDefault();
           run(value);
           setValue("");
-          requestAnimationFrame(() => {
-            scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight });
-          });
         }}
         className="flex items-center gap-2 border-t border-white/10 px-3 py-2.5"
       >
@@ -143,9 +181,15 @@ export function Terminal() {
           aria-label="Terminal command input"
           className="w-full bg-transparent font-mono text-[10px] text-bone placeholder:text-fog/70 focus:outline-none"
           onKeyDown={(event) => {
-            if (event.key === "ArrowUp" && history.length) {
+            if (event.key === "ArrowUp") {
               event.preventDefault();
-              setValue(history[history.length - 1]);
+              browseHistory(-1);
+            } else if (event.key === "ArrowDown") {
+              event.preventDefault();
+              browseHistory(1);
+            } else if (event.key === "l" && (event.ctrlKey || event.metaKey)) {
+              event.preventDefault();
+              setLines([]);
             }
           }}
         />

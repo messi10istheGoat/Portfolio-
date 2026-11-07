@@ -11,8 +11,18 @@ import { Reveal, SectionHeading } from "@/components/ui/Motion";
 import { GithubIcon } from "@/components/ui/BrandIcons";
 import { cn } from "@/lib/utils";
 
+/** "2023 — 2025" derived from the data, not typed by hand. */
+function yearRangeFor(list: { year: string }[]): string {
+  const years = list.map((project) => Number(project.year)).filter((year) => Number.isFinite(year));
+  if (!years.length) return "";
+  const min = Math.min(...years);
+  const max = Math.max(...years);
+  return min === max ? String(min) : `${min} — ${max}`;
+}
+
 export function Projects() {
   const [filter, setFilter] = useState<ProjectCategory | "all">("all");
+  const yearRange = yearRangeFor(projects);
 
   const filtered = useMemo(
     () => (filter === "all" ? projects : projects.filter((project) => project.category === filter)),
@@ -41,11 +51,12 @@ export function Projects() {
           <div className="lg:col-span-5">
             <Reveal delay={0.1} className="space-y-4 lg:text-right">
               <p className="body-copy ml-auto max-w-[40ch] text-sm">
-                Six builds spanning product engineering, interface systems, and infrastructure. Each one
-                ships with a full case study — decisions, tradeoffs, and code.
+                {projects.length} builds spanning product engineering, interface systems, and
+                infrastructure. Each one ships with a full case study — decisions, tradeoffs, and code.
               </p>
               <span className="mono-sm inline-flex items-center gap-2 border border-white/10 px-2.5 py-1.5 text-[8px] text-fog">
-                <span className="h-1 w-1 bg-accent" /> 06 PROJECTS / 2023 — 2025
+                <span className="h-1 w-1 bg-accent" /> {String(projects.length).padStart(2, "0")}{" "}
+                PROJECTS / {yearRange}
               </span>
             </Reveal>
           </div>

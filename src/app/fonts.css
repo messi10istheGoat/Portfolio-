@@ -1,0 +1,19 @@
+/**
+ * Self-hosted variable fonts.
+ *
+ * These used to be loaded with `next/font/google`, which fetches stylesheets
+ * from fonts.googleapis.com at build time. That made every build (and every
+ * CI runner without egress) fail hard. The files below are shipped through
+ * @fontsource-variable so the build is fully offline, deterministic, and the
+ * site makes zero third-party requests at runtime.
+ */
+
+@import "@fontsource-variable/space-grotesk/wght.css";
+@import "@fontsource-variable/inter/opsz.css";
+@import "@fontsource-variable/jetbrains-mono/wght.css";
+
+:root {
+  --font-space-grotesk: "Space Grotesk Variable", "Space Grotesk", "Arial Black", sans-serif;
+  --font-inter: "Inter Variable", Inter, ui-sans-serif, system-ui, sans-serif;
+  --font-jetbrains: "JetBrains Mono Variable", "JetBrains Mono", ui-monospace, monospace;
+}
