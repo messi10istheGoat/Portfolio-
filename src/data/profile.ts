@@ -86,6 +86,8 @@ export const profile = {
     ],
   },
   meta: {
+    /** Used for downloadable file names: "Arif Rahman" -> "arif-rahman". */
+    slug: "arif-rahman",
     description:
       "Portfolio of Arif Rahman — a full-stack developer engineering scalable applications and designing interfaces at the intersection of raw structure and refined execution.",
     version: "PORTFOLIO_V1",

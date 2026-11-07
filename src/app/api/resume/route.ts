@@ -1,4 +1,5 @@
 import { generateResumePdf } from "@/lib/resume";
+import { profile } from "@/data/profile";
 
 export const dynamic = "force-static";
 
@@ -12,7 +13,7 @@ export function GET() {
   return new Response(pdf as BodyInit, {
     headers: {
       "Content-Type": "application/pdf",
-      "Content-Disposition": 'attachment; filename="arif-rahman-resume.pdf"',
+      "Content-Disposition": `attachment; filename="${profile.meta.slug}-resume.pdf"`,
       "Content-Length": String(pdf.byteLength),
       "Cache-Control": "public, max-age=3600, stale-while-revalidate=86400",
     },
