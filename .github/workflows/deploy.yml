@@ -26,6 +26,8 @@ jobs:
     name: Build static export
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    outputs:
+      pages-enabled: ${{ steps.pages-state.outputs.enabled }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -37,6 +39,18 @@ jobs:
         with:
           node-version: 22
           cache: npm
+
+      - name: Check whether Pages is enabled
+        id: pages-state
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if gh api "repos/${GITHUB_REPOSITORY}/pages" >/dev/null 2>&1; then
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+            echo "::warning title=GitHub Pages is not enabled::Enable it once under Settings > Pages > Source: GitHub Actions, then re-run this workflow. The static build below still runs so the export stays verified."
+          fi
 
       - name: Configure Pages
         id: pages
@@ -86,6 +100,8 @@ jobs:
   deploy:
     name: Publish
     needs: build
+    # Skip cleanly (instead of failing) until Pages has been switched on once.
+    if: needs.build.outputs.pages-enabled == 'true'
     runs-on: ubuntu-latest
     environment:
       name: github-pages
