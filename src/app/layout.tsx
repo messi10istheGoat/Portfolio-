@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
-import "./fonts.css";
 import "./globals.css";
 import { AccentProvider, accentBootstrapScript } from "@/components/providers/AccentProvider";
 import { CustomCursor } from "@/components/site/CustomCursor";
@@ -10,6 +9,7 @@ import { CommandPalette } from "@/components/site/CommandPalette";
 import { ScrollProgress } from "@/components/ui/Motion";
 import { profile } from "@/data/profile";
 import { basePath, siteUrl } from "@/lib/site";
+import { fontVariables } from "@/app/fonts";
 
 export const metadata: Metadata = {
   metadataBase: new URL(`${siteUrl}${basePath}`),
@@ -84,7 +84,7 @@ const personSchema = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" data-accent="blue" suppressHydrationWarning>
+    <html lang="en" data-accent="blue" className={fontVariables} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: accentBootstrapScript }} />
         <script

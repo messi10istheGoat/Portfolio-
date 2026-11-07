@@ -22,8 +22,8 @@ export function Stack() {
           <div className="lg:col-span-5">
             <Reveal delay={0.1} className="space-y-4 lg:text-right">
               <p className="body-copy ml-auto max-w-[42ch] text-sm">
-                {total} technologies, grouped by the layer of the stack they own. No skill bars — just the
-                tools I reach for and what each one is actually good at.
+                {total} technologies, grouped by the layer of the stack they own. Each one is marked by how
+                I work with it — core, strong, or working — and what it is actually good at.
               </p>
               <div className="flex flex-wrap gap-3 lg:justify-end">
                 <span className="mono-sm flex items-center gap-2 border border-white/10 px-2.5 py-1.5 text-[8px] text-fog">
