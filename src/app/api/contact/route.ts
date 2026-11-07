@@ -55,17 +55,27 @@ function prune(now: number) {
   }
 }
 
-function rateLimited(key: string): boolean {
+/**
+ * Sliding-window counter. `consume` is only called once a submission has
+ * passed validation, so a visitor fixing a typo is never locked out — only
+ * messages that would actually be delivered count against the budget.
+ */
+function isRateLimited(key: string): boolean {
   const now = Date.now();
   prune(now);
+  const bucket = buckets.get(key);
+  if (!bucket || now > bucket.reset) return false;
+  return bucket.count >= MAX_PER_WINDOW;
+}
 
+function consume(key: string): void {
+  const now = Date.now();
   const bucket = buckets.get(key);
   if (!bucket || now > bucket.reset) {
     buckets.set(key, { count: 1, reset: now + WINDOW_MS });
-    return false;
+    return;
   }
   bucket.count += 1;
-  return bucket.count > MAX_PER_WINDOW;
 }
 
 function clientKey(request: Request): string {
@@ -90,9 +100,13 @@ function clean(value: unknown, max: number): string {
 
 export async function POST(request: Request) {
   const key = clientKey(request);
-  if (rateLimited(key)) {
+  if (isRateLimited(key)) {
     return Response.json(
-      { ok: false, message: "Too many messages from this connection. Try again in a minute." },
+      {
+        ok: false,
+        code: "RATE_LIMITED",
+        message: "Too many messages from this connection. Try again in a minute.",
+      },
       { status: 429, headers: { "Retry-After": "60" } },
     );
   }
@@ -146,6 +160,9 @@ export async function POST(request: Request) {
       { status: 422 },
     );
   }
+
+  // Valid submission: from here on it counts against the caller's budget.
+  consume(key);
 
   const mode = storageMode();
   const userAgent = clean(request.headers.get("user-agent"), 400) || null;
