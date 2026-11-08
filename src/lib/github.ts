@@ -152,38 +152,68 @@ function longestStreak(weeks: ContributionDay[][]): number {
   return best;
 }
 
+/**
+ * Profile-level fallback. Hand-verified against github.com/rihadev — the
+ * account has seven public repositories, no followers, and no one followed.
+ * These numbers are intentionally unflattering: a portfolio that inflates its
+ * own activity graph is worse than one that shows a small, honest one.
+ */
+const RihaGithub = {
+  username: "rihadev",
+  profileUrl: "https://github.com/rihadev",
+  repositories: 7,
+  followers: 0,
+  following: 0,
+} as const;
+
 const sampleRepos: RepoHighlight[] = [
   {
-    name: "Expense-Tracker",
-    description: "Spendwise — offline-first personal finance for web and Android.",
-    language: "TypeScript",
+    name: "my-portfolio",
+    description: "React, Vite and Tailwind portfolio site — the first version of this page.",
+    language: "JavaScript",
     stars: 0,
     updated: "recently",
-    url: "https://github.com/messi10istheGoat/Expense-Tracker",
+    url: "https://github.com/rihadev/my-portfolio",
   },
   {
-    name: "farm",
-    description: "DroidMatrix — cloud Android fleet console on Next.js and Postgres.",
-    language: "TypeScript",
+    name: "react-user-management-",
+    description: "React Router app over a REST directory — live search and routed detail pages.",
+    language: "JavaScript",
     stars: 0,
     updated: "recently",
-    url: "https://github.com/messi10istheGoat/farm",
+    url: "https://github.com/rihadev/react-user-management-",
   },
   {
-    name: "Clg-Project",
-    description: "Sylhet Live — crowdsourced monsoon hazard map with flood-safe routing.",
-    language: "TypeScript",
+    name: "shop.co-landing-page",
+    description: "Responsive e-commerce landing page in hand-written HTML and CSS.",
+    language: "CSS",
     stars: 0,
     updated: "recently",
-    url: "https://github.com/messi10istheGoat/Clg-Project",
+    url: "https://github.com/rihadev/shop.co-landing-page",
   },
   {
-    name: "My-website-1",
-    description: "Kinetic Type — single-page React interface and motion study.",
-    language: "React",
+    name: "Fresh-Mart",
+    description: "Bilingual grocery storefront — Bengali/English catalogue, cart and deals.",
+    language: "HTML",
     stars: 0,
     updated: "recently",
-    url: "https://github.com/messi10istheGoat/My-website-1",
+    url: "https://github.com/rihadev/Fresh-Mart",
+  },
+  {
+    name: "personal-budget-tracker",
+    description: "Budget dashboard in vanilla JS — validation, derived totals, saved state.",
+    language: "JavaScript",
+    stars: 0,
+    updated: "recently",
+    url: "https://github.com/rihadev/personal-budget-tracker",
+  },
+  {
+    name: "ChronoClock-",
+    description: "Time dashboard — canvas analog clock, stopwatch, countdown and alarms.",
+    language: "JavaScript",
+    stars: 0,
+    updated: "recently",
+    url: "https://github.com/rihadev/ChronoClock-",
   },
 ];
 
@@ -206,13 +236,13 @@ function sampleData(): GithubData {
   return {
     live: false,
     label: "Sample data — not live activity",
-    username: "messi10istheGoat",
-    profileUrl: "https://github.com/messi10istheGoat",
+    username: RihaGithub.username,
+    profileUrl: RihaGithub.profileUrl,
     totals: {
       contributions: sumCounts(weeks),
-      repositories: 24,
-      followers: 318,
-      following: 112,
+      repositories: RihaGithub.repositories,
+      followers: RihaGithub.followers,
+      following: RihaGithub.following,
       streak: longestStreak(weeks),
     },
     weeks,
@@ -254,7 +284,12 @@ interface RestRepo {
 /** Server-side fetch. Never throws: any failure falls back to labelled sample data. */
 export async function getGithubData(): Promise<GithubData> {
   const token = process.env.GITHUB_TOKEN;
-  const username = process.env.GITHUB_USERNAME ?? process.env.NEXT_PUBLIC_GITHUB_USERNAME;
+  // An unset CI variable arrives as an empty string, which `??` would happily
+  // pass through -- querying GitHub for "" and failing. Treat blank as unset.
+  const username =
+    process.env.GITHUB_USERNAME?.trim() ||
+    process.env.NEXT_PUBLIC_GITHUB_USERNAME?.trim() ||
+    RihaGithub.username;
   const fallback = sampleData();
 
   if (!token || !username) return fallback;

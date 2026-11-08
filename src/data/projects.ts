@@ -1,4 +1,4 @@
-export type ProjectCategory = "full-stack" | "frontend" | "backend" | "experiments";
+export type ProjectCategory = "full-stack" | "frontend";
 export type ProjectPreview = "dashboard" | "ai" | "commerce" | "terminal" | "observability" | "type";
 
 export interface Project {
@@ -35,15 +35,16 @@ export const projectFilters: { key: ProjectCategory | "all"; label: string }[] =
   { key: "all", label: "ALL" },
   { key: "full-stack", label: "FULL-STACK" },
   { key: "frontend", label: "FRONTEND" },
-  { key: "backend", label: "BACKEND" },
-  { key: "experiments", label: "EXPERIMENTS" },
 ];
 
 /**
- * Real, shipped work. Every stack listed here is read from the repository's
- * own package.json; nothing is embellished. Metrics that cannot be verified
- * from the repository are not claimed on this page — the case studies describe
- * architecture and decisions instead of inventing performance numbers.
+ * Selected work, pulled from Riha's own GitHub account (github.com/rihadev).
+ *
+ * Every stack, file, function and metric quoted in these case studies was read
+ * from the repository itself — package.json for dependencies, the source files
+ * for behaviour. Nothing is embellished, and metrics that cannot be verified
+ * from the code are not claimed. Where a build is front-end only, the case
+ * study says so rather than implying a backend that does not exist.
  */
 export const projects: Project[] = [
   {
@@ -308,514 +309,561 @@ function edgeCost(distance: number, depthCm: number, vehicle: Vehicle): number {
     },
   },
   {
-    slug: "droidmatrix",
+    slug: "fresh-mart",
     number: "03",
-    title: "DROIDMATRIX",
-    subtitle: "DEVICE FLEET ORCHESTRATOR",
+    title: "FRESH MART",
+    subtitle: "BILINGUAL GROCERY STOREFRONT",
     description:
-      "A three-pane operations console for provisioning and monitoring a large fleet of cloud Android nodes with per-device proxies.",
-    category: "full-stack",
-    categoryLabel: "FULL-STACK PLATFORM",
-    year: "2026",
-    role: "DESIGN + ENGINEERING",
-    timeline: "ONGOING",
-    stack: ["Next.js 16", "React 19", "TypeScript", "PostgreSQL", "Drizzle", "Tailwind CSS"],
-    links: {
-      live: "",
-      github: "https://github.com/messi10istheGoat/farm",
-    },
-    preview: "terminal",
-    accent: "#c6f36a",
-    metrics: [
-      { value: "1,200+", label: "SIMULATED NODES" },
-      { value: "4", label: "PROXY PROTOCOLS" },
-      { value: "3", label: "WORKSPACE PANES" },
-    ],
-    caseStudy: {
-      overview: [
-        "DROIDMATRIX is a management dashboard for a simulated fleet of over a thousand cloud Android nodes, each with its own hardware profile and a dedicated proxy tunnel.",
-        "The interface is built around the real problem of fleet operations: finding a node, seeing its state, and acting on it — without losing context as the numbers grow.",
-      ],
-      challenge: {
-        body: [
-          "Fleet dashboards usually collapse under their own scale: a four-column table with two thousand rows tells you nothing, and every action costs a page navigation.",
-          "The console needed to keep three kinds of context visible at once — where you are in the fleet, what the selected device is doing, and what its session and proxy state actually are.",
-        ],
-        constraints: [
-          "Thousands of records queried and filtered without blocking the UI.",
-          "Per-node identity data surfaced clearly, never ambiguously.",
-          "Provisioning from one device to five hundred at once.",
-          "Real relational modelling — the fleet is data, not mock rows.",
-        ],
-      },
-      research: {
-        body: [
-          "The design started from operator tasks rather than entity lists: filter to a suspicious country, open the node, inspect its logger, rotate its identity, move on.",
-          "That led to a three-pane layout where each pane answers one question and never scrolls out of relationship with the others.",
-        ],
-        findings: [
-          { label: "LAYOUT", value: "THREE PANES" },
-          { label: "BULK PROVISION", value: "+500 AT ONCE" },
-          { label: "IDENTITY", value: "REGENERABLE" },
-          { label: "FILTERS", value: "MULTI-FACET" },
-        ],
-      },
-      architecture: {
-        body: [
-          "Next.js 16 with the App Router for both the console and its typed API routes. PostgreSQL with Drizzle ORM models the fleet, with generated migrations committed to the repository.",
-          "Heavy list views are server components fed by query parameters, so filtering and pagination happen in the database while the client only ever receives the current page.",
-        ],
-        layers: [
-          { code: "01", label: "CONSOLE", note: "Three-pane React 19 shell: search, stage, inspector" },
-          { code: "02", label: "ROUTES", note: "App Router route handlers for devices, tasks, provisioning" },
-          { code: "03", label: "SCHEMA", note: "Drizzle models with generated SQL migrations" },
-          { code: "04", label: "STORE", note: "PostgreSQL with server-side filtering and pagination" },
-        ],
-      },
-      build: {
-        body: [
-          "The provisioning flow was built to be unambiguous: a single-device form for precision, and a bulk generator that takes a count and produces consistent nodes in one transaction.",
-          "The inspector pane is where the detail lives — hardware identifiers that can be regenerated, session state, and a live stream log — kept one click away rather than buried in a modal chain.",
-        ],
-        steps: [
-          { title: "MODEL", body: "Fleet schema covering nodes, shards, proxies and automation tasks." },
-          { title: "QUERY", body: "Server-side multi-facet filtering with pagination." },
-          { title: "PROVISION", body: "Single and bulk generation inside one transaction." },
-          { title: "INSPECT", body: "Node drawer with identity rotation and stream log." },
-        ],
-      },
-      decisions: [
-        {
-          title: "SERVER-RENDERED LISTS",
-          body: "Lists are server components driven by URL parameters, so the browser never holds thousands of records in memory and filter state is shareable.",
-          tradeoff: "Every interaction is a round trip; the payload stays small.",
-        },
-        {
-          title: "REAL RELATIONAL MODEL",
-          body: "The fleet is modelled in Postgres with Drizzle and committed migrations rather than generated client-side, which keeps counts and joins honest.",
-          tradeoff: "Needs a database to run, but the numbers mean something.",
-        },
-        {
-          title: "THREE PANES, NOT TABS",
-          body: "Persistent panes keep fleet context visible while inspecting a node, which tabs cannot do without losing your place.",
-          tradeoff: "Constrained layout on small screens, so the console is desktop-first.",
-        },
-      ],
-      features: [
-        { title: "MULTI-FACET SEARCH", body: "Filter by country, brand, application and cluster shard with pagination." },
-        { title: "DEVICE STAGE", body: "Emulated screen with app switching, touch simulation and capture." },
-        { title: "IDENTITY ROTATION", body: "Regenerate hardware identifiers from the node inspector." },
-        { title: "BULK PROVISIONING", body: "Generate hundreds of consistent nodes in a single transaction." },
-        { title: "STREAM LOG", body: "Per-node activity log kept beside the controls that affect it." },
-        { title: "SHARD TOPOLOGY", body: "Fleet organised into shards with explicit ranges." },
-      ],
-      code: {
-        language: "ts",
-        filename: "src/db/schema.ts",
-        snippet: `export const devices = pgTable("devices", {
-  id: serial("id").primaryKey(),
-  nodeCode: varchar("node_code", { length: 16 }).notNull().unique(),
-  shard: varchar("shard", { length: 16 }).notNull(),
-  brand: varchar("brand", { length: 40 }).notNull(),
-  model: varchar("model", { length: 60 }).notNull(),
-  proxyProtocol: varchar("proxy_protocol", { length: 24 }).notNull(),
-  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
-}, (table) => [
-  index("devices_shard_idx").on(table.shard),
-  index("devices_brand_idx").on(table.brand),
-]);`,
-      },
-      result: {
-        body: [
-          "The console holds a thousand-node fleet in a layout that stays readable: filter in one pane, work in the next, inspect in the third.",
-          "The most transferable lesson was about scale in the interface rather than the database — at fleet size, navigation design matters more than query speed.",
-        ],
-        metrics: [
-          { value: "DESKTOP-FIRST", label: "OPERATOR CONSOLE" },
-          { value: "TYPED", label: "END-TO-END" },
-          { value: "MIGRATIONS", label: "VERSIONED" },
-        ],
-      },
-    },
-  },
-  {
-    slug: "kinetic-type",
-    number: "04",
-    title: "KINETIC TYPE",
-    subtitle: "PORTFOLIO INTERFACE STUDY",
-    description:
-      "A single-page React build exploring variable-font motion, masked type reveals and layout transitions in a static bundle.",
-    category: "frontend",
-    categoryLabel: "INTERFACE EXPERIMENT",
-    year: "2026",
-    role: "DESIGN + FRONTEND",
-    timeline: "SIDE PROJECT",
-    stack: ["React 19", "TypeScript", "Vite", "Tailwind CSS", "Motion"],
-    links: {
-      live: "",
-      github: "https://github.com/messi10istheGoat/My-website-1",
-    },
-    preview: "type",
-    accent: "#a78bfa",
-    metrics: [
-      { value: "1", label: "PAGE, NO ROUTER" },
-      { value: "0", label: "RASTER ASSETS" },
-      { value: "STATIC", label: "DEPLOY TARGET" },
-    ],
-    caseStudy: {
-      overview: [
-        "A focused frontend study: how far a single page can go using only layout, type and motion — no imagery, no router, no backend.",
-        "It is the experiment that established the motion vocabulary used across this portfolio: masked heading reveals, structural grids and spring-based transitions.",
-      ],
-      challenge: {
-        body: [
-          "Motion is usually the first thing to hurt performance. Animating layout properties forces reflow, and a page that celebrates animation can easily become a page that stutters.",
-          "The constraint was to keep every interaction on the compositor and still make the page feel dimensional.",
-        ],
-        constraints: [
-          "Animate transform and opacity only — never layout properties.",
-          "Ship as a static bundle with no server.",
-          "Hold the frame budget on mid-range phones.",
-          "Respect reduced-motion preferences completely.",
-        ],
-      },
-      research: {
-        body: [
-          "The study compared entrance styles across sections: masked line reveals versus fade-ups, spring versus eased transitions, and how much stagger reads as intentional rather than slow.",
-          "The conclusion was consistent — fewer, slower reveals with real masking feel more expensive than many fast ones.",
-        ],
-        findings: [
-          { label: "BEST ENTRANCE", value: "MASKED LINES" },
-          { label: "STAGGER", value: "~90 ms" },
-          { label: "EASING", value: "EXPO OUT" },
-          { label: "BUDGET", value: "60 FPS" },
-        ],
-      },
-      architecture: {
-        body: [
-          "React 19 and TypeScript on Vite, styled with Tailwind v4, with Motion handling the animation layer. The build produces a single static entry that can be dropped on any CDN.",
-          "Sections are independent components with no shared mutable state, which is what keeps the animation work predictable.",
-        ],
-        layers: [
-          { code: "01", label: "MOTION", note: "Variants, staggering and reduced-motion guards" },
-          { code: "02", label: "TYPE", note: "Variable weights, outline treatments, optical tracking" },
-          { code: "03", label: "LAYOUT", note: "Asymmetric grids with hairline structure" },
-          { code: "04", label: "BUILD", note: "Static single-entry bundle on a CDN" },
-        ],
-      },
-      build: {
-        body: [
-          "Each section was built twice — once loose, once restrained — and the restrained version was kept. That comparison is the actual output of the project.",
-          "Motion settings were extracted into shared variants so timing stays coherent across sections instead of each component inventing its own rhythm.",
-        ],
-        steps: [
-          { title: "PROTOTYPE", body: "Loose motion study for each section." },
-          { title: "RESTRAIN", body: "Cut anything that competed with reading." },
-          { title: "EXTRACT", body: "Shared variants for easing, stagger and duration." },
-          { title: "SHIP", body: "Static build with reduced-motion fallbacks." },
-        ],
-      },
-      decisions: [
-        {
-          title: "TRANSFORMS ONLY",
-          body: "Every animation runs on transform or opacity, so the browser can keep it on the compositor.",
-          tradeoff: "Constrains the visual vocabulary, protects the frame budget.",
-        },
-        {
-          title: "NO ROUTER",
-          body: "A single page with anchor navigation avoids a routing dependency for a site that has one destination.",
-          tradeoff: "Not reusable as an app shell, perfect for a study.",
-        },
-        {
-          title: "SYSTEM FONTS AS FALLBACK",
-          body: "Type treatments are defined with metric-aware fallbacks so a slow font never causes a layout jump.",
-          tradeoff: "Extra CSS to maintain, no visible shift.",
-        },
-      ],
-      features: [
-        { title: "MASKED REVEALS", body: "Headings rise inside clipped containers rather than fading." },
-        { title: "VARIABLE WEIGHT", body: "Weight and tracking respond to position and pointer distance." },
-        { title: "HAIRLINE GRID", body: "Structural lines stay visible as part of the composition." },
-        { title: "REDUCED MOTION", body: "Every animation degrades to a static composition when requested." },
-      ],
-      code: {
-        language: "ts",
-        filename: "src/lib/motion.ts",
-        snippet: `export const EASE = [0.16, 1, 0.3, 1] as const;
-
-/** Shared entrance used by every section so timing stays coherent. */
-export const reveal = {
-  hidden: { opacity: 0, y: 26 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.75, ease: EASE } },
-} as const;
-
-export const stagger = (gap = 0.07) => ({
-  visible: { transition: { staggerChildren: gap } },
-});`,
-      },
-      result: {
-        body: [
-          "The study produced the motion system this portfolio uses: one easing curve, one reveal distance, one stagger interval, applied consistently.",
-          "It also produced a rule worth keeping — expressive motion works when the grid is visible and the restraint is deliberate.",
-        ],
-        metrics: [
-          { value: "1", label: "EASING CURVE" },
-          { value: "0", label: "LAYOUT ANIMATIONS" },
-          { value: "STATIC", label: "BUNDLE" },
-        ],
-      },
-    },
-  },
-  {
-    slug: "bookora",
-    number: "05",
-    title: "BOOKORA",
-    subtitle: "LIBRARY MANAGEMENT SYSTEM",
-    description:
-      "A library management interface with catalogue browsing, authentication screens and a settings surface for book inventory.",
+      "A grocery front-end for a Bangladeshi market: twelve products priced in taka, a live Bengali/English toggle across every label, a working cart, and a flash-deal countdown.",
     category: "frontend",
     categoryLabel: "FRONTEND BUILD",
-    year: "2025",
+    year: "2026",
     role: "DESIGN + FRONTEND",
-    timeline: "COURSEWORK",
-    stack: ["HTML", "CSS", "JavaScript"],
+    timeline: "SELF-DIRECTED",
+    stack: ["JavaScript", "HTML5", "CSS3", "Hind Siliguri"],
     links: {
-      live: "",
-      github: "https://github.com/messi10istheGoat/Library-Management---Bookora",
+      live: "https://rihadev.github.io/Fresh-Mart/",
+      github: "https://github.com/rihadev/Fresh-Mart",
     },
     preview: "commerce",
-    accent: "#febc2e",
+    accent: "#3fbf7f",
     metrics: [
-      { value: "3", label: "PAGES" },
-      { value: "0", label: "FRAMEWORKS" },
-      { value: "VANILLA", label: "STACK" },
+      { value: "12", label: "PRODUCTS, 5 CATEGORIES" },
+      { value: "2", label: "LANGUAGES, ONE CATALOGUE" },
+      { value: "0", label: "DEPENDENCIES" },
     ],
     caseStudy: {
       overview: [
-        "Bookora is a library management front end built without a framework: a catalogue, an authentication screen and a settings surface, written in plain HTML, CSS and JavaScript.",
-        "It is included here because it is where the layout fundamentals were learned — grid, type hierarchy and state handled by hand.",
+        "Fresh Mart is a grocery storefront built for how shopping actually works in Bangladesh: prices in taka, haggling-free discount badges, and a customer who may read Bengali or English depending on the day.",
+        "The catalogue is defined once as data — twelve products, five categories — and every translatable node in the markup carries both languages as `data-bn` and `data-en` attributes. One toggle switches all of them without a reload or a page transition.",
       ],
       challenge: {
         body: [
-          "With no framework, every piece of behaviour is explicit: the catalogue state, the filter interactions and the authentication form all run on plain DOM APIs.",
-          "That makes the cost of each decision visible. Nothing is hidden behind a library, which is exactly why it was worth building this way once.",
+          "A bilingual storefront is not the same problem as translating a page. Product names, units, badges, and descriptions all have to switch together, and the Bengali copy needs a typeface that renders conjuncts correctly rather than falling back to a system font.",
+          "The second constraint was scope: no framework, no build step, no dependencies — so the entire shopping flow had to be built from DOM manipulation and event delegation.",
         ],
         constraints: [
-          "No build step and no dependencies.",
-          "Multiple pages sharing one visual system.",
-          "Interactive catalogue and authentication without a framework.",
-          "Readable on first-generation low-end screens.",
+          "Every user-facing string must exist in both Bengali and English.",
+          "Bengali text must render in a font designed for it — Hind Siliguri, loaded per script.",
+          "Cart, wishlist, quick view, and checkout must work without a routing library.",
+          "No frameworks and no build step: plain HTML, CSS, and JavaScript.",
         ],
       },
       research: {
         body: [
-          "The interface borrows from physical library organisation: a strong shelf-like grid, catalogue cards with clear hierarchy, and typography that prioritises titles over chrome.",
-          "The authentication screen is deliberately quieter than the catalogue so the two do not compete in the same visual system.",
+          "The starting point was an inventory of which strings actually change: roughly forty-three Bengali/English pairs across product names, units, deal badges, and descriptions.",
+          "Switching is handled by a single function that flips a language value, records it on the document element, and then walks every node carrying `data-bn`/`data-en` to swap its text — including input placeholders, which a plain text sweep would miss.",
         ],
         findings: [
-          { label: "GRID", value: "CARD CATALOGUE" },
-          { label: "TYPOGRAPHY", value: "TITLE-FIRST" },
-          { label: "PAGES", value: "3 SHARED" },
-          { label: "DEPS", value: "NONE" },
+          { label: "TRANSLATABLE STRINGS", value: "43 PAIRS" },
+          { label: "CATEGORIES", value: "5" },
+          { label: "TOGGLE COST", value: "RE-RENDER ONLY" },
+          { label: "DEPENDENCIES", value: "NONE" },
         ],
       },
       architecture: {
         body: [
-          "Three HTML documents share one stylesheet and one script, with the visual system defined once in CSS custom properties.",
-          "Inventory state lives in the DOM and in local storage rather than a virtual layer, keeping the entire behaviour of the app inspectable in a browser.",
+          "One array of product objects is the single source of truth. Each entry carries a bilingual name, price, old price, unit, rating, review count, badge, and description, plus a category and a flash-deal flag.",
+          "Rendering is a set of pure functions that turn a product into HTML: the full card, the flash-deal strip, and the quick-view panel all read from the same object, so a price change can never disagree between views.",
         ],
         layers: [
-          { code: "01", label: "MARKUP", note: "Catalogue, authentication and settings documents" },
-          { code: "02", label: "STYLE", note: "One stylesheet with shared custom properties" },
-          { code: "03", label: "BEHAVIOUR", note: "Vanilla DOM handlers and local storage" },
-          { code: "04", label: "ASSETS", note: "Locally served covers and decorative imagery" },
+          { code: "01", label: "DATA", note: "One product array with bilingual fields" },
+          { code: "02", label: "RENDER", note: "Card, deal strip, and quick view from the same object" },
+          { code: "03", label: "STATE", note: "Cart, wishlist, filters, promo code in memory" },
+          { code: "04", label: "LANGUAGE", note: "data-bn / data-en swapped on toggle" },
         ],
       },
       build: {
         body: [
-          "The stylesheet was organised by object rather than by page: layout, card, form and utility layers, so a new screen could be composed from existing parts.",
-          "Breaking changes were caught by opening every page in a narrow viewport first — a habit that carried directly into the responsive work on the React projects.",
+          "The script is organised as a named pipeline rather than a pile of handlers: initialise, render deals, render products, then attach delegated listeners once. Cart operations update a single state object and repaint the badge and drawer together.",
+          "Discounts, quick view, and checkout are modal surfaces driven by the same state, which keeps the flow one continuous experience instead of a set of separate pages.",
         ],
         steps: [
-          { title: "SYSTEM", body: "Define shared custom properties and type scale." },
-          { title: "CATALOGUE", body: "Card grid with filtering and detail states." },
-          { title: "AUTH", body: "A quieter login and registration surface." },
-          { title: "SETTINGS", body: "Inventory and preference controls." },
+          { title: "CATALOGUE", body: "Model twelve products with bilingual fields and taka pricing." },
+          { title: "SHOP", body: "Category filters, flash-deal countdown, and search-free browsing." },
+          { title: "CART", body: "Drawer with quantity controls, removal, and a promo-code path." },
+          { title: "CHECKOUT", body: "Order modal and confirmation, no payment integration." },
         ],
       },
       decisions: [
         {
-          title: "CUSTOM PROPERTIES FROM DAY ONE",
-          body: "Colours, spacing and type sizes live in CSS variables shared by every page, so the visual system stays consistent without a framework.",
-          tradeoff: "Verbose CSS, but trivial to re-theme.",
+          title: "DATA, NOT MARKUP",
+          body: "Products live in one array instead of being hand-written into HTML. Bilingual switching and filtering both become array operations.",
+          tradeoff: "A JavaScript dependency for first paint, in exchange for a catalogue that cannot drift out of sync.",
         },
         {
-          title: "STATE IN THE DOM",
-          body: "No virtual state layer: what the browser shows is what exists, which keeps the whole app debuggable by inspection.",
-          tradeoff: "More manual updates, far less indirection.",
+          title: "NO PERSISTENCE",
+          body: "The cart is intentionally in-memory. For a portfolio build, pretending to hold a basket across sessions would suggest a backend that does not exist.",
+          tradeoff: "A reload empties the cart — honest about being a front-end demonstration.",
+        },
+        {
+          title: "BENGALI FIRST, NOT TRANSLATED",
+          body: "Copy is written in both languages rather than machine-translated, and units are localised (কেজি alongside kg).",
+          tradeoff: "Twice the copy to maintain, but the interface reads natively in either language.",
         },
       ],
       features: [
-        { title: "CARD CATALOGUE", body: "Shelf-like grid with clear title hierarchy." },
-        { title: "AUTH SCREENS", body: "Login and registration surfaces sharing the same system." },
-        { title: "SETTINGS", body: "Inventory and preference controls for the library." },
-        { title: "ZERO DEPENDENCIES", body: "Loads with no build step and no package install." },
+        { title: "BILINGUAL TOGGLE", body: "Every label, badge, and description switches between Bengali and English." },
+        { title: "FLASH DEALS", body: "A staggered countdown drives the discount strip at the top of the store." },
+        { title: "CART DRAWER", body: "Add, adjust, and remove items with a live item count." },
+        { title: "QUICK VIEW", body: "Inspect a product and choose a quantity without leaving the grid." },
       ],
       code: {
-        language: "css",
-        filename: "style.css",
-        snippet: `:root {
-  --shelf-ink: #14110e;
-  --shelf-paper: #f6f1e8;
-  --shelf-accent: #b8763a;
-  --shelf-gap: clamp(0.75rem, 2vw, 1.5rem);
-  --shelf-radius: 2px;
-}
+        language: "js",
+        filename: "app.js",
+        snippet: `const PRODUCTS = [
+  {
+    id: "prod-1",
+    category: "vegetables",
+    name: { bn: "তাজা লাল টমেটো (Deshi Tomatoes)", en: "Fresh Red Tomatoes" },
+    price: 60,
+    oldPrice: 80,
+    unit: { bn: "১ কেজি (1 kg)", en: "1 kg" },
+    badge: { bn: "২৫% ছাড়", en: "25% OFF" },
+    isFlashDeal: true,
+  },
+  // ...
+];
 
-.catalogue {
-  display: grid;
-  gap: var(--shelf-gap);
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+// 10. Language & Theme Toggles
+function toggleLanguage() {
+  state.lang = state.lang === 'bn' ? 'en' : 'bn';
+  document.documentElement.setAttribute('data-lang', state.lang);
+
+  const langLabel = document.getElementById('lang-label');
+  if (langLabel) langLabel.innerText = state.lang === 'bn' ? 'English' : 'বাংলা';
+
+  // Translate all elements with data-bn and data-en
+  const translatableEls = document.querySelectorAll('[data-bn][data-en]');
+  translatableEls.forEach(el => {
+    el.innerText = el.getAttribute(\`data-\${state.lang}\`);
+  });
 }`,
       },
       result: {
         body: [
-          "Bookora still runs from a folder with no installation. It is the clearest proof in this portfolio that visual polish and engineering rigour are not the same thing as dependencies.",
-          "The lessons from this build — a shared token layer, object-based CSS, narrow-viewport first — show up in every React project above.",
+          "Fresh Mart ended up as the clearest demonstration in this set of separating content from presentation: one array, one language flag, and every view rendered from the same source.",
+          "It is also where the Bengali-first decision was made — copy is authored in both languages against the markup, rather than bolted on as a translation layer afterwards.",
         ],
         metrics: [
-          { value: "0", label: "DEPENDENCIES" },
-          { value: "3", label: "SHARED PAGES" },
-          { value: "NO", label: "BUILD STEP" },
+          { value: "12", label: "PRODUCTS MODELLED" },
+          { value: "43", label: "BILINGUAL STRINGS" },
+          { value: "911", label: "LINES OF APP LOGIC" },
         ],
       },
     },
   },
   {
-    slug: "storefront",
-    number: "06",
-    title: "STOREFRONT",
-    subtitle: "STATIC E-COMMERCE BUILD",
+    slug: "budget-tracker",
+    number: "04",
+    title: "BUDGET TRACKER",
+    subtitle: "FINANCE DASHBOARD, PLAIN JAVASCRIPT",
     description:
-      "A front-end commerce build — product listing, detail and cart surfaces — written in plain HTML, CSS and JavaScript.",
+      "A personal budget dashboard that takes income and expense rows, calculates tax, net income, and remaining balance, then renders a proportional breakdown — and survives a reload.",
     category: "frontend",
-    categoryLabel: "FRONTEND BUILD",
-    year: "2025",
-    role: "DESIGN + FRONTEND",
-    timeline: "COURSEWORK",
-    stack: ["HTML", "CSS", "JavaScript"],
+    categoryLabel: "VANILLA JAVASCRIPT",
+    year: "2026",
+    role: "DESIGN + LOGIC",
+    timeline: "SELF-DIRECTED",
+    stack: ["JavaScript", "HTML5", "CSS3", "Web Storage API"],
     links: {
-      live: "",
-      github: "https://github.com/messi10istheGoat/Project-E-Commerce-Website",
+      live: "https://rihadev.github.io/personal-budget-tracker/",
+      github: "https://github.com/rihadev/personal-budget-tracker",
     },
-    preview: "commerce",
-    accent: "#8cc84b",
+    preview: "dashboard",
+    accent: "#668cff",
     metrics: [
-      { value: "3", label: "SHOPPING SURFACES" },
-      { value: "0", label: "FRAMEWORKS" },
-      { value: "VANILLA", label: "STACK" },
+      { value: "20", label: "EXPENSE ROWS, MAX" },
+      { value: "6", label: "CALCULATED OUTPUTS" },
+      { value: "1", label: "STORAGE KEY" },
     ],
     caseStudy: {
       overview: [
-        "A storefront front end built with the same no-framework discipline as Bookora: a product listing, a detail view and a cart, written directly in HTML, CSS and JavaScript.",
-        "The interesting part of a commerce build is not the visuals — it is the small amount of state that has to stay coherent as a shopper moves between surfaces.",
+        "Budget Tracker is a single-page finance dashboard with no framework and no backend. It collects income and a list of expense rows, then returns total expenses, estimated tax, net income, remaining balance, and potential savings.",
+        "The interesting part is not the arithmetic — it is doing arithmetic on user input without trusting it, and restoring a session exactly as it was left.",
       ],
       challenge: {
         body: [
-          "Cart state has to survive navigation and reloads without a framework providing it, and the product grid has to stay responsive while the imagery loads.",
-          "There is also an honesty problem in demo commerce: it is easy to build a checkout button that pretends to charge someone. This build does not.",
+          "A budget form is a validation problem disguised as a calculator. Expense rows are created dynamically, so the number of inputs changes while the user is typing, and any of them can hold an empty string, a negative number, or text.",
+          "The tool also has to recover gracefully: a half-filled form that reloads should come back, and a cleared one should not resurrect old numbers.",
         ],
         constraints: [
-          "Cart persists across pages without a backend.",
-          "Product imagery must not break the grid on slow connections.",
-          "No dependency on a framework or build tool.",
-          "No simulated payment flow.",
+          "Validate income and every expense amount before any calculation runs.",
+          "Support up to twenty dynamically generated expense rows.",
+          "Restore the complete previous session on reload.",
+          "Keep the arithmetic transparent — the rules must be stated in the UI.",
         ],
       },
       research: {
         body: [
-          "The layout follows conventional commerce patterns deliberately — a shopper already knows where the price, the variant and the add button live, and novelty there costs conversion.",
-          "The visual budget went into whitespace and product framing instead of decoration.",
+          "The model was derived by writing the calculation rules first and working backwards to the interface: estimate tax at ten percent, subtract it to get net income, subtract expenses to get balance, then estimate savings at twenty percent of a positive balance.",
+          "Keeping those rules explicit (they are printed in the README and surfaced in the UI) matters more than the exact percentages, because the project must not read as financial advice.",
         ],
         findings: [
-          { label: "PATTERN", value: "CONVENTIONAL" },
-          { label: "CART", value: "LOCAL STORAGE" },
-          { label: "GRID", value: "RESPONSIVE" },
-          { label: "PAYMENTS", value: "NONE" },
+          { label: "TAX RATE", value: "10%" },
+          { label: "SAVINGS RATE", value: "20%" },
+          { label: "MAX EXPENSES", value: "20" },
+          { label: "OUTPUTS", value: "6 METRICS" },
         ],
       },
       architecture: {
         body: [
-          "One shared script owns the cart in local storage and re-renders the cart badge on load; each page then reads the same state.",
-          "Product data is defined in the markup and JavaScript constants rather than fetched, which is appropriate for a fixed catalogue and keeps the build dependency-free.",
+          "The script opens by caching every element it will touch into one lookup object, so no function reaches into the DOM by id more than once.",
+          "From there it is a straight pipeline: validate the setup, generate and collect expense fields, reduce them to a total, derive the six summary figures, paint the summary and the proportional breakdown, then persist the whole state to a single storage key.",
         ],
         layers: [
-          { code: "01", label: "LISTING", note: "Product grid with responsive columns" },
-          { code: "02", label: "DETAIL", note: "Product view with variant and quantity controls" },
-          { code: "03", label: "CART", note: "Persisted state and badge synchronisation" },
-          { code: "04", label: "ASSETS", note: "Locally served product imagery" },
+          { code: "01", label: "INPUT", note: "Setup validation and dynamic expense rows" },
+          { code: "02", label: "CALCULATE", note: "Expenses, tax, net, balance, savings, status" },
+          { code: "03", label: "DISPLAY", note: "Summary cards and a percentage breakdown" },
+          { code: "04", label: "PERSIST", note: "One storage key, restored on load" },
         ],
       },
       build: {
         body: [
-          "The CSS was written mobile-first, with the grid built on `auto-fill` and `minmax` so it never needs breakpoint-specific column counts.",
-          "Images use aspect-ratio boxes so the layout does not jump while they decode — the same technique used by the visuals on this portfolio.",
+          "Expense inputs are generated rather than hard-coded: the user states how many they need, and the script builds that many labelled rows, up to twenty.",
+          "The breakdown view converts each expense into a share of the total and renders it as a labelled progress bar, so the largest cost is obvious without reading the numbers.",
         ],
         steps: [
-          { title: "GRID", body: "Auto-filling responsive product grid." },
-          { title: "DETAIL", body: "Variant and quantity selection without a framework." },
-          { title: "CART", body: "Local storage state with badge syncing." },
-          { title: "POLISH", body: "Aspect-ratio media and hover states." },
+          { title: "SETUP", body: "Name, income, and how many expenses to track." },
+          { title: "ENTRY", body: "Generated expense rows with validation on every value." },
+          { title: "SUMMARY", body: "Six derived figures plus a plain-language status." },
+          { title: "RESTORE", body: "State written to one key and rehydrated on reload." },
         ],
       },
       decisions: [
         {
-          title: "LOCAL STORAGE CART",
-          body: "Persisting the cart in the browser keeps the build static while still surviving reloads.",
-          tradeoff: "Per-device carts, no server-side stock validation.",
+          title: "CACHE THE DOM ONCE",
+          body: "A single elements object is resolved at startup instead of querying inside handlers, which keeps the calculation functions short.",
+          tradeoff: "Any new field must be registered in one place — a fair trade for predictable lookups.",
         },
         {
-          title: "NO FAKE CHECKOUT",
-          body: "The cart is the end of the flow by design. Pretending to take payment in a portfolio piece would be misleading.",
-          tradeoff: "An incomplete commerce story, an honest one.",
+          title: "STATE, NOT ELEMENTS",
+          body: "Persistence serialises the budget data rather than scraping input values, so a restore is immune to markup changes.",
+          tradeoff: "Needs an explicit serialiser, but the save format stays stable.",
+        },
+        {
+          title: "VALIDATE BEFORE COMPUTE",
+          body: "Every value is checked before it reaches the maths, so a blank row cannot silently become zero.",
+          tradeoff: "More guard code, and no silently wrong totals.",
         },
       ],
       features: [
-        { title: "PRODUCT GRID", body: "Responsive listing that reflows without breakpoints." },
-        { title: "PRODUCT DETAIL", body: "Individual product surface with controls." },
-        { title: "PERSISTED CART", body: "Cart state survives navigation and reload." },
-        { title: "ZERO DEPENDENCIES", body: "Plain HTML, CSS and JavaScript only." },
+        { title: "DYNAMIC EXPENSES", body: "Up to twenty rows generated from a single count field." },
+        { title: "SIX SUMMARY FIGURES", body: "Income, expenses, tax, net, balance, and estimated savings." },
+        { title: "PROPORTIONAL BREAKDOWN", body: "Each expense drawn as its share of the total." },
+        { title: "SESSION RESTORE", body: "The whole budget returns intact after a reload." },
       ],
       code: {
         language: "js",
-        filename: "script.js",
-        snippet: `const CART_KEY = "storefront:cart";
+        filename: "index.js",
+        snippet: `function calculateBudget(income, expenses) {
+  const totalExpenses = calculateTotalExpenses(expenses);
+  const tax = income * TAX_RATE;
+  const netIncome = income - tax;
+  const balance = netIncome - totalExpenses;
 
-/** The cart is the only cross-page state; everything else is presentational. */
-const readCart = () => {
-  try {
-    return JSON.parse(localStorage.getItem(CART_KEY) ?? "[]");
-  } catch {
-    return [];
-  }
-};
+  // Never display negative savings.
+  const savings = Math.max(0, balance) * SAVINGS_RATE;
 
-const writeCart = (items) => {
-  localStorage.setItem(CART_KEY, JSON.stringify(items));
-  document.querySelectorAll("[data-cart-count]").forEach((node) => {
-    node.textContent = String(items.length);
-  });
-};`,
+  return { totalExpenses, tax, netIncome, balance, savings };
+}`,
       },
       result: {
         body: [
-          "A dependency-free storefront that behaves correctly across three surfaces and survives a reload.",
-          "The transferable insight was about convention: in commerce, familiarity is a feature, and the engineering effort belongs in state and layout rather than novelty.",
+          "The build produced a dashboard that is honest about being an exercise: the calculation rules are printed on the page, and the tax figure is explicitly labelled an estimate rather than financial advice.",
+          "It is also the project where input handling stopped being an afterthought — every value is validated before it can influence a total.",
         ],
         metrics: [
-          { value: "3", label: "SURFACES" },
-          { value: "0", label: "FRAMEWORKS" },
-          { value: "PERSISTED", label: "CART" },
+          { value: "6", label: "DERIVED FIGURES" },
+          { value: "0", label: "BACKEND CALLS" },
+          { value: "699", label: "LINES OF LOGIC" },
+        ],
+      },
+    },
+  },
+  {
+    slug: "chronoclock",
+    number: "05",
+    title: "CHRONOCLOCK",
+    subtitle: "TIME DASHBOARD WITH CANVAS",
+    description:
+      "An analog clock drawn stroke by stroke on a canvas, paired with a stopwatch, a countdown, repeating alarms, and world clocks — all persisted between visits.",
+    category: "frontend",
+    categoryLabel: "CANVAS + STATE",
+    year: "2026",
+    role: "DESIGN + ENGINEERING",
+    timeline: "SELF-DIRECTED",
+    stack: ["JavaScript", "Canvas 2D", "HTML5", "CSS3", "Web Storage API"],
+    links: {
+      live: "https://rihadev.github.io/ChronoClock-/",
+      github: "https://github.com/rihadev/ChronoClock-",
+    },
+    preview: "type",
+    accent: "#febc2e",
+    metrics: [
+      { value: "5", label: "TOOLS IN ONE DASHBOARD" },
+      { value: "60", label: "FPS CANVAS CLOCK" },
+      { value: "4", label: "PERSISTED SETTINGS" },
+    ],
+    caseStudy: {
+      overview: [
+        "ChronoClock began as a digital clock and grew into a small time laboratory: an analog face drawn on a canvas, a digital readout, a stopwatch, a countdown, repeating alarms with sound, and a set of world clocks.",
+        "Everything runs on the browser's own clock, so the interesting engineering is in keeping several independent timers honest at once.",
+      ],
+      challenge: {
+        body: [
+          "Multiple time features fail in different ways. A canvas clock that draws on an interval drifts and stutters; a stopwatch based on counting ticks loses accuracy; an alarm that only checks on load will miss its moment.",
+          "The brief became: one dashboard, five time tools, none of them allowed to drift away from the others.",
+        ],
+        constraints: [
+          "Load must remain instant — no framework and no build step.",
+          "Timers must stay accurate while the tab is backgrounded.",
+          "Alarms, theme, and clock format must survive a reload.",
+          "Settings and saved times must be sanitised before they reach the DOM.",
+        ],
+      },
+      research: {
+        body: [
+          "The clock face is drawn with the Canvas 2D API: a render loop clears and repaints the dial and hands each frame, which keeps the sweep smooth instead of stepping once per second.",
+          "The stopwatch and countdown take the opposite approach — they compute elapsed time from timestamps rather than incrementing a counter, so a delayed frame cannot accumulate into drift.",
+        ],
+        findings: [
+          { label: "CLOCK RENDERING", value: "CANVAS 2D" },
+          { label: "ELAPSED TIME", value: "TIMESTAMP MATH" },
+          { label: "PERSISTED KEYS", value: "4" },
+          { label: "FRAME LOOP", value: "requestAnimationFrame" },
+        ],
+      },
+      architecture: {
+        body: [
+          "The file is deliberately sectionalised — settings, theme, format, stopwatch, countdown, alarms, world clocks, time-zone converter — with shared helpers (`pad`, `formatStopwatchTime`, `getTimezoneOffset`) defined once at the top.",
+          "Saved state is split across four storage keys rather than one blob, so a corrupt alarm list cannot take the theme down with it.",
+        ],
+        layers: [
+          { code: "01", label: "RENDER", note: "Canvas dial and hands on a frame loop" },
+          { code: "02", label: "TIMERS", note: "Stopwatch and countdown from timestamps" },
+          { code: "03", label: "ALARMS", note: "Repeating schedules with generated audio" },
+          { code: "04", label: "ZONES", note: "World clock and time-zone conversion" },
+        ],
+      },
+      build: {
+        body: [
+          "Alarms are the most stateful piece: each one carries a time, a label, a repeat setting, and enabled state, and is serialised as a whole. Rendering escapes the label before it is inserted, because alarm names are user input.",
+          "The alarm sound is synthesised with the Web Audio API rather than loaded from a file, which keeps the dashboard a single-folder project with no audio assets to fetch.",
+        ],
+        steps: [
+          { title: "FACE", body: "Draw the analog dial and hands on a canvas loop." },
+          { title: "MEASURE", body: "Add stopwatch and countdown built on elapsed-time maths." },
+          { title: "SCHEDULE", body: "Saved alarms with repeat logic and generated sound." },
+          { title: "ORIENT", body: "World clocks, theme switching, and 12/24-hour format." },
+        ],
+      },
+      decisions: [
+        {
+          title: "TWO CLOCKS, ON PURPOSE",
+          body: "The analog face is drawn for accuracy of reading; the digital readout is updated from the same timestamp so they can never disagree.",
+          tradeoff: "One extra render target, no possibility of drift between views.",
+        },
+        {
+          title: "ESCAPE BEFORE RENDER",
+          body: "Alarm labels are user input and pass through an escape helper before reaching the DOM.",
+          tradeoff: "A small helper to maintain, and no injection path through a saved name.",
+        },
+        {
+          title: "SEPARATE STORAGE KEYS",
+          body: "Theme, format, alarms, and time zones are stored independently.",
+          tradeoff: "Four reads at startup, and one damaged value cannot break the rest.",
+        },
+      ],
+      features: [
+        { title: "CANVAS CLOCK", body: "Analog dial and hands repainted on a frame loop." },
+        { title: "STOPWATCH", body: "Elapsed time calculated from timestamps, not counted ticks." },
+        { title: "ALARMS", body: "Repeat schedules with a synthesised alert tone." },
+        { title: "WORLD CLOCKS", body: "Saved zones with a time-zone converter alongside." },
+      ],
+      code: {
+        language: "js",
+        filename: "index.js",
+        snippet: `function saveAlarms() {
+  localStorage.setItem("chronoAlarms", JSON.stringify(alarms));
+}
+
+function escapeHTML(text) {
+  const div = document.createElement("div");
+
+  div.textContent = text;
+
+  return div.innerHTML;
+}
+
+// Elapsed time comes from timestamps, so a slow frame cannot cause drift.
+function updateStopwatch() {
+  if (!stopwatchRunning) {
+    return;
+  }
+
+  stopwatchElapsed = Date.now() - stopwatchStartTime;
+
+  stopwatchDisplay.textContent = formatStopwatchTime(stopwatchElapsed);
+}`,
+      },
+      result: {
+        body: [
+          "ChronoClock is the most technically varied project in this set, and the one that taught the difference between animating something and measuring it: the canvas loop is for smoothness, the timers are for accuracy, and they are deliberately separate systems.",
+          "It also set the pattern used elsewhere here — small named functions, a shared helper layer, and state that is saved explicitly rather than inferred from the DOM.",
+        ],
+        metrics: [
+          { value: "5", label: "TOOLS" },
+          { value: "1265", label: "LINES OF LOGIC" },
+          { value: "0", label: "ASSET REQUESTS FOR SOUND" },
+        ],
+      },
+    },
+  },
+  {
+    slug: "user-management",
+    number: "06",
+    title: "USER MANAGEMENT",
+    subtitle: "REACT ROUTER + LIVE API",
+    description:
+      "A React application that fetches a user directory from a REST API, filters it live across name, username, email, and city, and gives every record its own routed detail page.",
+    category: "frontend",
+    categoryLabel: "REACT APPLICATION",
+    year: "2026",
+    role: "FRONTEND ENGINEERING",
+    timeline: "SELF-DIRECTED",
+    stack: ["React 19", "React Router 7", "Vite", "Tailwind CSS v4"],
+    links: {
+      live: "https://react-user-management-sage.vercel.app/",
+      github: "https://github.com/rihadev/react-user-management-",
+    },
+    preview: "observability",
+    accent: "#a78bfa",
+    metrics: [
+      { value: "2", label: "ROUTES" },
+      { value: "4", label: "SEARCH FIELDS" },
+      { value: "3", label: "UI STATES PER FETCH" },
+    ],
+    caseStudy: {
+      overview: [
+        "This is the project where the network became part of the design. A directory screen loads users from a REST endpoint, filters them as you type, and links each one to a detail route that fetches that single record.",
+        "Because the data arrives asynchronously and can fail, every screen had to account for three states — loading, error, and content — rather than only the happy path.",
+      ],
+      challenge: {
+        body: [
+          "A list backed by a remote API is really a state machine. The first render has no data, a slow response leaves the screen empty, and a failed request can leave a spinner running forever if the error branch is not explicit.",
+          "Detail pages add a second problem: the record has to be fetched again by id, the id comes from the URL, and navigating between users must not show the previous user's data while the new request is in flight.",
+        ],
+        constraints: [
+          "Handle loading, error, and success explicitly on both routes.",
+          "Search across name, username, email, and city in one input.",
+          "Fetch each detail record by the id in the URL.",
+          "Treat a missing record as an error state, not an empty page.",
+        ],
+      },
+      research: {
+        body: [
+          "Detail navigation exposed a subtle bug class worth designing around: React reuses the component when only the route parameter changes, so state from the previous user can persist into the next one.",
+          "The fix is to reset the record and error state at the top of the effect before the new request starts, so stale content can never be shown under a new URL.",
+        ],
+        findings: [
+          { label: "SEARCHABLE FIELDS", value: "4" },
+          { label: "EXPLICIT STATES", value: "3 PER FETCH" },
+          { label: "MISSING RECORD", value: "TREATED AS ERROR" },
+          { label: "ROUTE PARAMS", value: "RESET ON CHANGE" },
+        ],
+      },
+      architecture: {
+        body: [
+          "Routing sits at the top: a browser router with a list route and a parameterised detail route. Both screens own their data fetching rather than sharing a store, which keeps the data lifecycle visible in each component.",
+          "The list screen derives its filtered view from state instead of fetching on every keystroke — the network is touched once, and searching is instant afterwards.",
+        ],
+        layers: [
+          { code: "01", label: "ROUTER", note: "List and detail routes, id from the URL" },
+          { code: "02", label: "FETCH", note: "Loading, error, and success handled explicitly" },
+          { code: "03", label: "SEARCH", note: "Client-side filter across four fields" },
+          { code: "04", label: "DETAIL", note: "Per-user fetch with state reset on id change" },
+        ],
+      },
+      build: {
+        body: [
+          "The list screen fetches once on mount, then filters in memory: the query is normalised, and each user is tested against name, username, email, and city, with empty values skipped so a missing city cannot throw.",
+          "The detail screen reads the id from the router, fetches that single record, and validates the response payload before storing it — a response without an id is treated as not found rather than rendered as a blank record.",
+        ],
+        steps: [
+          { title: "SCAFFOLD", body: "Vite and React 19 with a two-route browser router." },
+          { title: "DIRECTORY", body: "Fetch once, render cards, handle loading and failure." },
+          { title: "SEARCH", body: "Normalise the query and filter across four fields." },
+          { title: "DETAIL", body: "Fetch by id, reset on navigation, validate the payload." },
+        ],
+      },
+      decisions: [
+        {
+          title: "FETCH ONCE, FILTER LOCALLY",
+          body: "The directory is small enough to hold in memory, so typing filters state instead of issuing requests.",
+          tradeoff: "Not appropriate for large datasets — the right call this size, and stated as such.",
+        },
+        {
+          title: "RESET BEFORE FETCH",
+          body: "Clearing the record and error at the start of the detail effect prevents the previous user showing under a new URL.",
+          tradeoff: "A brief empty state on navigation, in exchange for never showing wrong data.",
+        },
+        {
+          title: "ERRORS AS UI",
+          body: "Failures render a readable message with a retry path instead of leaving a spinner or an empty list.",
+          tradeoff: "More states to design, and a screen that never lies about what happened.",
+        },
+      ],
+      features: [
+        { title: "LIVE SEARCH", body: "One input filtering name, username, email, and city." },
+        { title: "ROUTED DETAILS", body: "Every user has a shareable URL backed by its own fetch." },
+        { title: "EXPLICIT STATES", body: "Loading, error, and content are separate, visible branches." },
+        { title: "RETRY PATH", body: "A failed request can be retried without a reload." },
+      ],
+      code: {
+        language: "jsx",
+        filename: "src/UsersList.jsx",
+        snippet: `const API_URL = "https://jsonplaceholder.typicode.com/users";
+
+async function fetchUsers() {
+  setLoading(true);
+  setError("");
+
+  try {
+    const response = await fetch(API_URL);
+
+    if (!response.ok) {
+      throw new Error("Unable to load users.");
+    }
+
+    const data = await response.json();
+    setUsers(data);
+  } catch {
+    setError(
+      "We couldn't load the users. Please check your connection and try again.",
+    );
+  } finally {
+    setLoading(false);
+  }
+}
+
+const query = search.trim().toLowerCase();
+
+const filteredUsers = users.filter((user) =>
+  [user.name, user.username, user.email, user.address?.city]
+    .filter(Boolean)
+    .some((value) => value.toLowerCase().includes(query)),
+);`,
+      },
+      result: {
+        body: [
+          "The finished app treats the network as a first-class concern: three visible states per fetch, a retry path, and a detail route that cannot show the previous record.",
+          "Those habits carry directly into the larger builds on this site — the same loading, error, and reset discipline appears in the full-stack work.",
+        ],
+        metrics: [
+          { value: "2", label: "ROUTES" },
+          { value: "3", label: "FETCH STATES" },
+          { value: "1", label: "NETWORK CALL PER VIEW" },
         ],
       },
     },

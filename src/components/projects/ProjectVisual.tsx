@@ -39,16 +39,16 @@ export function ProjectVisual({
         <div className="mx-2 flex h-4 flex-1 items-center border border-white/10 bg-black/30 px-2">
           <span className="mono-sm text-[6px] tracking-[0.14em] text-white/35">
             {kind === "dashboard"
-              ? "spendwise.app/overview"
+              ? "budget-tracker.app/budget"
               : kind === "ai"
-                ? "droidmatrix.app/agents"
+                ? "user-directory.app/users"
                 : kind === "commerce"
-                  ? "bookora.store/catalogue"
+                  ? "fresh-mart.app/catalogue"
                   : kind === "terminal"
                     ? "sylhet-live — routemap"
                     : kind === "observability"
-                      ? "storefront.app/orders"
-                      : "kinetic.type/mode/02"}
+                      ? "user-directory.app/users/01"
+                      : "chronoclock.app/dashboard"}
           </span>
         </div>
         <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: accent }} />
@@ -92,18 +92,18 @@ function DashboardPreview({ compact }: { compact: boolean }) {
       <div className="flex min-w-0 flex-col gap-2">
         <div className="flex items-center justify-between">
           <div>
-            <p className="mono-sm text-[6px] text-white/40">TOTAL BALANCE</p>
+            <p className="mono-sm text-[6px] text-white/40">REMAINING BALANCE</p>
             <p className={cn("font-display font-semibold tracking-tight", compact ? "text-lg" : "text-xl sm:text-2xl")}>
-              $24,860<span className="text-white/30">.40</span>
+              ৳28,400<span className="text-white/30">.00</span>
             </p>
           </div>
-          <span className="mono-sm border border-white/15 px-1.5 py-0.5 text-[6px] text-white/50">MAY 2025</span>
+          <span className="mono-sm border border-white/15 px-1.5 py-0.5 text-[6px] text-white/50">THIS MONTH</span>
         </div>
         <div className="grid grid-cols-3 gap-1.5">
           {[
-            { label: "INCOME", value: "+$6,420", color: "var(--pv-accent)" },
-            { label: "SPEND", value: "−$2,180", color: "#ffffff" },
-            { label: "SAVED", value: "42%", color: "var(--pv-accent)" },
+            { label: "INCOME", value: "৳42,000", color: "var(--pv-accent)" },
+            { label: "EXPENSES", value: "−৳13,000", color: "#ffffff" },
+            { label: "EST. TAX", value: "৳4,200", color: "var(--pv-accent)" },
           ].map((metric) => (
             <div key={metric.label} className="border border-white/10 bg-white/[0.03] p-1.5">
               <p className="mono-sm text-[5px] tracking-[0.1em] text-white/35">{metric.label}</p>
@@ -115,7 +115,7 @@ function DashboardPreview({ compact }: { compact: boolean }) {
         </div>
         <div className="relative flex-1 border border-white/10 bg-white/[0.02] p-2">
           <div className="flex items-center justify-between">
-            <p className="mono-sm text-[6px] text-white/40">SPEND / 12 WEEKS</p>
+            <p className="mono-sm text-[6px] text-white/40">EXPENSE SHARE</p>
             <span className="mono-sm text-[6px]" style={{ color: "var(--pv-accent)" }}>
               ● LIVE
             </span>
@@ -249,9 +249,9 @@ function CommercePreview({ compact }: { compact: boolean }) {
   return (
     <div className="flex h-full flex-col gap-2">
       <div className="flex items-center justify-between border-b border-white/10 pb-1.5">
-        <span className="font-display text-[9px] font-bold uppercase tracking-[0.05em]">FORM & FIELD</span>
+        <span className="font-display text-[9px] font-bold uppercase tracking-[0.05em]">FRESH MART</span>
         <div className="flex items-center gap-2">
-          {["SHOP", "OBJECTS", "JOURNAL"].map((item) => (
+          {["সবজি", "মাছ", "মুদি"].map((item) => (
             <span key={item} className="mono-sm text-[5px] text-white/35">
               {item}
             </span>
@@ -271,22 +271,22 @@ function CommercePreview({ compact }: { compact: boolean }) {
           <div className="absolute left-1/2 top-[22%] h-[46%] w-[46%] -translate-x-1/2 rounded-t-full border border-white/25 bg-gradient-to-b from-white/25 to-transparent" />
           <div className="absolute bottom-[26%] left-1/2 h-[9%] w-[54%] -translate-x-1/2 border border-white/20 bg-black/40" />
           <span className="mono-sm relative text-[5px]" style={{ color: "var(--pv-accent)" }}>
-            NEW / 2025
+            ৳25% OFF
           </span>
           <p className="relative font-display text-[11px] font-bold uppercase leading-tight">
-            LOUNGE
+            DESHI
             <br />
-            CHAIR 02
+            TOMATOES
           </p>
           <div className="relative mt-1 flex items-center justify-between">
-            <span className="font-mono text-[7px] text-white/60">$1,480</span>
-            <span className="mono-sm text-[5px] text-white/30">OAK / LINEN</span>
+            <span className="font-mono text-[7px] text-white/60">৳60 /kg</span>
+            <span className="mono-sm text-[5px] text-white/30">1 KG</span>
           </div>
         </div>
         <div className="grid grid-rows-2 gap-2">
           {[
-            { name: "SIDE TABLE", price: "$420", variant: "TRAVERTINE" },
-            { name: "FLOOR LAMP", price: "$280", variant: "MATTE BLACK" },
+            { name: "HILSA FISH", price: "৳1,250", variant: "PADMA" },
+            { name: "MINIKET RICE", price: "৳68", variant: "5 KG" },
           ].map((product) => (
             <div key={product.name} className="flex flex-col justify-between border border-white/10 bg-white/[0.03] p-2">
               <div className="flex justify-between">
@@ -303,7 +303,7 @@ function CommercePreview({ compact }: { compact: boolean }) {
       </div>
       {!compact && (
         <div className="flex items-center justify-between border border-white/10 bg-black/40 px-2 py-1.5">
-          <span className="mono-sm text-[6px] text-white/35">FREE SHIPPING OVER $500 — 14 DAY RETURNS</span>
+          <span className="mono-sm text-[6px] text-white/35">ঢাকা ডেলিভারি · ২ ঘণ্টায়</span>
           <span className="mono-sm text-[6px]" style={{ color: "var(--pv-accent)" }}>
             CHECKOUT ↗
           </span>
@@ -376,16 +376,16 @@ function ObservabilityPreview({ compact }: { compact: boolean }) {
   return (
     <div className="flex h-full flex-col gap-1.5">
       <div className="flex items-center justify-between">
-        <p className="font-display text-[11px] font-semibold uppercase tracking-tight">SYSTEM / STATUS</p>
+        <p className="font-display text-[11px] font-semibold uppercase tracking-tight">USERS / DIRECTORY</p>
         <span className="mono-sm border px-1.5 py-0.5 text-[5px]" style={{ borderColor: "var(--pv-accent)", color: "var(--pv-accent)" }}>
-          ● ALL SYSTEMS
+          ● LOADED
         </span>
       </div>
       <div className="grid grid-cols-3 gap-1.5">
         {[
-          { label: "REQUESTS", value: "48.2K", delta: "+4%" },
-          { label: "P95", value: "112ms", delta: "−8%" },
-          { label: "ERRORS", value: "0.04%", delta: "−1%" },
+          { label: "USERS", value: "10", delta: "API" },
+          { label: "FILTERED", value: "03", delta: "LIVE" },
+          { label: "ERRORS", value: "0", delta: "CLEAN" },
         ].map((metric) => (
           <div key={metric.label} className="border border-white/10 bg-white/[0.03] p-1.5">
             <p className="mono-sm text-[5px] text-white/30">{metric.label}</p>
@@ -400,7 +400,7 @@ function ObservabilityPreview({ compact }: { compact: boolean }) {
         {series.slice(0, compact ? 2 : 4).map((points, index) => (
           <div key={index} className="border border-white/10 bg-white/[0.02] p-1.5">
             <div className="flex justify-between">
-              <span className="mono-sm text-[5px] text-white/30">SERVICE 0{index + 1}</span>
+              <span className="mono-sm text-[5px] text-white/30">USER 0{index + 1}</span>
               <span className="mono-sm text-[5px]" style={{ color: index === 1 ? "var(--pv-accent)" : "rgba(255,255,255,0.3)" }}>
                 {index === 1 ? "▲" : "●"}
               </span>
@@ -418,8 +418,8 @@ function ObservabilityPreview({ compact }: { compact: boolean }) {
       </div>
       {!compact && (
         <div className="flex items-center justify-between border-t border-white/10 pt-1.5">
-          <span className="mono-sm text-[5px] text-white/25">RETENTION 7D · ROLLUP 60S</span>
-          <span className="mono-sm text-[5px] text-white/40">ALERTS 2 / WEEK</span>
+          <span className="mono-sm text-[5px] text-white/25">JSONPLACEHOLDER · REST</span>
+          <span className="mono-sm text-[5px] text-white/40">RETRY AVAILABLE</span>
         </div>
       )}
     </div>
@@ -431,30 +431,36 @@ function TypePreview({ compact }: { compact: boolean }) {
     <div className="relative flex h-full flex-col justify-between overflow-hidden border border-white/10 bg-[#08090c] p-3">
       <div className="grid-field-sm absolute inset-0 opacity-50" />
       <div className="relative flex items-center justify-between">
-        <span className="mono-sm text-[6px] text-white/35">KINETIC / TYPE LAB</span>
-        <span className="mono-sm text-[6px] text-white/35">MODE 02 — STACK</span>
+        <span className="mono-sm text-[6px] text-white/35">CHRONOCLOCK / TTY 01</span>
+        <span className="mono-sm text-[6px] text-white/35">24H — LIGHT OFF</span>
       </div>
       <div className="relative -mx-1 select-none py-1">
-        {["FORM", "FOLLOWS", "FEELING"].map((word, index) => (
+        {["14", "32", "08"].map((part, index) => (
           <p
-            key={word}
+            key={part}
             className={cn(
-              "display whitespace-nowrap leading-[0.8]",
+              "display flex items-baseline gap-2 whitespace-nowrap leading-[0.8]",
               compact ? "text-[9vw]" : "text-[clamp(1.8rem,6vw,3.4rem)] sm:text-[clamp(2rem,5vw,4rem)]",
               index === 1 ? "text-outline-accent" : "text-bone",
             )}
             style={{
               transform: `translateX(${index * 8}px) skewX(-6deg)`,
-              letterSpacing: index === 2 ? "-0.02em" : "-0.05em",
+              letterSpacing: "-0.04em",
             }}
           >
-            {word}
+            {part}
+            <span
+              className="font-mono text-[7px] not-italic tracking-normal text-white/35"
+              style={{ transform: "skewX(6deg)" }}
+            >
+              {["HRS", "MIN", "SEC"][index]}
+            </span>
           </p>
         ))}
       </div>
       <div className="relative flex items-end justify-between border-t border-white/12 pt-1.5">
         <div className="flex gap-2">
-          {["SLICE", "STACK", "STREAM", "WARP"].map((mode, index) => (
+          {["CLOCK", "STOPWATCH", "ALARM", "ZONES"].map((mode, index) => (
             <span
               key={mode}
               className="mono-sm text-[5px]"
@@ -464,7 +470,7 @@ function TypePreview({ compact }: { compact: boolean }) {
             </span>
           ))}
         </div>
-        <span className="mono-sm text-[5px] text-white/25">WGHT 200 → 900</span>
+        <span className="mono-sm text-[5px] text-white/25">CANVAS 2D · rAF</span>
       </div>
     </div>
   );

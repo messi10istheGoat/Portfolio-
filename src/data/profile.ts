@@ -26,12 +26,12 @@ export const profile = {
    * that is an empty string, so no dead links ever ship.
    */
   socials: {
-    github: "https://github.com/messi10istheGoat",
+    github: "https://github.com/rihadev",
     linkedin: "",
     x: "",
   },
   handles: {
-    github: "@messi10istheGoat",
+    github: "@rihadev",
     linkedin: "",
   },
   hero: {

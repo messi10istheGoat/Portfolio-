@@ -3,6 +3,7 @@ import { getGithubData } from "@/lib/github";
 import { ContributionGraph } from "@/components/github/ContributionGraph";
 import { Reveal, SectionHeading } from "@/components/ui/Motion";
 import { GithubIcon } from "@/components/ui/BrandIcons";
+import { projects } from "@/data/projects";
 
 const languageDot: Record<string, string> = {
   TypeScript: "#3178c6",
@@ -15,10 +16,10 @@ export async function GithubActivity() {
   const data = await getGithubData();
 
   const stats = [
-    { label: "TOTAL CONTRIBUTIONS", value: data.totals.contributions.toLocaleString() },
-    { label: "PUBLIC REPOSITORIES", value: data.totals.repositories.toLocaleString() },
-    { label: "FOLLOWERS", value: data.totals.followers.toLocaleString() },
-    { label: "LONGEST STREAK (DAYS)", value: data.totals.streak.toLocaleString() },
+    { label: "Public repositories", value: data.totals.repositories.toLocaleString() },
+    { label: "Projects shown here", value: String(projects.length) },
+    { label: "Longest streak (days)", value: data.totals.streak.toLocaleString() },
+    { label: "Contributions (sample)", value: data.totals.contributions.toLocaleString() },
   ];
 
   return (
@@ -32,8 +33,8 @@ export async function GithubActivity() {
           <div className="lg:col-span-5">
             <Reveal delay={0.1} className="space-y-4 lg:text-right">
               <p className="body-copy ml-auto max-w-[44ch] text-[15px]">
-                Commits, repositories, and streaks. Fetched live from the GitHub API when a token is
-                configured — otherwise the labelled sample below.
+                A new account, shipped in bursts. The repositories below are real; the graph is
+                illustrative until a GitHub token is connected.
               </p>
               <span
                 className="inline-flex items-center gap-2 border px-2.5 py-1.5 font-sans text-[13px]"
@@ -103,12 +104,13 @@ export async function GithubActivity() {
                   <span className="font-mono text-[13px] text-fog">Repository highlights</span>
                 </div>
                 <div className="flex-1 divide-y divide-white/10">
-                  {data.repos.map((repo, index) => (
+                  {data.repos.slice(0, 5).map((repo, index) => (
                     <a
                       key={repo.name}
-                      href={data.profileUrl}
+                      href={repo.url}
                       target="_blank"
                       rel="noreferrer noopener"
+                      aria-label={`${repo.name} on GitHub (opens in a new tab)`}
                       data-cursor="open"
                       className="group flex flex-col gap-1.5 p-4 transition-colors hover:bg-white/[0.035]"
                     >
@@ -116,9 +118,11 @@ export async function GithubActivity() {
                         <span className="min-w-0 break-words font-mono text-[14px] leading-snug text-bone transition-colors group-hover:text-accent">
                           <span className="text-fog/60">0{index + 1} /</span> {repo.name}
                         </span>
-                        <span className="inline-flex shrink-0 items-center gap-1 font-mono text-[13px] text-fog">
-                          <Star className="h-2.5 w-2.5" /> {repo.stars}
-                        </span>
+                        {repo.stars > 0 && (
+                          <span className="inline-flex shrink-0 items-center gap-1 font-mono text-[13px] text-fog">
+                            <Star className="h-2.5 w-2.5" /> {repo.stars}
+                          </span>
+                        )}
                       </div>
                       <p className="line-clamp-2 font-sans text-[14px] leading-relaxed text-ash">
                         {repo.description}
