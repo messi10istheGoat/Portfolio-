@@ -27,12 +27,12 @@ export const profile = {
    */
   socials: {
     github: "https://github.com/rihadev",
-    linkedin: "",
+    linkedin: "https://www.linkedin.com/in/riha-begum",
     x: "",
   },
   handles: {
     github: "@rihadev",
-    linkedin: "",
+    linkedin: "in/riha-begum",
   },
   hero: {
     lines: ["BUILDING", "BEYOND", "THE ORDINARY."],
