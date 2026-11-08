@@ -6,6 +6,15 @@
    ============================================================ */
 
 :root {
+  /* ---------- theme-aware surface tokens ----------
+     Every surface colour in the UI resolves through these, so a mode change
+     is a variable swap rather than a second stylesheet. `--edge` is the same
+     channel written as R,G,B so utilities can apply their own alpha.
+
+     Note the deliberate inversion of `--paper` vs `--bone`: `bone` is the
+     "ink-on-surface" foreground and `paper` is the surface itself. In dark
+     mode paper is near-black and bone is off-white; in light mode they swap.
+     Any new component that uses these two names keeps working in both. */
   --ink: #08090c;
   --ink-2: #0d0f13;
   --panel: #12151a;
@@ -16,7 +25,53 @@
   --bone: #f4f4f5;
   --ash: #a1a1aa;
   --fog: #71717a;
+  --paper: #08090c;
+  --paper-deep: #05060a;
   --glass: rgba(255, 255, 255, 0.045);
+
+  /* Edge = hairlines, borders, dividers. Written as a channel triplet so
+     `border-white/10` in Tailwind resolves through it (Tailwind v4 exposes
+     --color-white, which we repoint at --edge below). */
+  --edge: 255, 255, 255;
+  --glass-gradient: linear-gradient(
+    155deg,
+    rgba(255, 255, 255, 0.062) 0%,
+    rgba(255, 255, 255, 0.026) 42%,
+    rgba(255, 255, 255, 0.012) 100%
+  );
+  --glass-strong-gradient: linear-gradient(
+    160deg,
+    rgba(23, 27, 34, 0.92) 0%,
+    rgba(13, 15, 19, 0.86) 60%,
+    rgba(8, 9, 12, 0.92) 100%
+  );
+  --shadow-glass: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 32px 80px -40px rgba(0, 0, 0, 1);
+  --shadow-soft: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 24px 60px -32px rgba(0, 0, 0, 0.9);
+  --grid-line: rgba(255, 255, 255, 0.045);
+  --grid-line-sm: rgba(255, 255, 255, 0.035);
+  --noise-opacity: 0.035;
+  --hairline-sheen: rgba(255, 255, 255, 0.07);
+  /* Float shadow for sticky chrome. Written as a variable because a black
+     drop shadow is invisible-to-muddy on paper. */
+  --shadow-float: 0 20px 60px -30px rgba(0, 0, 0, 0.55);
+  --scroll-track: #08090c;
+  --scroll-thumb: #2b2f38;
+
+  /* Hero chrome sphere. In dark mode it is a bright metal ball against the
+     ink; in light mode it becomes a pale ceramic ball so it still reads as a
+     specular object rather than a hole in the page. */
+  --chrome-fill: radial-gradient(
+    circle at 32% 24%,
+    #f7f8fb 0%,
+    #b9c0cc 16%,
+    #666f7e 44%,
+    #23272f 72%,
+    #101216 100%
+  );
+  --chrome-shade: inset -18px -24px 48px rgba(0, 0, 0, 0.85),
+    inset 12px 12px 32px rgba(255, 255, 255, 0.25),
+    0 40px 80px -30px rgba(0, 0, 0, 0.9), 0 0 60px rgba(var(--accent-rgb), 0.16);
+  --chrome-specular: rgba(255, 255, 255, 0.6);
 
   /* accent system — electric blue default */
   --accent: #668cff;
@@ -25,6 +80,9 @@
   --accent-rgb: 102, 140, 255;
   --accent-ink: #08090c;
   --lime: #c6f36a;
+  /* Amber used for "draft / unverified" flags. 11.8:1 on ink; the light
+     override is deepened because 1.5:1 on paper is unreadable. */
+  --amber: #febc2e;
 
   /* ---------- type scale ----------
      One authoritative scale. Nothing in the UI may render below 12px, and
@@ -62,6 +120,112 @@ html[data-accent="violet"] {
   --accent-rgb: 167, 139, 250;
 }
 
+/* ============================================================
+   LIGHT MODE
+   The accent palette is shared, but every accent is deepened here: the same
+   hue at the same lightness is unreadable as text on paper, so `--accent`
+   becomes the "text-safe" value while `--accent-bright` stays vivid for
+   fills and glows.
+   ============================================================ */
+html[data-theme="light"] {
+  --ink: #f6f4ef;
+  --ink-2: #efede6;
+  --panel: #ffffff;
+  --elevated: #faf8f3;
+  --line: #d7d3c8;
+  --line-soft: rgba(20, 18, 14, 0.13);
+  --line-glass: rgba(20, 18, 14, 0.16);
+  --bone: #14120e;
+  --ash: #4a463d;
+  /* #6f6a5e cleared paper and panel but only reached 4.44:1 on --paper-deep,
+     which is where dense mono meta sits. One shade darker clears all three. */
+  --fog: #6b6659;
+  --paper: #f6f4ef;
+  --paper-deep: #ece9e1;
+  --glass: rgba(20, 18, 14, 0.035);
+
+  --edge: 20, 18, 14;
+  --glass-gradient: linear-gradient(
+    155deg,
+    rgba(255, 255, 255, 0.9) 0%,
+    rgba(252, 251, 248, 0.62) 42%,
+    rgba(246, 244, 239, 0.4) 100%
+  );
+  --glass-strong-gradient: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.97) 0%,
+    rgba(250, 248, 243, 0.95) 60%,
+    rgba(244, 241, 234, 0.98) 100%
+  );
+  --shadow-glass: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 30px 70px -44px rgba(60, 50, 30, 0.4);
+  --shadow-soft: inset 0 1px 0 rgba(255, 255, 255, 0.85), 0 22px 50px -34px rgba(60, 50, 30, 0.32);
+  --grid-line: rgba(20, 18, 14, 0.07);
+  --grid-line-sm: rgba(20, 18, 14, 0.055);
+  --noise-opacity: 0.022;
+  --hairline-sheen: rgba(20, 18, 14, 0.05);
+  --shadow-float: 0 20px 60px -34px rgba(74, 66, 50, 0.35);
+  --scroll-track: #ece9e1;
+  --scroll-thumb: #c3bdb0;
+
+  /* Same object, lit for paper: bone-white body with a warm shadow side. */
+  --chrome-fill: radial-gradient(
+    circle at 32% 24%,
+    #ffffff 0%,
+    #f4f1e9 18%,
+    #d9d3c6 46%,
+    #b0a999 74%,
+    #8b8478 100%
+  );
+  --chrome-shade: inset -18px -24px 48px rgba(74, 66, 50, 0.4),
+    inset 12px 12px 32px rgba(255, 255, 255, 0.95),
+    0 40px 80px -34px rgba(74, 66, 50, 0.42), 0 0 60px rgba(var(--accent-rgb), 0.14);
+  --chrome-specular: rgba(255, 255, 255, 0.95);
+
+  /* Accent ink stays dark: primary buttons keep dark text on a bright fill. */
+  /* Every light-mode accent fill is deep enough that white wins as the label
+     colour: blue 5.7:1, lime 5.6:1, cyan 6.0:1, violet 6.1:1. The dark-mode
+     palette keeps `--accent-ink: #08090c` because those fills are bright. */
+  --accent-ink: #ffffff;
+
+  /* Status colours. These are not accent swatches, so they must be readable
+     under *every* accent: at their dark-mode values lime is 1.16:1 and amber
+     1.53:1 on paper — effectively invisible. The lime accent re-declares
+     `--lime` below at the same value, which is intentional. */
+  --amber: #8a5b00;
+  --lime: #4d730f;
+}
+
+html[data-theme="light"][data-accent="blue"] {
+  --accent: #3b5bd9;
+  --accent-bright: #5b78f0;
+  --accent-deep: #2b45ad;
+  --accent-rgb: 59, 91, 217;
+}
+html[data-theme="light"][data-accent="lime"] {
+  --accent: #4d730f;
+  --accent-bright: #6b9a1c;
+  --accent-deep: #3d5c0c;
+  --accent-rgb: 77, 115, 15;
+  --lime: #4d730f;
+}
+html[data-theme="light"][data-accent="cyan"] {
+  --accent: #0a6d7a;
+  --accent-bright: #108494;
+  --accent-deep: #085661;
+  --accent-rgb: 10, 109, 122;
+}
+html[data-theme="light"][data-accent="violet"] {
+  --accent: #6b46d6;
+  --accent-bright: #8763ea;
+  --accent-deep: #5434ab;
+  --accent-rgb: 107, 70, 214;
+}
+
+html[data-theme="light"] ::selection {
+  background: var(--accent);
+  color: #ffffff;
+}
+
 @theme inline {
   --color-ink: var(--ink);
   --color-ink-2: var(--ink-2);
@@ -76,6 +240,13 @@ html[data-accent="violet"] {
   --color-accent-bright: var(--accent-bright);
   --color-accent-deep: var(--accent-deep);
   --color-lime: var(--lime);
+  --color-amber: var(--amber);
+  --color-paper: var(--paper);
+  --color-paper-deep: var(--paper-deep);
+  /* Repointing `white` at the edge channel is what makes ~400 existing
+     `white/<alpha>` utilities theme-aware without touching a component. */
+  --color-white: rgb(var(--edge));
+  --color-edge: rgb(var(--edge));
   --font-display: var(--font-space-grotesk), "Space Grotesk", "Arial Black", sans-serif;
   --font-sans: var(--font-inter), Inter, ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-jetbrains), "JetBrains Mono", ui-monospace, monospace;
@@ -88,6 +259,7 @@ html[data-accent="violet"] {
 html {
   scroll-behavior: smooth;
   background: var(--ink);
+  transition: background-color 0.5s var(--ease-out);
   -webkit-text-size-adjust: 100%;
 }
 
@@ -118,11 +290,11 @@ body {
   height: 10px;
 }
 ::-webkit-scrollbar-track {
-  background: #08090c;
+  background: var(--scroll-track);
 }
 ::-webkit-scrollbar-thumb {
-  background: #2b2f38;
-  border: 2px solid #08090c;
+  background: var(--scroll-thumb);
+  border: 2px solid var(--scroll-track);
 }
 ::-webkit-scrollbar-thumb:hover {
   background: var(--accent-deep);
@@ -189,7 +361,7 @@ body {
 }
 .text-outline {
   color: transparent;
-  -webkit-text-stroke: 1px rgba(244, 244, 245, 0.34);
+  -webkit-text-stroke: 1px rgba(var(--edge), 0.34);
 }
 .text-outline-accent {
   color: transparent;
@@ -208,33 +380,19 @@ body {
 }
 
 .glass {
-  background-image: linear-gradient(
-    155deg,
-    rgba(255, 255, 255, 0.062) 0%,
-    rgba(255, 255, 255, 0.026) 42%,
-    rgba(255, 255, 255, 0.012) 100%
-  );
+  background-image: var(--glass-gradient);
   border: 1px solid var(--line-soft);
   backdrop-filter: blur(20px) saturate(130%);
   -webkit-backdrop-filter: blur(20px) saturate(130%);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.08),
-    0 24px 60px -32px rgba(0, 0, 0, 0.9);
+  box-shadow: var(--shadow-soft);
 }
 
 .glass-strong {
-  background-image: linear-gradient(
-    160deg,
-    rgba(23, 27, 34, 0.92) 0%,
-    rgba(13, 15, 19, 0.86) 60%,
-    rgba(8, 9, 12, 0.92) 100%
-  );
+  background-image: var(--glass-strong-gradient);
   border: 1px solid var(--line-glass);
   backdrop-filter: blur(28px) saturate(140%);
   -webkit-backdrop-filter: blur(28px) saturate(140%);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.1),
-    0 32px 80px -40px rgba(0, 0, 0, 1);
+  box-shadow: var(--shadow-glass);
 }
 
 .glass-hairline {
@@ -248,7 +406,7 @@ body {
   background-image: linear-gradient(
     115deg,
     transparent 30%,
-    rgba(255, 255, 255, 0.07) 48%,
+    var(--hairline-sheen) 48%,
     transparent 62%
   );
   opacity: 0;
@@ -273,19 +431,19 @@ body {
 /* ---------- texture / environment ---------- */
 .grid-field {
   background-image:
-    linear-gradient(to right, rgba(255, 255, 255, 0.045) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
   background-size: 88px 88px;
 }
 .grid-field-sm {
   background-image:
-    linear-gradient(to right, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+    linear-gradient(to right, var(--grid-line-sm) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line-sm) 1px, transparent 1px);
   background-size: 32px 32px;
 }
 .noise-layer {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
-  opacity: 0.035;
+  opacity: var(--noise-opacity);
 }
 .radial-bleed {
   background: radial-gradient(
@@ -342,7 +500,7 @@ body {
   border-color: var(--accent-bright);
 }
 .btn-ghost {
-  background: rgba(255, 255, 255, 0.02);
+  background: rgba(var(--edge), 0.025);
 }
 .btn .arrow {
   transition: transform 0.4s var(--ease-out);
@@ -375,7 +533,8 @@ body {
   height: 6px;
   border-radius: 999px;
   background: var(--lime);
-  box-shadow: 0 0 0 3px rgba(198, 243, 106, 0.14);
+  /* Halo derives from --lime so it follows the theme's lime value. */
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--lime) 16%, transparent);
   animation: pulse-dot 2.6s ease-in-out infinite;
 }
 @keyframes pulse-dot {
@@ -421,8 +580,8 @@ body {
 .scan-line {
   background: repeating-linear-gradient(
     to bottom,
-    rgba(255, 255, 255, 0.032) 0px,
-    rgba(255, 255, 255, 0.032) 1px,
+    rgba(var(--edge), 0.032) 0px,
+    rgba(var(--edge), 0.032) 1px,
     transparent 1px,
     transparent 4px
   );
@@ -443,7 +602,7 @@ body {
 .sheen {
   position: absolute;
   inset: 0;
-  background: linear-gradient(110deg, transparent 32%, rgba(255, 255, 255, 0.11) 50%, transparent 68%);
+  background: linear-gradient(110deg, transparent 32%, rgba(var(--edge), 0.11) 50%, transparent 68%);
   transform: translateX(-120%);
   transition: transform 0.9s var(--ease-out);
   pointer-events: none;

@@ -1,15 +1,30 @@
 # Riha Begum — Portfolio
 
-A dark, editorial portfolio for a full-stack developer: hand-built interface
+A dark-first editorial portfolio for a full-stack developer: hand-built interface
 mockups, case studies, a live GitHub contribution graph, an interactive terminal,
-a command palette, and four switchable accent themes.
+and a command palette. Ships with a **light/dark toggle** and four switchable
+accent colours, both pinned to a fixed rail on the right edge of the viewport
+(on mobile they move into the menu).
 
 The case studies describe real, shipped work — **Spendwise** (offline-first
 personal finance), **Sylhet Live** (crowdsourced monsoon hazard map with
-vehicle-aware routing), **DroidMatrix** (Android fleet console), **Kinetic Type**,
-**Bookora** and **Storefront**. Every stack listed is read from the project's own
+vehicle-aware routing), **Fresh Mart**, **Budget Tracker**, **ChronoClock** and
+**User Management**. Every stack listed is read from the project's own
 `package.json`; no performance numbers are claimed that cannot be verified from
 the repository.
+
+## Theming
+
+Dark is the default. `ThemeProvider` and `AccentProvider` share one shape: a
+value kept outside React, applied as a `data-` attribute on `<html>`, seeded
+before first paint by an inline script so there is no flash of the wrong theme.
+
+Every surface colour resolves through a token in `globals.css`, so a mode change
+is a variable swap rather than a second stylesheet. The key lever is
+`--color-white: rgb(var(--edge))` inside `@theme inline`: `--edge` is
+`255,255,255` in dark mode and `20,18,14` in light, which makes ~400 existing
+`white/<alpha>` utilities follow the theme without touching a component. Hero
+and project artwork invert with it (see `--chrome-fill`).
 
 Built with **Next.js 16 (App Router) · React 19 · TypeScript · Tailwind CSS 4 ·
 Framer Motion · Drizzle ORM · PostgreSQL**.
@@ -75,8 +90,8 @@ src/
 │  ├─ hero/                    Hero + animated signature object
 │  ├─ sections/                One file per home-page section
 │  ├─ projects/                Hand-built CSS/SVG product mockups
-│  ├─ site/                    Navigation, footer, command palette, cursor
-│  ├─ providers/               Accent theme store
+│  ├─ site/                    Navigation, footer, palette, cursor, theme rail
+│  ├─ providers/               Theme + accent stores (pre-paint bootstrap)
 │  └─ ui/                      Motion primitives, magnetic wrapper, icons
 ├─ data/                       All copy and content lives here
 ├─ lib/                        GitHub, résumé generator, site URL, utils

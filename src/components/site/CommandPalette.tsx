@@ -277,7 +277,7 @@ export function CommandPalette() {
           <button
             type="button"
             aria-label="Close command palette"
-            className="absolute inset-0 cursor-default bg-[rgba(4,5,7,0.72)] backdrop-blur-md"
+            className="absolute inset-0 cursor-default bg-[color-mix(in_srgb,var(--paper)_78%,transparent)] backdrop-blur-md"
             onClick={close}
             tabIndex={-1}
           />
@@ -387,7 +387,7 @@ export function CommandPalette() {
               })}
             </div>
 
-            <div className="flex items-center justify-between gap-3 border-t border-white/10 bg-black/20 px-4 py-2.5">
+            <div className="flex items-center justify-between gap-3 border-t border-white/10 bg-white/[0.03] px-4 py-2.5">
               <div className="flex items-center gap-3 font-mono text-[12px] text-fog">
                 <span>↑↓ NAVIGATE</span>
                 <span className="hidden sm:inline">↵ EXECUTE</span>

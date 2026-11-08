@@ -388,7 +388,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
             ))}
 
             <Reveal delay={0.1} className="pt-4">
-              <div className="overflow-hidden border border-white/12 bg-[#08090c]">
+              <div className="overflow-hidden border border-white/12 bg-paper-deep">
                 <div className="flex items-center justify-between border-b border-white/10 bg-white/[0.03] px-3 py-2">
                   <span className="font-mono text-[14px] text-ash">{caseStudy.code.filename}</span>
                   <span className="font-mono text-[14px] text-fog">
@@ -471,7 +471,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
       </div>
 
       {/* next projects */}
-      <section className="border-t border-white/10 bg-[#0a0b0f]">
+      <section className="border-t border-white/10 bg-paper-deep">
         <div className="shell py-12">
           <div className="flex items-center justify-between">
             <p className="font-mono text-[14px] text-fog">NEXT CASE STUDIES</p>

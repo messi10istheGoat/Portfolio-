@@ -39,7 +39,7 @@ export async function GithubActivity() {
               <span
                 className="inline-flex items-center gap-2 border px-2.5 py-1.5 font-sans text-[13px]"
                 style={{
-                  borderColor: data.live ? "rgba(198,243,106,0.4)" : "rgba(255,255,255,0.12)",
+                  borderColor: data.live ? "rgba(198,243,106,0.4)" : "rgba(var(--edge),0.12)",
                   color: data.live ? "#c6f36a" : "#a1a1aa",
                 }}
               >

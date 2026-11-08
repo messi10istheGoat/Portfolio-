@@ -46,21 +46,23 @@ export function CustomCursor() {
       stateRef.current = next;
       if (labelChanged) label.textContent = text;
 
+      // Mixed against the page tokens rather than hardcoded white: on paper the
+      // cursor has to read as ink, not as a lighter-than-white smudge.
       if (next === "label") {
         ring.style.width = "82px";
         ring.style.height = "82px";
-        ring.style.backgroundColor = "rgba(8,9,12,0.82)";
-        ring.style.borderColor = "rgba(255,255,255,0.5)";
+        ring.style.backgroundColor = "color-mix(in srgb, var(--paper) 82%, transparent)";
+        ring.style.borderColor = "rgba(var(--edge),0.5)";
       } else if (next === "hover") {
         ring.style.width = "52px";
         ring.style.height = "52px";
-        ring.style.backgroundColor = "rgba(255,255,255,0.06)";
-        ring.style.borderColor = "rgba(255,255,255,0.55)";
+        ring.style.backgroundColor = "rgba(var(--edge),0.06)";
+        ring.style.borderColor = "rgba(var(--edge),0.55)";
       } else {
         ring.style.width = "30px";
         ring.style.height = "30px";
         ring.style.backgroundColor = "transparent";
-        ring.style.borderColor = "rgba(244,244,245,0.38)";
+        ring.style.borderColor = "rgba(var(--edge),0.38)";
       }
       label.style.opacity = next === "label" ? "1" : "0";
       dot.style.opacity = next === "label" ? "0" : "1";
@@ -151,7 +153,7 @@ export function CustomCursor() {
       <div
         ref={ringRef}
         className="fixed left-0 top-0 flex h-[30px] w-[30px] items-center justify-center rounded-full border opacity-0 backdrop-blur-[2px] transition-[width,height,background-color,border-color,opacity] duration-300 ease-out"
-        style={{ willChange: "transform", borderColor: "rgba(244,244,245,0.38)" }}
+        style={{ willChange: "transform", borderColor: "rgba(var(--edge),0.38)" }}
       >
         <span
           ref={labelRef}
