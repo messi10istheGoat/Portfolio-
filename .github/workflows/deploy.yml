@@ -98,6 +98,8 @@ jobs:
           NEXT_PUBLIC_SITE_URL: ${{ steps.site.outputs.url }}
           # Optional: real contribution graph when a token exists.
           GITHUB_TOKEN: ${{ secrets.GH_ACTIVITY_TOKEN }}
+          # Defaults to rihadev in code; leave the repo variable unset rather
+          # than empty, so the fallback account is used.
           GITHUB_USERNAME: ${{ vars.GITHUB_USERNAME }}
         run: npm run build:static
 
