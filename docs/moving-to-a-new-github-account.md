@@ -189,17 +189,20 @@ Portfolio: https://messi10isthegoat.github.io/Portfolio-
 Generated ... from messi10isthegoat.github.io/Portfolio-
 ```
 
-It reads `siteUrl` and `profile.socials.github`, so after updating `site.ts` and
-(if you're changing handles) `src/data/profile.ts`, run:
+The CV is **no longer generated from site data** — it is a hand-authored
+document committed at `public/resume.pdf`, and the build copies it unchanged
+rather than overwriting it. So nothing regenerates these strings automatically:
+if you want the new owner's URLs on the CV, edit the source document (Word),
+re-export it, and replace `public/resume.pdf`.
 
 ```bash
-npm run resume
-git commit -am "chore: regenerate résumé for new owner"
+cp /path/to/Riha-Begum-CV.pdf public/resume.pdf
+git commit -am "chore: update CV for new owner"
 ```
 
-This is easy to miss because nothing *breaks* — the PDF just keeps advertising
-the old account. It is regenerated automatically during `npm run build:static`,
-so the deployed copy fixes itself; only the committed file goes stale.
+This is cosmetic, not a breakage — the site and the CV link keep working either
+way. It only matters if you care that the document itself still names the old
+GitHub account.
 
 ---
 
@@ -276,6 +279,7 @@ every script.
 3. Re-enable Pages → GitHub Actions; run the deploy workflow.
 4. Re-create variables (`GITHUB_USERNAME`), secrets (`GH_ACTIVITY_TOKEN`), and
    branch protection.
-5. Update `src/lib/site.ts` fallback + README line, then `npm run resume`.
+5. Update `src/lib/site.ts` fallback + README line. Replace `public/resume.pdf`
+   only if you want the CV to name the new account.
 6. `git remote set-url origin …`.
 7. Leave the two project links alone unless you move those repos too.

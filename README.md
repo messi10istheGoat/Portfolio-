@@ -63,7 +63,6 @@ when it isn't.
 | `npm run typecheck`   | `tsc --noEmit`                                                     |
 | `npm run lint`        | ESLint (Next core-web-vitals + React hooks rules)                  |
 | `npm run check`       | Typecheck → lint → build, in one go                                |
-| `npm run resume`      | Regenerate `public/resume.pdf` from the site data                  |
 | `npm run db:push`     | Push the Drizzle schema to PostgreSQL                              |
 | `npm run db:studio`   | Browse the database in Drizzle Studio                              |
 
@@ -78,7 +77,7 @@ src/
 │  ├─ work/[slug]/page.tsx     Case studies (SSG, one per project)
 │  ├─ api/
 │  │  ├─ contact/route.ts      Contact intake: Postgres → webhook → graceful 503
-│  │  ├─ resume/route.ts       On-demand résumé PDF
+│  │  ├─ resume/route.ts       Serves the hand-authored CV PDF
 │  │  └─ health/route.ts       Liveness + database probe
 │  ├─ feed.xml/route.ts        Case studies as RSS
 │  ├─ llms.txt/route.ts        Machine-readable site summary
@@ -94,13 +93,18 @@ src/
 │  ├─ providers/               Theme + accent stores (pre-paint bootstrap)
 │  └─ ui/                      Motion primitives, magnetic wrapper, icons
 ├─ data/                       All copy and content lives here
-├─ lib/                        GitHub, résumé generator, site URL, utils
+├─ lib/                        GitHub, site URL, utils
 └─ db/                         Drizzle schema + lazy connection pool
 ```
 
-**Everything editable lives in `src/data/`.** Change your name, projects,
+**The CV is the one exception.** `public/resume.pdf` is the authored document
+itself, served byte-for-byte by both `/api/resume` and the static export. To
+update it, replace that file. Nothing regenerates it, so a deploy can never
+overwrite it.
+
+**Everything else editable lives in `src/data/`.** Change your name, projects,
 skills, or experience there and every surface — pages, metadata, structured
-data, RSS, and the PDF résumé — updates together.
+data, RSS and structured data — updates together.
 
 ---
 
@@ -119,7 +123,8 @@ publishes it on every push to `main`.
 Because the site is static in this mode:
 
 - the contact form composes a prefilled email (`mailto:`) instead of POSTing;
-- the résumé is served from the build-time generated `public/resume.pdf`;
+- the CV is served from `public/resume.pdf`, which is a hand-authored document
+  committed to the repo (not generated — builds never overwrite it);
 - the GitHub contribution graph renders from the API at build time (nightly
   rebuild keeps it fresh) or falls back to clearly-labelled sample data.
 

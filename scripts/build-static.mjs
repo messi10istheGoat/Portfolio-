@@ -39,10 +39,9 @@ try {
   stashed = stashApiRoutes();
   if (stashed) console.log("• API routes moved aside for static export");
 
-  execFileSync(process.execPath, ["scripts/generate-resume.mjs"], {
-    cwd: root,
-    stdio: "inherit",
-  });
+  // The résumé at public/resume.pdf is a hand-authored CV and is committed
+  // as-is. It is deliberately NOT generated during the build: a generator
+  // here would silently overwrite the author's own document on every deploy.
 
   execFileSync(resolve(root, "node_modules/.bin/next"), ["build"], {
     cwd: root,

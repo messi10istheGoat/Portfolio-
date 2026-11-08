@@ -38,5 +38,5 @@ GitHub Pages serves static files only, so:
 
 - `POST /api/contact` does not exist. The contact form opens a prefilled email
   instead (the same endpoint behaves normally on Vercel).
-- The résumé is the build-time `public/resume.pdf`.
+- The CV is `public/resume.pdf`, committed as-is. The build copies it; it never regenerates it.
 - GitHub activity is refreshed by the nightly cron rebuild.
