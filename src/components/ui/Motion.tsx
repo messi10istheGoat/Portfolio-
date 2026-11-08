@@ -152,15 +152,14 @@ export function SectionHeading({
         )}
       >
         <span className="mono border border-line px-2.5 py-1.5 text-bone">{index}</span>
-        <span className="mono text-accent">/ {code}</span>
-        <span className="hidden h-px w-16 bg-line sm:block" aria-hidden />
+        <span className="mono text-accent">{code}</span>
       </div>
       <SplitLines
         as="h2"
         id={id}
         lines={title}
         className={cn(
-          "text-[clamp(2.6rem,8.4vw,7.4rem)]",
+          "text-[clamp(2.2rem,6.4vw,5rem)]",
           align === "right" && "text-right",
         )}
       />

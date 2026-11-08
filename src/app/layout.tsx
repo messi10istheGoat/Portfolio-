@@ -96,7 +96,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <AccentProvider>
           <a
             href="#main"
-            className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[120] focus:border focus:border-accent focus:bg-ink focus:px-4 focus:py-2 focus:font-mono focus:text-[10px] focus:uppercase focus:tracking-widest focus:text-accent"
+            className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[120] focus:border focus:border-accent focus:bg-ink focus:px-4 focus:py-2 focus:font-mono focus:text-[14px] focus:uppercase focus:tracking-widest focus:text-accent"
           >
             Skip to main content
           </a>

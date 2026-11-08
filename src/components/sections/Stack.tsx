@@ -21,12 +21,11 @@ export function Stack() {
           </div>
           <div className="lg:col-span-5">
             <Reveal delay={0.1} className="space-y-4 lg:text-right">
-              <p className="body-copy ml-auto max-w-[42ch] text-sm">
-                {total} technologies, grouped by the layer of the stack they own. Each one is marked by how
-                I work with it — core, strong, or working — and what it is actually good at.
+              <p className="body-copy ml-auto max-w-[44ch] text-[15px]">
+                {total} tools, grouped by the layer of the stack they own. The bars show depth of use.
               </p>
               <div className="flex flex-wrap gap-3 lg:justify-end">
-                <span className="mono-sm flex items-center gap-2 border border-white/10 px-2.5 py-1.5 text-[8px] text-fog">
+                <span className="flex items-center gap-2 border border-white/10 px-2.5 py-1.5 font-mono text-[13px] text-fog">
                   <span className="flex gap-0.5">
                     {[0, 1, 2, 3].map((i) => (
                       <span key={i} className="h-2 w-1 bg-accent" />
@@ -34,7 +33,7 @@ export function Stack() {
                   </span>
                   CORE
                 </span>
-                <span className="mono-sm flex items-center gap-2 border border-white/10 px-2.5 py-1.5 text-[8px] text-fog">
+                <span className="flex items-center gap-2 border border-white/10 px-2.5 py-1.5 font-mono text-[13px] text-fog">
                   <span className="flex gap-0.5">
                     {[0, 1, 2].map((i) => (
                       <span key={i} className="h-2 w-1 bg-white/40" />
@@ -43,7 +42,7 @@ export function Stack() {
                   </span>
                   STRONG
                 </span>
-                <span className="mono-sm flex items-center gap-2 border border-white/10 px-2.5 py-1.5 text-[8px] text-fog">
+                <span className="flex items-center gap-2 border border-white/10 px-2.5 py-1.5 font-mono text-[13px] text-fog">
                   <span className="flex gap-0.5">
                     {[0, 1].map((i) => (
                       <span key={i} className="h-2 w-1 bg-white/40" />
@@ -71,14 +70,14 @@ export function Stack() {
                   </span>
                   <div className="pt-1.5">
                     <h3 className="display-tight text-2xl text-bone sm:text-[1.75rem]">{category.title}</h3>
-                    <p className="mono-sm mt-2 text-[8px] text-fog">{category.items.length} ENTRIES</p>
+                    <p className="mt-2 font-mono text-[13px] text-fog">{category.items.length} tools</p>
                   </div>
                 </div>
-                <p className="body-copy mt-4 max-w-[32ch] text-sm">{category.caption}</p>
+                <p className="body-copy mt-4 max-w-[34ch] text-[15px]">{category.caption}</p>
                 <span className="mt-4 hidden h-px w-full bg-white/10 lg:block" aria-hidden />
               </div>
 
-              <Stagger className="grid grid-cols-2 gap-px bg-white/[0.07] sm:grid-cols-3 lg:col-span-8">
+              <Stagger className="grid grid-cols-1 gap-px bg-white/[0.07] sm:grid-cols-3 lg:col-span-8">
                 {category.items.map((item) => {
                   const meta = levelMeta[item.level];
                   return (
@@ -88,23 +87,15 @@ export function Stack() {
                         data-cursor="skill"
                       >
                         <span className="pointer-events-none absolute inset-x-0 top-0 h-px origin-left scale-x-0 bg-accent transition-transform duration-500 group-hover/tile:scale-x-100" />
-                        <div className="flex items-start justify-between">
-                          <span className="font-display text-lg leading-none text-ash transition-all duration-400 group-hover/tile:scale-110 group-hover/tile:text-accent">
-                            {item.glyph}
-                          </span>
-                          <span className="mono-sm text-[7px] text-fog/70">
-                            {category.index}.{String(category.items.indexOf(item) + 1).padStart(2, "0")}
-                          </span>
-                        </div>
-                        <p className="mt-6 font-display text-[13px] font-semibold uppercase tracking-[0.02em] text-bone">
+                        <p className="font-display text-[15px] font-semibold uppercase leading-tight tracking-[0.01em] text-bone transition-colors group-hover/tile:text-accent">
                           {item.name}
                         </p>
-                        <p className="mt-1 line-clamp-1 font-mono text-[9px] leading-relaxed text-fog transition-all duration-300 group-hover/tile:text-ash">
+                        <p className="mt-1.5 line-clamp-2 font-mono text-[13px] leading-relaxed text-fog transition-colors duration-300 group-hover/tile:text-ash">
                           {item.note}
                         </p>
                         <div className="mt-3 flex items-center justify-between">
-                          <span className="mono-sm flex items-center gap-1 text-[7px] text-fog">
-                            <span className="flex gap-0.5">
+                          <span className="flex min-w-0 items-center gap-2 font-mono text-[12px] leading-snug text-fog">
+                            <span className="flex gap-0.5" aria-hidden>
                               {[0, 1, 2, 3].map((bar) => (
                                 <span
                                   key={bar}
@@ -117,7 +108,6 @@ export function Stack() {
                             </span>
                             {meta.label}
                           </span>
-                          <span className="h-1 w-1 bg-white/15 transition-colors group-hover/tile:bg-accent" />
                         </div>
                       </div>
                     </StaggerItem>
@@ -135,7 +125,7 @@ export function Stack() {
                 {marqueeTech.map((tech) => (
                   <span
                     key={tech}
-                    className="mono-sm flex items-center gap-8 text-[9px] tracking-[0.24em] text-fog"
+                    className="mono-sm flex items-center gap-8 text-[14px] tracking-[0.04em] text-fog"
                   >
                     {tech}
                     <span className="text-accent/70">/</span>

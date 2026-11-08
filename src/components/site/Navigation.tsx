@@ -109,15 +109,17 @@ export function Navigation() {
             className="group flex items-center gap-3"
             aria-label={`${profile.name} — home`}
           >
-            <span className="relative grid h-9 w-9 place-items-center border border-white/25 bg-[rgba(255,255,255,0.045)]">
-              <span className="display text-[13px] tracking-[-0.02em] text-bone">{profile.monogram}</span>
+            <span className="relative grid h-10 w-10 place-items-center border border-white/25 bg-[rgba(255,255,255,0.045)]">
+              <span className="display text-[14px] tracking-[-0.02em] text-bone">{profile.monogram}</span>
               <span className="absolute -right-px -top-px h-1.5 w-1.5 bg-accent transition-transform duration-300 group-hover:scale-150" />
             </span>
             <span className="hidden leading-none sm:block">
-              <span className="block font-display text-[13px] font-semibold uppercase tracking-[0.04em] text-bone">
+              <span className="block font-display text-[14px] font-semibold uppercase tracking-[0.03em] text-bone">
                 {profile.name}
               </span>
-              <span className="mono-sm mt-1 block text-[9px] text-fog">{profile.role}</span>
+              <span className="mt-1.5 hidden font-mono text-[14px] uppercase tracking-[0.02em] text-fog xl:block">
+                {profile.role}
+              </span>
             </span>
           </Link>
 
@@ -132,7 +134,7 @@ export function Navigation() {
                   onClick={() => onSectionClick(link.id)}
                   aria-current={isActive ? "true" : undefined}
                   className={cn(
-                    "relative px-2.5 py-2 font-mono text-[10px] tracking-[0.14em] transition-colors duration-300 xl:px-3",
+                    "relative px-2.5 py-2.5 font-mono text-[14px] uppercase tracking-[0.04em] transition-colors duration-300 xl:px-3.5",
                     isActive ? "text-bone" : "text-fog hover:text-bone",
                   )}
                 >
@@ -161,7 +163,9 @@ export function Navigation() {
           <div className="flex items-center gap-1.5 sm:gap-2">
             <div className="mr-1 hidden items-center gap-1.5 border border-white/10 px-2.5 py-1.5 xl:flex">
               <span className="status-dot" aria-hidden />
-              <span className="mono-sm text-[8px] text-ash">AVAILABLE FOR OPPORTUNITIES</span>
+              <span className="font-mono text-[14px] uppercase tracking-[0.03em] text-ash">
+                OPEN TO WORK
+              </span>
             </div>
 
             <div className="hidden items-center gap-0.5 border border-white/10 p-0.5 sm:flex">
@@ -173,10 +177,10 @@ export function Navigation() {
                   title={`Accent — ${option.label}`}
                   aria-label={`Set accent colour to ${option.label}`}
                   aria-pressed={accent === option.key}
-                  className="grid h-5 w-5 place-items-center transition-transform hover:scale-110"
+                  className="grid h-7 w-7 place-items-center transition-transform hover:scale-110"
                 >
                   <span
-                    className={cn("block h-2.5 w-2.5 transition-all", accent === option.key && "ring-1 ring-white/70 ring-offset-2 ring-offset-[#0d0f13]")}
+                    className={cn("block h-3.5 w-3.5 transition-all", accent === option.key && "ring-1 ring-white/80 ring-offset-2 ring-offset-[#0d0f13]")}
                     style={{ backgroundColor: option.hex }}
                   />
                 </button>
@@ -190,9 +194,9 @@ export function Navigation() {
                 rel="noreferrer noopener"
                 aria-label="GitHub profile (opens in a new tab)"
                 data-cursor="open"
-                className="grid h-8 w-8 place-items-center border border-white/10 text-ash transition-colors hover:border-accent/60 hover:text-accent"
+                className="grid h-10 w-10 place-items-center border border-white/10 text-ash transition-colors hover:border-accent/60 hover:text-accent"
               >
-                <GithubIcon className="h-3.5 w-3.5" />
+                <GithubIcon className="h-4 w-4" />
               </a>
             </Magnetic>
             {profile.socials.linkedin && (
@@ -203,9 +207,9 @@ export function Navigation() {
                   rel="noreferrer noopener"
                   aria-label="LinkedIn profile (opens in a new tab)"
                   data-cursor="open"
-                  className="hidden h-8 w-8 place-items-center border border-white/10 text-ash transition-colors hover:border-accent/60 hover:text-accent sm:grid"
+                  className="hidden h-10 w-10 place-items-center border border-white/10 text-ash transition-colors hover:border-accent/60 hover:text-accent sm:grid"
                 >
-                  <LinkedinIcon className="h-3.5 w-3.5" />
+                  <LinkedinIcon className="h-4 w-4" />
                 </a>
               </Magnetic>
             )}
@@ -213,22 +217,22 @@ export function Navigation() {
             <button
               type="button"
               onClick={openPalette}
-              className="flex h-8 items-center gap-1.5 border border-white/15 bg-white/[0.04] px-2.5 text-ash transition-colors hover:border-accent/60 hover:text-accent"
+              className="flex h-10 items-center gap-1.5 border border-white/15 bg-white/[0.04] px-2.5 text-ash transition-colors hover:border-accent/60 hover:text-accent"
               aria-label="Open command palette"
             >
-              <Command className="h-3.5 w-3.5" />
-              <span className="mono-sm hidden text-[8px] md:inline">K</span>
+              <Command className="h-4 w-4" />
+              <span className="hidden font-mono text-[14px] tracking-[0.02em] md:inline">⌘K</span>
             </button>
 
             <button
               type="button"
               onClick={() => setMenuOpen((open) => !open)}
-              className="grid h-8 w-8 place-items-center border border-white/15 text-bone lg:hidden"
+              className="grid h-10 w-10 place-items-center border border-white/15 text-bone lg:hidden"
               aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
               aria-expanded={menuOpen}
               aria-controls="mobile-nav"
             >
-              {menuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+              {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>
           </div>
         </div>
@@ -255,12 +259,12 @@ export function Navigation() {
                     initial={{ opacity: 0, y: 16 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.05 + index * 0.045, duration: 0.5 }}
-                    className="group flex items-baseline justify-between border-b border-white/10 py-4"
+                    className="group flex items-center justify-between gap-4 border-b border-white/10 py-3.5"
                   >
-                    <span className="display text-[11vw] leading-[0.9] text-bone transition-colors group-hover:text-accent sm:text-[8vw]">
+                    <span className="display text-[clamp(1.75rem,7.5vw,2.5rem)] leading-[1] text-bone transition-colors group-hover:text-accent">
                       {link.label}
                     </span>
-                    <span className="mono-sm text-fog">0{index + 1}</span>
+                    <span className="font-mono text-[14px] tabular-nums text-fog">0{index + 1}</span>
                   </motion.a>
                 ))}
               </nav>
@@ -271,25 +275,25 @@ export function Navigation() {
                     href={profile.socials.github}
                     target="_blank"
                     rel="noreferrer noopener"
-                    className="btn btn-ghost flex-1 justify-between py-3 text-[10px]"
+                    className="btn btn-ghost flex-1 justify-between"
                   >
-                    GITHUB <ArrowUpRight className="h-3.5 w-3.5" />
+                    GitHub <ArrowUpRight className="h-3.5 w-3.5" />
                   </a>
                   {profile.socials.linkedin && (
                     <a
                       href={profile.socials.linkedin}
                       target="_blank"
                       rel="noreferrer noopener"
-                      className="btn btn-ghost flex-1 justify-between py-3 text-[10px]"
+                      className="btn btn-ghost flex-1 justify-between"
                     >
-                      LINKEDIN <ArrowUpRight className="h-3.5 w-3.5" />
+                      LinkedIn <ArrowUpRight className="h-3.5 w-3.5" />
                     </a>
                   )}
                 </div>
-                <div className="flex items-center justify-between border border-white/10 p-3">
+                <div className="flex flex-wrap items-center justify-between gap-3 border border-white/10 p-3">
                   <div className="flex items-center gap-2">
                     <span className="status-dot" />
-                    <span className="mono-sm text-[9px] text-ash">{profile.availability.toUpperCase()}</span>
+                    <span className="font-mono text-[14px] tracking-[0.02em] text-ash">{profile.availability}</span>
                   </div>
                   <div className="flex gap-2">
                     {ACCENTS.map((option) => (
@@ -298,7 +302,8 @@ export function Navigation() {
                         type="button"
                         onClick={() => setAccent(option.key)}
                         aria-label={`Set accent colour to ${option.label}`}
-                        className="h-4 w-4"
+                        aria-pressed={accent === option.key}
+                        className="h-7 w-7"
                         style={{
                           backgroundColor: option.hex,
                           outline: accent === option.key ? "1px solid #fff" : "none",
@@ -308,7 +313,10 @@ export function Navigation() {
                     ))}
                   </div>
                 </div>
-                <a href={`mailto:${profile.email}`} className="mono block text-[10px] text-fog">
+                <a
+                  href={`mailto:${profile.email}`}
+                  className="block font-mono text-[14px] lowercase tracking-[0.01em] text-ash underline-offset-4 transition-colors hover:text-accent hover:underline"
+                >
                   {profile.email}
                 </a>
               </div>

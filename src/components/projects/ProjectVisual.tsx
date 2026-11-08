@@ -39,15 +39,15 @@ export function ProjectVisual({
         <div className="mx-2 flex h-4 flex-1 items-center border border-white/10 bg-black/30 px-2">
           <span className="mono-sm text-[6px] tracking-[0.14em] text-white/35">
             {kind === "dashboard"
-              ? "ledgerly.app/overview"
+              ? "spendwise.app/overview"
               : kind === "ai"
-                ? "synth.app/research"
+                ? "droidmatrix.app/agents"
                 : kind === "commerce"
-                  ? "formandfield.store/collection"
+                  ? "bookora.store/catalogue"
                   : kind === "terminal"
-                    ? "relay — capture --save"
+                    ? "sylhet-live — routemap"
                     : kind === "observability"
-                      ? "pulse.app/status"
+                      ? "storefront.app/orders"
                       : "kinetic.type/mode/02"}
           </span>
         </div>

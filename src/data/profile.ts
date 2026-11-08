@@ -14,7 +14,7 @@ export const profile = {
   email: "rihabegum.dev@gmail.com",
   phoneLabel: "REMOTE — WORLDWIDE",
   availability: "Available for opportunities",
-  availabilityShort: "OPEN TO WORK",
+  availabilityShort: "Open to work",
   /**
    * Static exports ship a pre-generated PDF in /public; server deployments
    * generate it on demand from the same source data.
@@ -51,42 +51,41 @@ export const profile = {
     philosophy: [
       {
         index: "01",
-        title: "STRUCTURE FIRST",
-        body: "Good products are legible before they are beautiful. Clear models, predictable state, honest interfaces.",
+        title: "Model before interface",
+        body: "Data shape first. Clear models and predictable state make the interface obvious instead of clever.",
       },
       {
         index: "02",
-        title: "DETAIL IS THE PRODUCT",
-        body: "Motion, focus states, empty states, error copy. The last 10% is where trust is built.",
+        title: "Edge cases are the product",
+        body: "Empty states, error copy, focus order, slow networks. That is where trust is actually built.",
       },
       {
         index: "03",
-        title: "SHIP, THEN REFINE",
-        body: "Momentum beats perfection. Instrument the release, learn from real usage, then tighten the system.",
+        title: "Ship, then tighten",
+        body: "Momentum beats polish. Release something real, watch how it is used, then remove what does not earn its place.",
       },
     ],
     interests: [
-      "INTERFACE ENGINEERING",
-      "SYSTEM ARCHITECTURE",
-      "DESIGN SYSTEMS",
-      "API DESIGN",
-      "MOTION DESIGN",
-      "DEVELOPER TOOLS",
+      "Interface Engineering",
+      "System Architecture",
+      "Design Systems",
+      "API Design",
+      "Motion Design",
+      "Developer Tools",
+
     ],
     currentFocus:
       "Currently exploring AI-assisted product surfaces, edge-rendered applications, and design-engineering workflows that keep interfaces fast under pressure.",
     facts: [
-      { label: "NAME", value: "RIHA BEGUM" },
-      { label: "ROLE", value: "FULL-STACK DEVELOPER" },
-      { label: "LOCATION", value: "BANGLADESH" },
-      { label: "FOCUS", value: "WEB APPLICATIONS" },
-      { label: "STATUS", value: "OPEN TO OPPORTUNITIES" },
+      { label: "Location", value: "Bangladesh" },
+      { label: "Focus", value: "Web applications" },
+      { label: "Status", value: "Open to work" },
     ],
     stats: [
-      { value: "4+", label: "YEARS ENGINEERING" },
-      { value: "24", label: "SHIPPED BUILDS" },
-      { value: "12", label: "TECHNOLOGIES" },
-      { value: "∞", label: "CURIOSITY" },
+      { value: "6", label: "Case studies" },
+      { value: "28", label: "Tools listed" },
+      { value: "Full-stack", label: "Focus" },
+      { value: "BD", label: "Based in" },
     ],
   },
   meta: {

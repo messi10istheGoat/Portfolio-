@@ -23,7 +23,7 @@ export const experience: ExperienceEntry[] = [
     index: "01",
     organization: "INDEPENDENT PROJECTS",
     position: "Full-Stack Developer",
-    period: "2025 — PRESENT",
+    period: "2025 — present",
     location: "REMOTE / BANGLADESH",
     summary:
       "Building end-to-end web products independently: data modelling, interface systems, and deployment — from an offline-first finance app to a civic GIS platform.",
@@ -63,4 +63,4 @@ export const experience: ExperienceEntry[] = [
 
 /** Shown under the timeline whenever any entry is still a draft. */
 export const experienceDisclaimer =
-  "Entries marked DRAFT are self-described project work rather than verified employment history. They are excluded from structured data and are never presented as a confirmed record.";
+  "Entries marked Draft are self-described project work, not verified employment history. They are left out of structured data and are never presented as a confirmed record.";

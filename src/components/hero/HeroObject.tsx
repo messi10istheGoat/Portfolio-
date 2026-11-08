@@ -63,12 +63,12 @@ export function HeroObject() {
       {/* structural frame */}
       <div className="absolute inset-0 border border-white/10" />
       <div className="absolute inset-x-0 top-0 flex justify-between">
-        <span className="mono-sm -mt-2 bg-ink pr-2 text-[8px] text-fog">OBJ / 001</span>
-        <span className="mono-sm -mt-2 bg-ink pl-2 text-[8px] text-fog">LIVE_RENDER</span>
+        <span className="mono-sm -mt-2 bg-ink pr-2 text-[14px] text-fog">OBJ / 001</span>
+        <span className="mono-sm -mt-2 bg-ink pl-2 text-[14px] text-fog">LIVE_RENDER</span>
       </div>
       <div className="absolute inset-x-0 bottom-0 flex justify-between">
-        <span className="mono-sm -mb-2 bg-ink pr-2 text-[8px] text-fog">GLASS × CHROME</span>
-        <span className="mono-sm -mb-2 bg-ink pl-2 text-[8px] text-accent">● ACTIVE</span>
+        <span className="mono-sm -mb-2 bg-ink pr-2 text-[14px] text-fog">GLASS × CHROME</span>
+        <span className="mono-sm -mb-2 bg-ink pl-2 text-[14px] text-accent">● ACTIVE</span>
       </div>
       <span className="absolute -left-px -top-px h-3 w-3 border-l border-t border-accent/70" />
       <span className="absolute -right-px -top-px h-3 w-3 border-r border-t border-accent/70" />
@@ -150,8 +150,8 @@ export function HeroObject() {
           >
             <div className="absolute inset-0 border border-white/25 bg-gradient-to-br from-white/[0.14] via-white/[0.04] to-transparent backdrop-blur-md" />
             <div className="absolute inset-x-0 top-0 flex items-center justify-between border-b border-white/20 px-2.5 py-1.5">
-              <span className="mono-sm text-[7px] text-white/80">STRUCTURE</span>
-              <span className="mono-sm text-[7px] text-accent">01</span>
+              <span className="font-mono text-[14px] text-white/80">STRUCTURE</span>
+              <span className="font-mono text-[14px] text-accent">01</span>
             </div>
             <div className="absolute inset-x-0 top-[12%] h-px bg-white/15" />
             <div className="absolute inset-x-0 top-[46%] h-px bg-white/10" />
@@ -162,7 +162,7 @@ export function HeroObject() {
                 <div className="h-1 w-8 bg-white/20" />
                 <div className="h-1 w-14 bg-accent/60" />
               </div>
-              <span className="mono-sm text-[7px] text-white/60">03–09</span>
+              <span className="font-mono text-[14px] text-white/60">03–09</span>
             </div>
             <div className="sheen absolute inset-0" />
           </div>
@@ -173,8 +173,8 @@ export function HeroObject() {
             style={{ transform: "translateZ(90px)" }}
           >
             <div className="flex items-center justify-between">
-              <span className="mono-sm text-[7px] text-white/70">DEPLOYS / 7D</span>
-              <span className="mono-sm text-[7px] text-lime">↑ 18%</span>
+              <span className="font-mono text-[14px] text-white/70">DEPLOYS / 7D</span>
+              <span className="font-mono text-[14px] text-lime">↑ 18%</span>
             </div>
             <div className="mt-2.5 flex h-12 items-end gap-[3px]">
               {[32, 48, 38, 66, 52, 78, 94, 62, 88, 70, 96, 100].map((height, index) => (
@@ -190,7 +190,7 @@ export function HeroObject() {
                 />
               ))}
             </div>
-            <div className="mono-sm mt-2 flex justify-between text-[6px] text-white/40">
+            <div className="mono-sm mt-2 flex justify-between text-[14px] text-white/40">
               <span>MON</span>
               <span>SUN</span>
             </div>
@@ -202,7 +202,7 @@ export function HeroObject() {
             style={{ transform: "translateZ(110px)" }}
           >
             <span className="h-1 w-1 rounded-full bg-lime" />
-            <span className="mono-sm text-[7px] text-white/80">99.98% UPTIME</span>
+            <span className="font-mono text-[14px] text-white/80">99.98% UPTIME</span>
           </div>
 
           {/* wireframe cube */}
@@ -228,12 +228,12 @@ export function HeroObject() {
         style={{ x: shiftNearX, y: shiftNearY }}
       >
         <div className="absolute right-2 top-[14%] border border-white/15 bg-[rgba(8,9,12,0.6)] px-2 py-1.5 backdrop-blur-sm">
-          <span className="mono-sm block text-[7px] text-white/50">X / Y</span>
-          <span className="mono-sm block text-[8px] text-bone">23.81°N 90.41°E</span>
+          <span className="mono-sm block text-[14px] text-white/50">X / Y</span>
+          <span className="mono-sm block text-[14px] text-bone">23.81°N 90.41°E</span>
         </div>
         <div className="float-slow absolute bottom-[28%] left-0 border-l border-accent/60 pl-2">
-          <span className="mono-sm block text-[7px] text-fog">BUILD STATUS</span>
-          <span className="mono-sm block text-[8px] text-bone">COMPILED ✓</span>
+          <span className="mono-sm block text-[14px] text-fog">BUILD STATUS</span>
+          <span className="mono-sm block text-[14px] text-bone">COMPILED ✓</span>
         </div>
       </motion.div>
 

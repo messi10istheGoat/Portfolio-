@@ -20,7 +20,7 @@ import { lockScroll, unlockScroll } from "@/lib/scroll-lock";
 import { withBasePath } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
-type Group = "NAVIGATE" | "PROJECTS" | "CONNECT" | "APPEARANCE";
+type Group = "Navigate" | "Projects" | "Connect" | "Appearance";
 
 interface Command {
   id: string;
@@ -73,24 +73,24 @@ export function CommandPalette() {
 
   const commands = useMemo<Command[]>(() => {
     const nav: Command[] = [
-      { id: "nav-home", label: "Go to Home", hint: "TOP", group: "NAVIGATE", run: () => goToSection("home") },
-      { id: "nav-about", label: "Open About", hint: "01", group: "NAVIGATE", run: () => goToSection("about") },
-      { id: "nav-stack", label: "Explore Skills", hint: "02", group: "NAVIGATE", run: () => goToSection("stack") },
-      { id: "nav-work", label: "View Projects", hint: "03", group: "NAVIGATE", run: () => goToSection("work") },
-      { id: "nav-github", label: "GitHub Activity", hint: "04", group: "NAVIGATE", run: () => goToSection("github") },
+      { id: "nav-home", label: "Go to Home", hint: "TOP", group: "Navigate", run: () => goToSection("home") },
+      { id: "nav-about", label: "Open About", hint: "01", group: "Navigate", run: () => goToSection("about") },
+      { id: "nav-stack", label: "Explore Skills", hint: "02", group: "Navigate", run: () => goToSection("stack") },
+      { id: "nav-work", label: "View Projects", hint: "03", group: "Navigate", run: () => goToSection("work") },
+      { id: "nav-github", label: "GitHub Activity", hint: "04", group: "Navigate", run: () => goToSection("github") },
       {
         id: "nav-experience",
         label: "View Experience",
         hint: "05",
-        group: "NAVIGATE",
+        group: "Navigate",
         run: () => goToSection("experience"),
       },
-      { id: "nav-process", label: "See the Process", hint: "06", group: "NAVIGATE", run: () => goToSection("process") },
+      { id: "nav-process", label: "See the Process", hint: "06", group: "Navigate", run: () => goToSection("process") },
       {
         id: "nav-contact",
         label: "Contact Me",
         hint: "07",
-        group: "NAVIGATE",
+        group: "Navigate",
         keywords: "hire email message",
         run: () => goToSection("contact"),
       },
@@ -100,7 +100,7 @@ export function CommandPalette() {
       id: `project-${project.slug}`,
       label: `Case study — ${project.title}`,
       hint: project.number,
-      group: "PROJECTS",
+      group: "Projects",
       keywords: `${project.subtitle} ${project.stack.join(" ")} ${project.categoryLabel} ${project.year}`,
       run: () => {
         close();
@@ -113,7 +113,7 @@ export function CommandPalette() {
         id: "linkedin-profile",
         label: "Open LinkedIn",
         hint: "EXTERNAL",
-        group: "CONNECT",
+        group: "Connect",
         run: () => {
           close();
           window.open(profile.socials.linkedin, "_blank", "noopener,noreferrer");
@@ -123,7 +123,7 @@ export function CommandPalette() {
         id: "github-profile",
         label: "Open GitHub",
         hint: "EXTERNAL",
-        group: "CONNECT",
+        group: "Connect",
         run: () => {
           close();
           window.open(profile.socials.github, "_blank", "noopener,noreferrer");
@@ -133,7 +133,7 @@ export function CommandPalette() {
         id: "resume",
         label: "Download Résumé",
         hint: "PDF",
-        group: "CONNECT",
+        group: "Connect",
         keywords: "cv curriculum",
         run: () => {
           close();
@@ -144,7 +144,7 @@ export function CommandPalette() {
         id: "email",
         label: "Copy Email Address",
         hint: profile.email,
-        group: "CONNECT",
+        group: "Connect",
         keywords: profile.email,
         run: async () => {
           try {
@@ -162,7 +162,7 @@ export function CommandPalette() {
       id: `accent-${option.key}`,
       label: `Change Accent — ${option.label}`,
       hint: accent === option.key ? "ACTIVE" : option.hex.replace("#", ""),
-      group: "APPEARANCE",
+      group: "Appearance",
       keywords: "colour color theme",
       run: () => setAccent(option.key),
     }));
@@ -305,9 +305,9 @@ export function CommandPalette() {
                 aria-controls="command-list"
                 aria-autocomplete="list"
                 aria-activedescendant={filtered[highlighted]?.id}
-                className="w-full bg-transparent font-mono text-[12px] uppercase tracking-[0.08em] text-bone placeholder:text-fog focus:outline-none"
+                className="w-full min-w-0 bg-transparent font-sans text-[16px] text-bone placeholder:text-fog focus:outline-none"
               />
-              <span className="mono-sm hidden shrink-0 border border-white/15 px-1.5 py-0.5 text-[8px] text-fog sm:block">
+              <span className="hidden shrink-0 border border-white/15 px-2 py-0.5 font-mono text-[12px] text-fog sm:block">
                 ESC
               </span>
             </div>
@@ -320,8 +320,8 @@ export function CommandPalette() {
               className="thin-scroll max-h-[52vh] overflow-y-auto overscroll-contain py-2"
             >
               {filtered.length === 0 && (
-                <p className="mono px-4 py-10 text-center text-[10px] text-fog">
-                  NO RESULTS — TRY &ldquo;PROJECTS&rdquo; OR &ldquo;ACCENT&rdquo;
+                <p className="px-4 py-10 text-center font-sans text-[15px] text-fog">
+                  No results — try &ldquo;projects&rdquo; or &ldquo;accent&rdquo;.
                 </p>
               )}
               {filtered.map((command, index) => {
@@ -330,7 +330,7 @@ export function CommandPalette() {
                 return (
                   <div key={command.id}>
                     {showGroup && (
-                      <p className="mono-sm px-4 pb-1.5 pt-3 text-[9px] text-fog/80">{command.group}</p>
+                      <p className="px-4 pb-1.5 pt-3 font-mono text-[12px] tracking-[0.06em] text-fog/80">{command.group}</p>
                     )}
                     <button
                       type="button"
@@ -351,16 +351,16 @@ export function CommandPalette() {
                     >
                       <span
                         className={cn(
-                          "grid h-6 w-6 shrink-0 place-items-center border text-[9px]",
+                          "grid h-6 w-6 shrink-0 place-items-center border text-[14px]",
                           index === highlighted
                             ? "border-accent/70 bg-accent/10 text-accent"
                             : "border-white/12 text-fog",
                         )}
                       >
-                        {command.group === "APPEARANCE" ? (
+                        {command.group === "Appearance" ? (
                           <Palette className="h-3 w-3" />
-                        ) : command.group === "PROJECTS" ? (
-                          <span className="mono-sm">{command.hint}</span>
+                        ) : command.group === "Projects" ? (
+                          <span className="mono">{command.hint}</span>
                         ) : command.id === "resume" ? (
                           <Download className="h-3 w-3" />
                         ) : command.id === "email" ? (
@@ -375,11 +375,11 @@ export function CommandPalette() {
                           <CornerDownLeft className="h-3 w-3" />
                         )}
                       </span>
-                      <span className="flex-1 font-mono text-[11px] uppercase tracking-[0.06em] text-bone">
+                      <span className="flex-1 truncate font-sans text-[15px] text-bone">
                         {command.id === "email" && copied ? "EMAIL COPIED TO CLIPBOARD" : command.label}
                       </span>
                       {command.hint && (
-                        <span className="mono-sm truncate text-[8px] text-fog">{command.hint}</span>
+                        <span className="shrink-0 truncate font-mono text-[12px] text-fog">{command.hint}</span>
                       )}
                     </button>
                   </div>
@@ -388,12 +388,12 @@ export function CommandPalette() {
             </div>
 
             <div className="flex items-center justify-between gap-3 border-t border-white/10 bg-black/20 px-4 py-2.5">
-              <div className="mono-sm flex items-center gap-3 text-[8px] text-fog">
+              <div className="flex items-center gap-3 font-mono text-[12px] text-fog">
                 <span>↑↓ NAVIGATE</span>
                 <span className="hidden sm:inline">↵ EXECUTE</span>
                 <span className="hidden sm:inline">ESC CLOSE</span>
               </div>
-              <span className="mono-sm flex items-center gap-1.5 text-[8px] text-fog">
+              <span className="mono-sm flex items-center gap-1.5 text-[14px] text-fog">
                 <Mail className="h-3 w-3" /> {profile.email}
               </span>
             </div>

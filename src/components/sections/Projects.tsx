@@ -50,11 +50,11 @@ export function Projects() {
           </div>
           <div className="lg:col-span-5">
             <Reveal delay={0.1} className="space-y-4 lg:text-right">
-              <p className="body-copy ml-auto max-w-[40ch] text-sm">
-                {projects.length} builds spanning product engineering, interface systems, and
-                infrastructure. Each one ships with a full case study — decisions, tradeoffs, and code.
+              <p className="body-copy ml-auto max-w-[42ch] text-[15px]">
+                Product engineering, interface systems, and infrastructure. Every card opens a full
+                case study.
               </p>
-              <span className="mono-sm inline-flex items-center gap-2 border border-white/10 px-2.5 py-1.5 text-[8px] text-fog">
+              <span className="mono-sm inline-flex items-center gap-2 border border-white/10 px-2.5 py-1.5 text-[14px] text-fog">
                 <span className="h-1 w-1 bg-accent" /> {String(projects.length).padStart(2, "0")}{" "}
                 PROJECTS / {yearRange}
               </span>
@@ -74,7 +74,7 @@ export function Projects() {
                   onClick={() => setFilter(item.key)}
                   aria-pressed={active}
                   className={cn(
-                    "relative px-3 py-2 font-mono text-[9px] uppercase tracking-[0.14em] transition-colors duration-300",
+                    "relative px-3 py-2 font-mono text-[14px] uppercase tracking-[0.05em] transition-colors duration-300",
                     active ? "text-accent-ink" : "text-fog hover:text-bone",
                   )}
                 >
@@ -87,7 +87,7 @@ export function Projects() {
                   )}
                   <span className="relative flex items-center gap-2">
                     {item.label}
-                    <span className={cn("text-[7px]", active ? "text-accent-ink/70" : "text-fog/60")}>
+                    <span className={cn("text-[14px]", active ? "text-accent-ink/70" : "text-fog/60")}>
                       {String(counts[item.key]).padStart(2, "0")}
                     </span>
                   </span>
@@ -95,10 +95,8 @@ export function Projects() {
               );
             })}
           </div>
-          <p className="mono-sm text-[8px] text-fog">
-            SHOWING {String(filtered.length).padStart(2, "0")} / {String(projects.length).padStart(2, "0")}
-            <span className="ml-2 text-white/20">|</span>
-            <span className="ml-2 text-accent">CLICK A CARD FOR THE CASE STUDY</span>
+          <p className="font-mono text-[13px] text-fog" aria-live="polite">
+            {String(filtered.length).padStart(2, "0")} OF {String(projects.length).padStart(2, "0")} SHOWN
           </p>
         </div>
 
@@ -135,10 +133,9 @@ export function Projects() {
                       data-cursor="view"
                       className="relative block overflow-hidden border-b border-white/10 bg-[#0a0c10] lg:border-b-0 lg:border-r"
                     >
-                      <div className="flex items-center justify-between border-b border-white/10 px-3 py-2">
-                        <span className="mono-sm text-[8px] text-accent">{project.number}</span>
-                        <span className="mono-sm text-[8px] text-fog">{project.categoryLabel}</span>
-                        <span className="mono-sm text-[8px] text-fog">{project.year}</span>
+                      <div className="flex items-center justify-between gap-3 border-b border-white/10 px-3 py-2">
+                        <span className="font-mono text-[13px] text-accent">{project.number}</span>
+                        <span className="ml-auto font-mono text-[13px] text-fog">{project.year}</span>
                       </div>
                       <div
                         className={cn(
@@ -148,10 +145,6 @@ export function Projects() {
                       >
                         <ProjectVisual kind={project.preview} accent={project.accent} compact={!wide} />
                         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#08090c]/70 via-transparent to-transparent opacity-60 transition-opacity duration-500 group-hover:opacity-40" />
-                        <span className="absolute bottom-3 left-3 inline-flex items-center gap-1.5 border border-white/25 bg-black/50 px-2 py-1 backdrop-blur-md transition-all duration-500 group-hover:border-accent/70 group-hover:text-accent">
-                          <span className="mono-sm text-[7px] text-bone">VIEW CASE STUDY</span>
-                          <ArrowUpRight className="h-2.5 w-2.5" />
-                        </span>
                       </div>
                     </Link>
 
@@ -160,7 +153,7 @@ export function Projects() {
                       <div>
                         <div className="flex items-start justify-between gap-4">
                           <div>
-                            <p className="mono-sm text-[8px] tracking-[0.2em] text-fog">{project.subtitle}</p>
+                            <p className="font-mono text-[14px] tracking-[0.04em] text-fog">{project.subtitle}</p>
                             <Link href={`/work/${project.slug}`} className="mt-2 block">
                               <h3 className="display text-[clamp(1.9rem,4.5vw,3.1rem)] transition-all duration-500 group-hover:translate-x-1 group-hover:text-accent">
                                 {project.title}
@@ -172,7 +165,7 @@ export function Projects() {
                           </span>
                         </div>
 
-                        <p className="body-copy mt-3 max-w-[46ch] text-sm">{project.description}</p>
+                        <p className="body-copy mt-3 max-w-[48ch] text-[15px]">{project.description}</p>
 
                         <div className="mt-5 flex flex-wrap gap-1.5">
                           {project.stack.slice(0, 4).map((tech) => (
@@ -194,7 +187,7 @@ export function Projects() {
                             rel="noreferrer noopener"
                             aria-label={`${project.title} source on GitHub (opens in a new tab)`}
                             data-cursor="open"
-                            className="inline-flex items-center gap-1.5 font-mono text-[9px] uppercase tracking-[0.12em] text-fog transition-colors hover:text-accent"
+                            className="inline-flex items-center gap-1.5 font-mono text-[14px] uppercase tracking-[0.04em] text-fog transition-colors hover:text-accent"
                           >
                             <GithubIcon className="h-3 w-3" /> CODE
                           </a>
@@ -205,14 +198,14 @@ export function Projects() {
                             rel="noreferrer noopener"
                             aria-label={`${project.title} live demo (opens in a new tab)`}
                             data-cursor="open"
-                            className="inline-flex items-center gap-1.5 font-mono text-[9px] uppercase tracking-[0.12em] text-fog transition-colors hover:text-accent"
+                            className="inline-flex items-center gap-1.5 font-mono text-[14px] uppercase tracking-[0.04em] text-fog transition-colors hover:text-accent"
                           >
                             <ExternalLink className="h-3 w-3" /> LIVE
                           </a>
                         </div>
                         <Link
                           href={`/work/${project.slug}`}
-                          className="group/link inline-flex items-center gap-1.5 font-mono text-[9px] uppercase tracking-[0.12em] text-ash transition-colors hover:text-accent"
+                          className="group/link inline-flex items-center gap-1.5 font-mono text-[14px] uppercase tracking-[0.04em] text-bone transition-colors hover:text-accent"
                           data-cursor="view"
                         >
                           CASE STUDY
@@ -228,13 +221,13 @@ export function Projects() {
         </motion.div>
 
         {filtered.length === 0 && (
-          <p className="mono mt-10 border border-white/10 p-8 text-center text-[10px] text-fog">
+          <p className="mono mt-10 border border-white/10 p-8 text-center text-[14px] text-fog">
             NO PROJECTS IN THIS CATEGORY YET — TRY ANOTHER FILTER.
           </p>
         )}
 
         <div className="mt-12 flex flex-col items-start justify-between gap-5 border-t border-white/10 pt-6 sm:flex-row sm:items-center">
-          <p className="body-copy max-w-[46ch] text-sm">
+          <p className="body-copy max-w-[48ch] text-[15px]">
             More experiments live in the repositories — prototypes, tooling, and interface studies that
             didn&apos;t need a case study.
           </p>
