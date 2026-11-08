@@ -130,14 +130,14 @@ export function Terminal() {
           <span className="h-2 w-2 rounded-full bg-[#ff5f57]/70" />
           <span className="h-2 w-2 rounded-full bg-[#febc2e]/70" />
           <span className="h-2 w-2 rounded-full bg-lime/70" />
-          <span className="mono-sm ml-2 text-[8px] text-fog">SYSTEM / INTERACTIVE</span>
+          <span className="ml-2 font-mono text-[13px] text-fog">SYSTEM / INTERACTIVE</span>
         </div>
-        <span className="mono-sm text-[8px] text-accent">TTY_01</span>
+        <span className="font-mono text-[14px] text-accent">TTY_01</span>
       </div>
 
       <div
         ref={scrollRef}
-        className="thin-scroll h-[190px] overflow-y-auto px-3 py-3 font-mono text-[10px] leading-relaxed"
+        className="thin-scroll h-[210px] overflow-y-auto px-3 py-3 font-mono text-[14px] leading-relaxed"
         aria-live="polite"
       >
         {lines.map((line, index) => (
@@ -165,9 +165,9 @@ export function Terminal() {
           run(value);
           setValue("");
         }}
-        className="flex items-center gap-2 border-t border-white/10 px-3 py-2.5"
+        className="flex items-center gap-2 border-t border-white/10 px-3 py-2"
       >
-        <label htmlFor="terminal-input" className="font-mono text-[10px] text-accent">
+        <label htmlFor="terminal-input" className="font-mono text-[14px] text-accent">
           $
         </label>
         <input
@@ -179,7 +179,7 @@ export function Terminal() {
           autoComplete="off"
           spellCheck={false}
           aria-label="Terminal command input"
-          className="w-full bg-transparent font-mono text-[10px] text-bone placeholder:text-fog/70 focus:outline-none"
+          className="w-full bg-transparent font-mono text-[16px] text-bone placeholder:text-fog/70 focus:outline-none md:text-[14px]"
           onKeyDown={(event) => {
             if (event.key === "ArrowUp") {
               event.preventDefault();
@@ -195,7 +195,7 @@ export function Terminal() {
         />
         <button
           type="submit"
-          className="mono-sm shrink-0 border border-white/15 px-2 py-1 text-[8px] text-ash transition-colors hover:border-accent/60 hover:text-accent"
+          className="shrink-0 border border-white/15 px-2.5 py-1.5 font-mono text-[13px] text-ash transition-colors hover:border-accent/60 hover:text-accent"
         >
           RUN ↵
         </button>

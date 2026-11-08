@@ -18,7 +18,7 @@ export default function NotFound() {
         <div className="noise-layer absolute inset-0" />
       </div>
       <div className="shell relative">
-        <p className="mono text-[9px] text-accent">SYSTEM / 404</p>
+        <p className="mono text-[14px] text-accent">SYSTEM / 404</p>
         <h1 className="display mt-4 text-[clamp(3.4rem,13vw,11rem)]">
           LOST
           <br />
@@ -29,11 +29,11 @@ export default function NotFound() {
           everywhere else.
         </p>
         <div className="mt-8 flex flex-wrap gap-3">
-          <Link href="/" className="btn btn-primary text-[10px]">
+          <Link href="/" className="btn btn-primary text-[14px]">
             <ArrowLeft className="h-3.5 w-3.5" />
             BACK TO INDEX
           </Link>
-          <Link href="/#work" className="btn btn-ghost text-[10px]">
+          <Link href="/#work" className="btn btn-ghost text-[14px]">
             SELECTED WORK
             <ArrowUpRight className="arrow h-3.5 w-3.5" />
           </Link>

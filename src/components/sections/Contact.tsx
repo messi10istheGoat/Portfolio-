@@ -169,11 +169,7 @@ export function Contact() {
       <div className="shell relative py-20 sm:py-24 lg:py-32">
         <div className="flex flex-wrap items-center gap-3 sm:gap-5">
           <span className="mono border border-line px-2.5 py-1.5 text-bone">07</span>
-          <span className="mono text-accent">/ GET_IN_TOUCH</span>
-          <span className="hidden h-px w-16 bg-line sm:block" aria-hidden />
-          <span className="mono-sm ml-auto hidden items-center gap-2 text-[8px] text-fog sm:flex">
-            <span className="status-dot" /> {profile.availability.toUpperCase()}
-          </span>
+          <span className="mono text-accent">CONTACT</span>
         </div>
 
         <div className="mt-8 grid gap-12 lg:grid-cols-12 lg:gap-10">
@@ -191,7 +187,7 @@ export function Contact() {
                 lines={["SOMETHING"]}
                 as="p"
                 delay={0.08}
-                className="text-[clamp(3.2rem,11vw,9.5rem)] text-outline-accent"
+                className="text-[clamp(2.8rem,9vw,7.4rem)] text-outline-accent"
               />
               <SplitLines
                 lines={["EXTRAORDINARY."]}
@@ -202,7 +198,7 @@ export function Contact() {
             </div>
 
             <Reveal delay={0.15} className="mt-8 max-w-[50ch]">
-              <p className="body-copy text-sm">
+              <p className="body-copy text-[16px]">
                 Have a product to build, a frontend that needs engineering discipline, or a role worth
                 discussing? Send a note — clear briefs get the fastest replies.
               </p>
@@ -214,8 +210,8 @@ export function Contact() {
                 className="group flex items-center justify-between gap-3 bg-ink/80 p-4 transition-colors hover:bg-elevated"
               >
                 <div>
-                  <p className="mono-sm text-[7px] text-fog">DIRECT EMAIL</p>
-                  <p className="mt-1 font-display text-sm font-semibold text-bone transition-colors group-hover:text-accent">
+                  <p className="font-mono text-[13px] text-fog">Email</p>
+                  <p className="mt-1 break-all font-display text-[17px] font-semibold text-bone transition-colors group-hover:text-accent">
                     {profile.email}
                   </p>
                 </div>
@@ -223,7 +219,7 @@ export function Contact() {
               </a>
               <div className="flex items-center justify-between gap-3 bg-ink/80 p-4">
                 <div>
-                  <p className="mono-sm text-[7px] text-fog">BASED IN</p>
+                  <p className="font-mono text-[13px] text-fog">Location</p>
                   <p className="mt-1 font-display text-sm font-semibold text-bone">
                     {profile.location.toUpperCase()}
                   </p>
@@ -245,7 +241,7 @@ export function Contact() {
                   href={href}
                   target={href.startsWith("/") ? undefined : "_blank"}
                   rel="noreferrer noopener"
-                  className="mono-sm inline-flex items-center gap-2 border border-white/12 px-3 py-2 text-[8px] text-ash transition-colors hover:border-accent/60 hover:text-accent"
+                  className="mono-sm inline-flex items-center gap-2 border border-white/12 px-3 py-2 text-[14px] text-ash transition-colors hover:border-accent/60 hover:text-accent"
                 >
                   <Icon className="h-3 w-3" />
                   {label}
@@ -258,10 +254,10 @@ export function Contact() {
           <div className="lg:col-span-5">
             <Reveal delay={0.1}>
               <div className="glass-strong relative overflow-hidden p-5 sm:p-6">
-                <div className="flex items-center justify-between border-b border-white/10 pb-3">
-                  <p className="mono-sm text-[8px] text-fog">TRANSMISSION FORM</p>
-                  <span className="mono-sm flex items-center gap-1.5 text-[7px] text-lime">
-                    <span className="h-1 w-1 bg-lime" /> CHANNEL OPEN
+                <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1.5 border-b border-white/10 pb-3">
+                  <p className="font-mono text-[14px] text-bone">Send a message</p>
+                  <span className="flex items-center gap-1.5 font-mono text-[13px] text-lime">
+                    <span className="h-1.5 w-1.5 rounded-full bg-lime" /> Replies in 1–2 days
                   </span>
                 </div>
 
@@ -278,10 +274,10 @@ export function Contact() {
                       <div className="mx-auto grid h-12 w-12 place-items-center border border-lime/50 bg-lime/10">
                         <Check className="h-5 w-5 text-lime" />
                       </div>
-                      <p className="display-tight mt-5 text-2xl text-bone">MESSAGE RECEIVED.</p>
-                      <p className="body-copy mx-auto mt-2 max-w-[34ch] text-sm">{feedback}</p>
+                      <p className="display-tight mt-5 text-2xl text-bone">Message received.</p>
+                      <p className="body-copy mx-auto mt-2 max-w-[36ch] text-[15px]">{feedback}</p>
                       {reference && (
-                        <p className="mono-sm mt-4 inline-block border border-white/15 px-2 py-1 text-[8px] text-accent">
+                        <p className="mono-sm mt-4 inline-block border border-white/15 px-2 py-1 text-[14px] text-accent">
                           REF {reference}
                         </p>
                       )}
@@ -293,9 +289,9 @@ export function Contact() {
                           setReference("");
                           openedAt.current = Date.now();
                         }}
-                        className="btn btn-ghost mt-7 w-full justify-center text-[9px]"
+                        className="btn btn-ghost mt-7 w-full justify-center text-[14px]"
                       >
-                        SEND ANOTHER MESSAGE
+                        Send another message
                       </button>
                     </motion.div>
                   ) : (
@@ -323,7 +319,7 @@ export function Contact() {
                       <div className="grid gap-4 sm:grid-cols-2">
                         {fields.map((field) => (
                           <div key={field.name} className={field.span}>
-                            <label htmlFor={`contact-${field.name}`} className="mono-sm block text-[8px] text-fog">
+                            <label htmlFor={`contact-${field.name}`} className="mono-sm block text-[14px] text-fog">
                               {field.label} <span className="text-accent">*</span>
                             </label>
                             <input
@@ -338,12 +334,12 @@ export function Contact() {
                               aria-describedby={errors[field.name] ? `error-${field.name}` : undefined}
                               required
                               className={cn(
-                                "mt-1.5 w-full border-b bg-white/[0.02] px-2 py-2.5 font-sans text-[13px] text-bone placeholder:text-fog/50 transition-colors focus:border-accent focus:bg-white/[0.04] focus:outline-none",
+                                "mt-1.5 w-full border-b bg-white/[0.02] px-2 py-2.5 font-sans text-[16px] text-bone placeholder:text-fog/50 transition-colors focus:border-accent focus:bg-white/[0.04] focus:outline-none",
                                 errors[field.name] ? "border-red-400/70" : "border-white/15",
                               )}
                             />
                             {errors[field.name] && (
-                              <p id={`error-${field.name}`} className="mt-1 font-mono text-[9px] text-red-300/90">
+                              <p id={`error-${field.name}`} className="mt-1 font-mono text-[14px] text-red-300/90">
                                 {errors[field.name]}
                               </p>
                             )}
@@ -352,7 +348,7 @@ export function Contact() {
                       </div>
 
                       <div>
-                        <label htmlFor="contact-message" className="mono-sm block text-[8px] text-fog">
+                        <label htmlFor="contact-message" className="mono-sm block text-[14px] text-fog">
                           MESSAGE <span className="text-accent">*</span>
                         </label>
                         <textarea
@@ -366,41 +362,41 @@ export function Contact() {
                           aria-describedby={errors.message ? "error-message" : undefined}
                           required
                           className={cn(
-                            "mt-1.5 w-full resize-y border-b bg-white/[0.02] px-2 py-2.5 font-sans text-[13px] leading-relaxed text-bone placeholder:text-fog/50 transition-colors focus:border-accent focus:bg-white/[0.04] focus:outline-none",
+                            "mt-1.5 w-full resize-y border-b bg-white/[0.02] px-2 py-2.5 font-sans text-[16px] leading-relaxed text-bone placeholder:text-fog/50 transition-colors focus:border-accent focus:bg-white/[0.04] focus:outline-none",
                             errors.message ? "border-red-400/70" : "border-white/15",
                           )}
                         />
                         {errors.message && (
-                          <p id="error-message" className="mt-1 font-mono text-[9px] text-red-300/90">
+                          <p id="error-message" className="mt-1 font-mono text-[14px] text-red-300/90">
                             {errors.message}
                           </p>
                         )}
                       </div>
 
                       {status === "error" && feedback && (
-                        <p role="alert" className="border border-red-400/30 bg-red-400/5 px-2.5 py-2 font-mono text-[9px] leading-relaxed text-red-200">
+                        <p role="alert" className="border border-red-400/30 bg-red-400/5 px-2.5 py-2 font-mono text-[14px] leading-relaxed text-red-200">
                           {feedback}
                         </p>
                       )}
 
                       <div className="flex flex-wrap items-center justify-between gap-3 border-t border-white/10 pt-4">
-                        <p className="mono-sm max-w-[22ch] text-[7px] leading-relaxed text-fog">
-                          VALIDATED + STORED IN POSTGRES. NO THIRD-PARTY TRACKING.
+                        <p className="mono-sm max-w-[22ch] text-[14px] leading-relaxed text-fog">
+                          Validated and stored privately. No third-party tracking.
                         </p>
                         <button
                           type="submit"
                           disabled={status === "submitting"}
-                          className="btn btn-primary justify-between text-[9px]"
+                          className="btn btn-primary justify-between text-[14px]"
                           data-cursor="send"
                         >
                           {status === "submitting" ? (
                             <>
-                              SENDING
+                              Sending…
                               <Loader2 className="h-3.5 w-3.5 animate-spin" />
                             </>
                           ) : (
                             <>
-                              SEND MESSAGE
+                              Send message
                               <Send className="arrow h-3.5 w-3.5" />
                             </>
                           )}
@@ -412,7 +408,7 @@ export function Contact() {
               </div>
             </Reveal>
 
-            <div className="mono-sm mt-3 flex items-center justify-between gap-2 text-[7px] text-fog">
+            <div className="mono-sm mt-3 flex items-center justify-between gap-2 text-[14px] text-fog">
               <span>CHANNEL / CONTACT_API_V1</span>
               <span className="flex items-center gap-1.5">
                 RESPONSE TIME <span className="text-ash">&lt; 48H</span>

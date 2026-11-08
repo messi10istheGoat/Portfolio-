@@ -31,11 +31,11 @@ export function About() {
                 {profile.about.philosophy.map((item) => (
                   <StaggerItem key={item.index}>
                     <div className="group grid grid-cols-[auto_1fr] gap-4 py-5 sm:grid-cols-[70px_1fr_1.1fr] sm:items-baseline sm:gap-6">
-                      <span className="mono text-[10px] text-fog transition-colors group-hover:text-accent">
+                      <span className="mono text-[14px] text-fog transition-colors group-hover:text-accent">
                         {item.index}
                       </span>
-                      <h3 className="display-tight text-lg text-bone sm:text-xl">{item.title}</h3>
-                      <p className="body-copy col-span-2 text-sm sm:col-span-1">{item.body}</p>
+                      <h3 className="font-display text-xl font-semibold leading-tight tracking-[-0.02em] text-bone">{item.title}</h3>
+                      <p className="body-copy col-span-2 text-[15px] sm:col-span-1">{item.body}</p>
                     </div>
                   </StaggerItem>
                 ))}
@@ -43,7 +43,7 @@ export function About() {
             </div>
 
             <Reveal delay={0.1} className="mt-10">
-              <p className="mono-sm text-[8px] text-fog">AREAS OF INTEREST</p>
+              <p className="font-mono text-[13px] tracking-[0.04em] text-fog">Areas of interest</p>
               <div className="mt-3 flex flex-wrap gap-1.5">
                 {profile.about.interests.map((interest) => (
                   <span
@@ -57,8 +57,8 @@ export function About() {
             </Reveal>
 
             <Reveal delay={0.15} className="mt-8 border-l border-accent/60 bg-white/[0.02] py-3 pl-4">
-              <p className="mono-sm text-[8px] text-accent">CURRENT FOCUS</p>
-              <p className="body-copy mt-1.5 text-sm">{profile.about.currentFocus}</p>
+              <p className="font-mono text-[13px] tracking-[0.04em] text-accent">Current focus</p>
+              <p className="body-copy mt-1.5 text-[15px]">{profile.about.currentFocus}</p>
             </Reveal>
           </div>
 
@@ -74,19 +74,15 @@ export function About() {
                       className="grid h-full place-items-center text-[2.6rem] text-white/12"
                     />
                   </div>
-                  <div className="flex items-center gap-2">
-                    <span className="status-dot" aria-hidden />
-                    <span className="mono-sm text-[8px] text-ash">{profile.availability.toUpperCase()}</span>
-                  </div>
-                  <p className="mono-sm mt-4 text-[8px] text-fog">PROFILE / AT A GLANCE</p>
+                  <p className="font-mono text-[13px] tracking-[0.04em] text-fog">At a glance</p>
                   <dl className="mt-3 border-t border-white/12">
                     {profile.about.facts.map((fact) => (
                       <div
                         key={fact.label}
                         className="flex items-baseline justify-between gap-4 border-b border-white/10 py-2.5"
                       >
-                        <dt className="mono-sm shrink-0 text-[8px] text-fog">{fact.label}</dt>
-                        <dd className="text-right font-display text-[12px] font-semibold uppercase tracking-[0.02em] text-bone">
+                        <dt className="shrink-0 font-mono text-[13px] text-fog">{fact.label}</dt>
+                        <dd className="text-right font-display text-[14px] font-semibold text-bone">
                           {fact.value}
                         </dd>
                       </div>
@@ -98,11 +94,11 @@ export function About() {
                       href={profile.socials.github}
                       target="_blank"
                       rel="noreferrer noopener"
-                      className="mono-sm inline-flex items-center gap-1.5 text-[8px] text-ash transition-colors hover:text-accent"
+                      className="mono-sm inline-flex items-center gap-1.5 text-[14px] text-ash transition-colors hover:text-accent"
                     >
                       GITHUB <ArrowUpRight className="h-2.5 w-2.5" />
                     </a>
-                    <span className="mono-sm inline-flex items-center gap-1.5 text-[8px] text-fog">
+                    <span className="mono-sm inline-flex items-center gap-1.5 text-[14px] text-fog">
                       <MapPin className="h-2.5 w-2.5" /> {profile.location.toUpperCase()}
                     </span>
                   </div>
@@ -113,7 +109,7 @@ export function About() {
                 {profile.about.stats.map((stat) => (
                   <StaggerItem key={stat.label} className="bg-ink-2 p-4">
                     <p className="display text-3xl text-bone">{stat.value}</p>
-                    <p className="mono-sm mt-2 text-[7px] leading-relaxed text-fog">{stat.label}</p>
+                    <p className="mt-2 font-mono text-[13px] leading-snug text-fog">{stat.label}</p>
                   </StaggerItem>
                 ))}
               </Stagger>
@@ -121,9 +117,9 @@ export function About() {
               <Reveal delay={0.1}>
                 <div className="mb-2 flex items-center gap-2">
                   <TerminalIcon className="h-3 w-3 text-accent" />
-                  <p className="mono-sm text-[8px] text-fog">
-                    TRY THE SYSTEM SHELL <span className="text-white/20">/</span>{" "}
-                    <span className="text-accent">HELP</span>
+                  <p className="font-mono text-[13px] text-fog">
+                    Try the shell — type{" "}
+                    <span className="text-accent">help</span>
                   </p>
                 </div>
                 <Terminal />

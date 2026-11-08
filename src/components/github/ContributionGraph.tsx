@@ -28,36 +28,36 @@ export function ContributionGraph({
   return (
     <div className="relative">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <p className="mono-sm text-[8px] text-fog">
+        <p className="font-sans text-[14px] text-fog">
           {hovered ? (
             <>
-              <span className="text-bone">{hovered.count}</span> CONTRIBUTION
-              {hovered.count === 1 ? "" : "S"} ON{" "}
+              <span className="tabular-nums text-bone">{hovered.count}</span>{" "}
+              {hovered.count === 1 ? "contribution" : "contributions"} on{" "}
               <span className="text-bone">{hovered.date}</span>
             </>
           ) : (
             <>
-              HOVER THE GRID TO INSPECT A DAY — <span className="text-bone">{total.toLocaleString()}</span>{" "}
-              TOTAL IN WINDOW
+              <span className="tabular-nums text-bone">{total.toLocaleString()}</span> contributions in
+              the last year
             </>
           )}
         </p>
         <div className="flex items-center gap-1.5">
-          <span className="mono-sm text-[7px] text-fog">LESS</span>
+          <span className="font-sans text-[13px] text-fog">Less</span>
           {[0, 1, 2, 3, 4].map((level) => (
             <span key={level} className={cn("h-2.5 w-2.5", levelClass[level])} />
           ))}
-          <span className="mono-sm text-[7px] text-fog">MORE</span>
+          <span className="font-sans text-[13px] text-fog">More</span>
         </div>
       </div>
 
       <div className="thin-scroll mt-3 overflow-x-auto pb-1">
         <div className="min-w-[640px]">
-          <div className="relative mb-1 h-3">
+          <div className="relative mb-1.5 h-5">
             {months.map((month) => (
               <span
                 key={`${month.label}-${month.column}`}
-                className="mono-sm absolute top-0 text-[7px] text-fog"
+                className="mono-sm absolute top-0 text-[14px] text-fog"
                 style={{ left: `${(month.column / weeks.length) * 100}%` }}
               >
                 {month.label}
@@ -68,7 +68,7 @@ export function ContributionGraph({
           <div className="flex gap-1">
             <div className="mr-1 flex flex-col justify-between py-0.5">
               {dayLabels.map((label, index) => (
-                <span key={index} className="mono-sm h-[11px] text-[7px] leading-[11px] text-fog/70">
+                <span key={index} className="mono-sm h-[15px] text-[14px] leading-[15px] text-fog/70">
                   {label}
                 </span>
               ))}

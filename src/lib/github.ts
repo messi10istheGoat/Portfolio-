@@ -158,7 +158,7 @@ const sampleRepos: RepoHighlight[] = [
     description: "Spendwise — offline-first personal finance for web and Android.",
     language: "TypeScript",
     stars: 0,
-    updated: "RECENTLY",
+    updated: "recently",
     url: "https://github.com/messi10istheGoat/Expense-Tracker",
   },
   {
@@ -166,7 +166,7 @@ const sampleRepos: RepoHighlight[] = [
     description: "DroidMatrix — cloud Android fleet console on Next.js and Postgres.",
     language: "TypeScript",
     stars: 0,
-    updated: "RECENTLY",
+    updated: "recently",
     url: "https://github.com/messi10istheGoat/farm",
   },
   {
@@ -174,7 +174,7 @@ const sampleRepos: RepoHighlight[] = [
     description: "Sylhet Live — crowdsourced monsoon hazard map with flood-safe routing.",
     language: "TypeScript",
     stars: 0,
-    updated: "RECENTLY",
+    updated: "recently",
     url: "https://github.com/messi10istheGoat/Clg-Project",
   },
   {
@@ -182,7 +182,7 @@ const sampleRepos: RepoHighlight[] = [
     description: "Kinetic Type — single-page React interface and motion study.",
     language: "React",
     stars: 0,
-    updated: "RECENTLY",
+    updated: "recently",
     url: "https://github.com/messi10istheGoat/My-website-1",
   },
 ];
@@ -190,22 +190,22 @@ const sampleRepos: RepoHighlight[] = [
 /** Relative wording for repository freshness — stable between renders. */
 function relativeUpdated(iso: string): string {
   const then = new Date(iso).getTime();
-  if (Number.isNaN(then)) return "RECENTLY";
+  if (Number.isNaN(then)) return "recently";
 
   const days = Math.floor((Date.now() - then) / 86_400_000);
-  if (days <= 0) return "TODAY";
-  if (days === 1) return "YESTERDAY";
-  if (days < 14) return `${days} DAYS AGO`;
-  if (days < 60) return `${Math.round(days / 7)} WEEKS AGO`;
-  if (days < 365) return `${Math.round(days / 30)} MONTHS AGO`;
-  return `${Math.floor(days / 365)}+ YEARS AGO`;
+  if (days <= 0) return "today";
+  if (days === 1) return "yesterday";
+  if (days < 14) return `${days} days ago`;
+  if (days < 60) return `${Math.round(days / 7)} weeks ago`;
+  if (days < 365) return `${Math.round(days / 30)} months ago`;
+  return `${Math.floor(days / 365)}+ years ago`;
 }
 
 function sampleData(): GithubData {
   const { weeks, months } = buildSampleWeeks();
   return {
     live: false,
-    label: "SAMPLE DATA — set GITHUB_TOKEN for live activity",
+    label: "Sample data — not live activity",
     username: "messi10istheGoat",
     profileUrl: "https://github.com/messi10istheGoat",
     totals: {
@@ -324,7 +324,7 @@ export async function getGithubData(): Promise<GithubData> {
 
     return {
       live: true,
-      label: "LIVE GITHUB DATA",
+      label: "Live from GitHub",
       username,
       profileUrl: `https://github.com/${username}`,
       totals: {

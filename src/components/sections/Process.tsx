@@ -10,7 +10,7 @@ const steps = [
   {
     index: "01",
     title: "DISCOVER",
-    subtitle: "UNDERSTAND THE PROBLEM",
+    subtitle: "Understand the problem",
     body: "Interviews, workflow audits, and constraints before a single component. The goal is a precise problem statement that the build can be measured against.",
     deliverables: ["Problem statement", "Workflow map", "Success criteria"],
     duration: "1—2 WEEKS",
@@ -18,7 +18,7 @@ const steps = [
   {
     index: "02",
     title: "PLAN",
-    subtitle: "DESIGN THE ARCHITECTURE",
+    subtitle: "Design the architecture",
     body: "Data model first, then interfaces. Routes, state ownership, and failure modes are decided in sketches so the build has fewer surprises.",
     deliverables: ["Schema & data model", "Interface system", "Delivery plan"],
     duration: "1 WEEK",
@@ -26,7 +26,7 @@ const steps = [
   {
     index: "03",
     title: "ENGINEER",
-    subtitle: "BUILD THE PRODUCT",
+    subtitle: "Build the product",
     body: "Typed end-to-end, built in vertical slices that remain shippable. Motion and accessibility are part of the component, not a later pass.",
     deliverables: ["Production code", "Component library", "Tested API surface"],
     duration: "4—8 WEEKS",
@@ -34,7 +34,7 @@ const steps = [
   {
     index: "04",
     title: "OPTIMIZE",
-    subtitle: "IMPROVE PERFORMANCE & USABILITY",
+    subtitle: "Improve performance and usability",
     body: "Measure first: bundle, query plans, and interaction latency. Then remove everything that doesn't earn its weight, including animations.",
     deliverables: ["Performance budget", "Accessibility audit", "Instrumentation"],
     duration: "1—2 WEEKS",
@@ -42,7 +42,7 @@ const steps = [
   {
     index: "05",
     title: "DEPLOY",
-    subtitle: "SHIP AND MAINTAIN",
+    subtitle: "Ship and maintain",
     body: "Preview environments, migration checks, and a rollback path. After launch the work becomes iteration — measuring what the product actually does.",
     deliverables: ["CI/CD pipeline", "Release checklist", "Post-launch review"],
     duration: "CONTINUOUS",
@@ -70,24 +70,17 @@ export function Process() {
           <div className="lg:col-span-8">
             <div className="mb-6 flex flex-wrap items-center gap-3 sm:gap-5">
               <span className="mono border border-line px-2.5 py-1.5 text-bone">06</span>
-              <span className="mono text-accent">/ PROCESS</span>
-              <span className="hidden h-px w-16 bg-line sm:block" aria-hidden />
+              <span className="mono text-accent">PROCESS</span>
             </div>
             <SplitLines
-              lines={["IDEAS INTO", "INTERFACES."]}
+              lines={["HOW THE", "WORK HAPPENS."]}
               as="h2"
               id="process-heading"
-              className="text-[clamp(2.4rem,7vw,6rem)]"
-            />
-            <SplitLines
-              lines={["CONCEPTS INTO", "CODE."]}
-              as="p"
-              delay={0.15}
-              className="text-[clamp(2.4rem,7vw,6rem)] text-outline"
+              className="text-[clamp(2.2rem,6.4vw,5rem)]"
             />
           </div>
           <div className="lg:col-span-4">
-            <p className="body-copy ml-auto max-w-[36ch] text-sm lg:text-right">
+            <p className="body-copy ml-auto max-w-[38ch] text-[15px] lg:text-right">
               A repeatable delivery system. Five phases, each with a defined output — so momentum never
               depends on memory.
             </p>
@@ -123,7 +116,7 @@ export function Process() {
                             : "border-white/20 bg-ink-2 text-fog group-hover:border-white/40 group-hover:text-bone",
                         )}
                       >
-                        <span className="font-mono text-[10px] font-bold">{step.index}</span>
+                        <span className="font-mono text-[14px] font-bold">{step.index}</span>
                       </span>
                       <span className="flex-1">
                         <span className="flex items-baseline justify-between gap-3">
@@ -135,9 +128,9 @@ export function Process() {
                           >
                             {step.title}
                           </span>
-                          <span className="mono-sm text-[7px] text-fog">{step.duration}</span>
+                          <span className="font-mono text-[14px] text-fog">{step.duration}</span>
                         </span>
-                        <span className="mono-sm mt-1 block text-[7px] text-fog">{step.subtitle}</span>
+                        <span className="mt-1 block font-sans text-[13px] text-fog">{step.subtitle}</span>
                       </span>
                     </button>
                   </li>
@@ -155,8 +148,8 @@ export function Process() {
                   {steps[active].index}
                 </span>
                 <div className="text-right">
-                  <p className="mono-sm text-[8px] text-fog">PHASE {steps[active].index} / 05</p>
-                  <p className="mono-sm mt-1 text-[8px] text-accent">{steps[active].duration}</p>
+                  <p className="font-mono text-[13px] text-fog">Phase {steps[active].index} of 05</p>
+                  <p className="mt-1 font-mono text-[13px] text-accent">{steps[active].duration}</p>
                 </div>
               </div>
 
@@ -168,11 +161,11 @@ export function Process() {
                 className="relative"
               >
                 <h3 className="display-tight text-3xl text-bone sm:text-4xl">{steps[active].title}</h3>
-                <p className="mono-sm mt-2 text-[9px] text-fog">{steps[active].subtitle}</p>
-                <p className="body-copy mt-4 max-w-[52ch] text-sm">{steps[active].body}</p>
+                <p className="mt-2 font-sans text-[14px] text-fog">{steps[active].subtitle}</p>
+                <p className="body-copy mt-4 max-w-[54ch] text-[15px]">{steps[active].body}</p>
 
                 <div className="mt-6 border-t border-white/12 pt-4">
-                  <p className="mono-sm text-[8px] text-fog">OUTPUT</p>
+                  <p className="font-mono text-[13px] text-fog">Output</p>
                   <ul className="mt-2 flex flex-wrap gap-1.5">
                     {steps[active].deliverables.map((deliverable) => (
                       <li key={deliverable} className="tag gap-1.5 border-accent/30 text-accent">

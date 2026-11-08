@@ -26,6 +26,17 @@
   --accent-ink: #08090c;
   --lime: #c6f36a;
 
+  /* ---------- type scale ----------
+     One authoritative scale. Nothing in the UI may render below 12px, and
+     every interactive label is at least 14px so it stays legible and tap
+     targets stay honest. Values are rem so browser zoom and user font-size
+     settings are respected. */
+  --fs-micro: 0.75rem;    /* 12px — decorative meta only, never content */
+  --fs-xs: 0.8125rem;     /* 13px — dense secondary labels */
+  --fs-sm: 0.875rem;      /* 14px — navigation, buttons, tags, captions */
+  --fs-base: 1rem;        /* 16px — body copy */
+  --fs-lg: 1.125rem;      /* 18px — lead paragraphs */
+
   --shell: 1440px;
   --gutter: clamp(1.15rem, 3.6vw, 3.75rem);
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
@@ -134,21 +145,47 @@ body {
 }
 .mono {
   font-family: var(--font-mono);
-  font-size: 0.6875rem;
-  letter-spacing: 0.18em;
+  font-size: var(--fs-sm);
+  letter-spacing: 0.04em;
   text-transform: uppercase;
-  line-height: 1.4;
+  line-height: 1.5;
 }
 .mono-sm {
   font-family: var(--font-mono);
-  font-size: 0.625rem;
-  letter-spacing: 0.2em;
+  font-size: var(--fs-xs);
+  letter-spacing: 0.03em;
   text-transform: uppercase;
+  line-height: 1.5;
+}
+
+/* ---------- legibility guards ----------
+   Wide tracking on small uppercase text is the single biggest readability
+   killer on this site: at 8px with 0.2em letter-spacing, labels turn into
+   grey confetti. These classes keep the editorial feel without the squint. */
+.label {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  line-height: 1.5;
+}
+.meta {
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  letter-spacing: 0.02em;
+  color: var(--fog);
+  line-height: 1.6;
 }
 .body-copy {
   color: var(--ash);
-  line-height: 1.65;
-  font-size: clamp(0.95rem, 0.9rem + 0.25vw, 1.0625rem);
+  line-height: 1.7;
+  font-size: var(--fs-base);
+  letter-spacing: 0.002em;
+}
+.lead-copy {
+  color: var(--bone);
+  line-height: 1.6;
+  font-size: var(--fs-lg);
 }
 .text-outline {
   color: transparent;
@@ -269,10 +306,11 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 0.85rem;
-  padding: 1.05rem 1.55rem;
+  min-height: 2.875rem;
+  padding: 0.85rem 1.4rem;
   font-family: var(--font-mono);
-  font-size: 0.6875rem;
-  letter-spacing: 0.18em;
+  font-size: var(--fs-sm);
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   border: 1px solid var(--line-glass);
   color: var(--bone);
@@ -321,11 +359,12 @@ body {
 .tag {
   display: inline-flex;
   align-items: center;
-  padding: 0.32rem 0.6rem;
+  min-height: 1.75rem;
+  padding: 0.3rem 0.6rem;
   border: 1px solid var(--line-soft);
   font-family: var(--font-mono);
-  font-size: 0.6rem;
-  letter-spacing: 0.14em;
+  font-size: var(--fs-micro);
+  letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--ash);
   white-space: nowrap;

@@ -30,8 +30,8 @@ export function CaseVisual({
     <figure className={cn("group relative", className)}>
       <div className="relative overflow-hidden border border-white/12 bg-[#0a0c10]">
         <div className="flex items-center justify-between border-b border-white/10 px-3 py-2">
-          <span className="mono-sm text-[8px] text-fog">FIG. — PRODUCT SURFACE</span>
-          <span className="mono-sm text-[8px] text-accent">● REC</span>
+          <span className="font-mono text-[13px] text-fog">Product surface</span>
+          
         </div>
         <div className={cn("relative overflow-hidden", ratio)}>
           <motion.div
@@ -44,7 +44,7 @@ export function CaseVisual({
         </div>
       </div>
       {caption && (
-        <figcaption className="mono-sm mt-2 flex items-start gap-2 text-[8px] leading-relaxed text-fog">
+        <figcaption className="mt-2 flex items-start gap-2 font-sans text-[14px] leading-relaxed text-fog">
           <span className="text-accent">↳</span>
           {caption}
         </figcaption>

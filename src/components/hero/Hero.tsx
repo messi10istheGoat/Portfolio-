@@ -62,15 +62,11 @@ export function Hero() {
               transition={{ duration: 0.7, delay: 0.15, ease: EASE }}
               className="flex flex-wrap items-center gap-x-4 gap-y-2"
             >
-              <span className="flex items-center gap-2 border border-white/12 bg-white/[0.03] px-2.5 py-1.5">
+              <span className="flex items-center gap-2 border border-white/12 bg-white/[0.03] px-3 py-2">
                 <span className="status-dot" aria-hidden />
-                <span className="mono-sm text-[8px] text-ash">{profile.availabilityShort}</span>
+                <span className="font-mono text-[13px] text-ash">{profile.availabilityShort}</span>
               </span>
-              <span className="mono-sm text-[8px] text-fog">PORTFOLIO / {new Date().getFullYear()}</span>
-              <span className="hidden h-3 w-px bg-white/15 sm:block" />
-              <span className="mono-sm hidden text-[8px] text-fog sm:block">
-                {profile.meta.location}
-              </span>
+              <span className="font-mono text-[13px] text-fog">{profile.meta.location}</span>
             </motion.div>
 
             <div className="relative mt-7">
@@ -92,15 +88,6 @@ export function Hero() {
                 ))}
               </h1>
 
-              <motion.div
-                initial={reduced ? false : { opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.9, delay: 1.1 }}
-                className="absolute -right-2 top-2 hidden items-center gap-2 lg:flex"
-              >
-                <span className="mono-sm text-[8px] text-fog">SCROLL↓</span>
-                <span className="h-px w-10 bg-white/20" />
-              </motion.div>
             </div>
 
             <motion.div
@@ -134,19 +121,16 @@ export function Hero() {
               </Magnetic>
             </motion.div>
 
-            <motion.dl
+            <motion.p
               initial={reduced ? false : { opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.9, delay: 1.05 }}
-              className="mt-10 grid max-w-2xl grid-cols-1 gap-px border border-white/10 bg-white/[0.06] sm:grid-cols-3"
+              className="mt-10 flex flex-wrap items-center gap-x-3 gap-y-2 font-mono text-[13px] text-fog"
             >
-              {profile.hero.metadata.map((item, index) => (
-                <div key={item} className="bg-ink/80 px-3 py-2.5 backdrop-blur-sm">
-                  <dt className="mono-sm text-[7px] text-fog">0{index + 1} /</dt>
-                  <dd className="mono-sm mt-1 text-[8px] leading-relaxed text-ash">{item}</dd>
-                </div>
-              ))}
-            </motion.dl>
+              <span className="text-ash">BASED IN BANGLADESH</span>
+              <span className="h-3 w-px bg-white/15" aria-hidden />
+              <span>DESIGN × ENGINEERING</span>
+            </motion.p>
           </div>
 
           {/* right column — signature object */}
@@ -175,7 +159,7 @@ export function Hero() {
                   <div key={copy} className="flex shrink-0 items-center gap-6" aria-hidden={copy === 1}>
                     {["ENGINEERING", "INTERFACE CRAFT", "SYSTEM DESIGN", "PERFORMANCE", "MOTION", "TYPESCRIPT"].map(
                       (item) => (
-                        <span key={item} className="mono-sm flex items-center gap-6 text-[8px] text-fog">
+                        <span key={item} className="flex items-center gap-6 font-mono text-[13px] text-fog/80">
                           {item}
                           <span className="text-accent">✦</span>
                         </span>
@@ -187,12 +171,12 @@ export function Hero() {
             </div>
             <a
               href="#about"
-              className="mono-sm group flex shrink-0 items-center gap-2 text-[8px] text-ash transition-colors hover:text-accent"
+              className="group flex shrink-0 items-center gap-2.5 font-mono text-[13px] text-ash transition-colors hover:text-accent"
             >
-              <span className="grid h-7 w-7 place-items-center border border-white/15 transition-colors group-hover:border-accent/60">
-                <ArrowDown className="h-3 w-3 animate-bounce" />
+              <span className="grid h-9 w-9 place-items-center border border-white/15 transition-colors group-hover:border-accent/60">
+                <ArrowDown className="h-4 w-4 animate-bounce" />
               </span>
-              SCROLL TO DISCOVER
+              Scroll to discover
             </a>
           </div>
         </motion.div>

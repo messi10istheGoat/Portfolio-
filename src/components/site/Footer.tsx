@@ -43,7 +43,7 @@ export function LocalTime() {
   }, []);
 
   return (
-    <span className="mono-sm text-[9px] text-ash">
+    <span className="font-mono text-[14px] text-ash">
       LOCAL TIME {time ? `${time} ${zone ? `· ${zone}` : ""}` : "--:--:--"}
     </span>
   );
@@ -68,8 +68,8 @@ export function Footer() {
           </h2>
 
           <div className="flex flex-col items-start gap-5 lg:items-end">
-            <p className="mono max-w-[30ch] text-[10px] leading-relaxed text-fog lg:text-right">
-              OPEN FOR COLLABORATIONS, PRODUCT WORK, AND INTERESTING ENGINEERING PROBLEMS.
+            <p className="max-w-[32ch] font-sans text-[15px] leading-relaxed text-fog lg:text-right">
+              Open to collaborations, product work, and interesting engineering problems.
             </p>
             <a
               href={`mailto:${profile.email}`}
@@ -105,25 +105,25 @@ export function Footer() {
 
         <div className="grid grid-cols-2 gap-8 py-10 md:grid-cols-4">
           <div className="col-span-2 md:col-span-1">
-            <p className="mono-sm text-fog">INDEX</p>
+            <p className="font-mono text-[13px] tracking-[0.04em] text-fog">INDEX</p>
             <p className="mt-3 font-display text-sm font-semibold uppercase tracking-[0.02em] text-bone">
               {profile.name}
             </p>
-            <p className="mono-sm mt-1 text-[9px] text-fog">{profile.location}</p>
+            <p className="mono mt-1 text-[14px] text-fog">{profile.location}</p>
             <div className="mt-4 flex items-center gap-2">
               <span className="status-dot" aria-hidden />
-              <span className="mono-sm text-[9px] text-ash">SYSTEM ONLINE</span>
+              <span className="font-mono text-[14px] text-ash">SYSTEM ONLINE</span>
             </div>
           </div>
 
           <div>
-            <p className="mono-sm text-fog">NAVIGATION</p>
+            <p className="font-mono text-[13px] tracking-[0.04em] text-fog">NAVIGATION</p>
             <ul className="mt-3 space-y-1.5">
               {navLinks.map((link) => (
                 <li key={link.id}>
                   <Link
                     href={`/#${link.id}`}
-                    className="mono-sm group inline-flex items-center gap-1.5 text-[9px] text-ash transition-colors hover:text-accent"
+                    className="group inline-flex items-center gap-1.5 py-1 font-mono text-[14px] text-ash transition-colors hover:text-accent"
                   >
                     <span className="h-px w-0 bg-accent transition-all duration-300 group-hover:w-3" />
                     {link.label}
@@ -134,7 +134,7 @@ export function Footer() {
           </div>
 
           <div>
-            <p className="mono-sm text-fog">CONNECT</p>
+            <p className="font-mono text-[13px] tracking-[0.04em] text-fog">CONNECT</p>
             <ul className="mt-3 space-y-1.5">
               {[
                 { label: "GITHUB", href: profile.socials.github },
@@ -152,7 +152,7 @@ export function Footer() {
                       item.href.startsWith("mailto") || item.href.startsWith("/") ? undefined : "_blank"
                     }
                     rel="noreferrer noopener"
-                    className="mono-sm inline-flex items-center gap-1 text-[9px] text-ash transition-colors hover:text-accent"
+                    className="inline-flex items-center gap-1 py-1 font-mono text-[14px] text-ash transition-colors hover:text-accent"
                   >
                     {item.label}
                     <ArrowUpRight className="h-2.5 w-2.5" />
@@ -163,7 +163,7 @@ export function Footer() {
           </div>
 
           <div>
-            <p className="mono-sm text-fog">ACCENT SYSTEM</p>
+            <p className="font-mono text-[13px] tracking-[0.04em] text-fog">ACCENT SYSTEM</p>
             <div className="mt-3 space-y-1.5">
               {ACCENTS.map((option) => (
                 <button
@@ -172,12 +172,12 @@ export function Footer() {
                   onClick={() => setAccent(option.key)}
                   aria-pressed={accent === option.key}
                   className={cn(
-                    "mono-sm flex w-full items-center gap-2 border border-transparent px-1 py-1 text-[9px] transition-colors",
+                    "flex w-full items-center gap-2.5 border border-transparent px-1.5 py-2 font-mono text-[13px] transition-colors",
                     accent === option.key ? "text-bone" : "text-fog hover:text-ash",
                   )}
                 >
                   <span
-                    className="block h-2.5 w-2.5"
+                    className="block h-3 w-3 shrink-0"
                     style={{ backgroundColor: option.hex }}
                     aria-hidden
                   />
@@ -193,18 +193,17 @@ export function Footer() {
         </div>
 
         <div className="flex flex-col gap-4 border-t border-white/10 py-6 md:flex-row md:items-center md:justify-between">
-          <div className="mono-sm flex flex-wrap items-center gap-x-5 gap-y-2 text-[8px] text-fog">
+          <div className="mono-sm flex flex-wrap items-center gap-x-5 gap-y-2 text-[14px] text-fog">
             <span>© {year} {profile.name.toUpperCase()}</span>
             <span className="hidden h-3 w-px bg-white/15 sm:block" />
             <span>BUILD: {profile.meta.version}</span>
             <span>STACK: {profile.meta.stackLine}</span>
-            <span className="hidden sm:inline">STATUS: ONLINE</span>
             <span className="text-ash">{profile.meta.crafted}</span>
           </div>
           <button
             type="button"
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            className="mono-sm group inline-flex items-center gap-2 border border-white/12 px-3 py-2 text-[9px] text-ash transition-colors hover:border-accent/60 hover:text-accent"
+            className="mono-sm group inline-flex items-center gap-2 border border-white/12 px-3 py-2 text-[14px] text-ash transition-colors hover:border-accent/60 hover:text-accent"
           >
             BACK TO TOP
             <ArrowUp className="h-3 w-3 transition-transform group-hover:-translate-y-0.5" />

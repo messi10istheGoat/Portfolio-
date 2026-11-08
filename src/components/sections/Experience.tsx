@@ -25,13 +25,9 @@ export function Experience() {
           </div>
           <div className="lg:col-span-5">
             <Reveal delay={0.1} className="lg:text-right">
-              <p className="body-copy ml-auto max-w-[40ch] text-sm">
-                Timeline of practice, collaboration, and study. Expand an entry for responsibilities,
-                technologies, and outcomes.
+              <p className="body-copy ml-auto max-w-[44ch] text-[15px]">
+                Project work and study. Open an entry for responsibilities, tools, and outcomes.
               </p>
-              <span className="mono-sm mt-4 inline-flex items-center gap-2 border border-white/12 px-2.5 py-1.5 text-[8px] text-fog">
-                <span className="h-1 w-1 bg-[#febc2e]" /> DRAFT DATA — EDITABLE PLACEHOLDER
-              </span>
             </Reveal>
           </div>
         </div>
@@ -51,7 +47,7 @@ export function Experience() {
                     >
                       {entry.index}
                     </span>
-                    <span className="mono-sm mt-1 text-[7px] leading-relaxed text-fog sm:mt-0">
+                    <span className="mt-1 font-mono text-[13px] leading-relaxed text-fog sm:mt-0">
                       {entry.period}
                     </span>
                   </div>
@@ -62,16 +58,16 @@ export function Experience() {
                         <div className="flex flex-wrap items-center gap-2">
                           <h3 className="display-tight text-xl text-bone sm:text-2xl">{entry.organization}</h3>
                           {!entry.verified && (
-                            <span className="mono-sm border border-[#febc2e]/40 px-1.5 py-0.5 text-[6px] text-[#febc2e]/90">
+                            <span className="border border-[#febc2e]/40 px-2 py-0.5 font-mono text-[12px] leading-5 text-[#febc2e]/90">
                               DRAFT
                             </span>
                           )}
                         </div>
-                        <p className="mono-sm mt-1.5 text-[9px] text-accent">
-                          {entry.position.toUpperCase()}
-                          <span className="text-fog"> — {entry.location}</span>
+                        <p className="mt-1.5 font-mono text-[13px] text-accent">
+                          {entry.position}
+                          <span className="text-fog"> · {entry.location}</span>
                         </p>
-                        <p className="body-copy mt-3 max-w-[62ch] text-sm">{entry.summary}</p>
+                        <p className="body-copy mt-3 max-w-[64ch] text-[15px]">{entry.summary}</p>
                       </div>
 
                       <button
@@ -81,7 +77,7 @@ export function Experience() {
                         aria-controls={`experience-panel-${entry.index}`}
                         className="flex shrink-0 items-center gap-2 self-start border border-white/15 px-3 py-2 transition-colors hover:border-accent/60 hover:text-accent"
                       >
-                        <span className="mono-sm text-[8px]">{isOpen ? "COLLAPSE" : "DETAILS"}</span>
+                        <span className="font-mono text-[13px]">{isOpen ? "Close" : "Details"}</span>
                         {isOpen ? <Minus className="h-3 w-3" /> : <Plus className="h-3 w-3" />}
                       </button>
                     </div>
@@ -98,10 +94,10 @@ export function Experience() {
                         >
                           <div className="mt-5 grid gap-4 border-t border-white/10 pt-4 md:grid-cols-2">
                             <div>
-                              <p className="mono-sm text-[8px] text-fog">RESPONSIBILITIES</p>
+                              <p className="font-mono text-[13px] tracking-[0.04em] text-fog">What I do</p>
                               <ul className="mt-2 space-y-1.5">
                                 {entry.responsibilities.map((item) => (
-                                  <li key={item} className="flex gap-2 font-sans text-[12px] leading-relaxed text-ash">
+                                  <li key={item} className="flex gap-2 font-sans text-[15px] leading-relaxed text-ash">
                                     <span className="mt-1.5 h-1 w-1 shrink-0 bg-accent/70" />
                                     {item}
                                   </li>
@@ -109,10 +105,10 @@ export function Experience() {
                               </ul>
                             </div>
                             <div>
-                              <p className="mono-sm text-[8px] text-fog">KEY ACCOMPLISHMENTS</p>
+                              <p className="font-mono text-[13px] tracking-[0.04em] text-fog">What came of it</p>
                               <ul className="mt-2 space-y-1.5">
                                 {entry.accomplishments.map((item) => (
-                                  <li key={item} className="flex gap-2 font-sans text-[12px] leading-relaxed text-ash">
+                                  <li key={item} className="flex gap-2 font-sans text-[15px] leading-relaxed text-ash">
                                     <ArrowUpRight className="mt-0.5 h-3 w-3 shrink-0 text-accent" />
                                     {item}
                                   </li>
@@ -120,7 +116,7 @@ export function Experience() {
                               </ul>
                             </div>
                             <div className="md:col-span-2">
-                              <p className="mono-sm text-[8px] text-fog">TECHNOLOGIES</p>
+                              <p className="font-mono text-[13px] tracking-[0.04em] text-fog">Tools</p>
                               <div className="mt-2 flex flex-wrap gap-1.5">
                                 {entry.technologies.map((tech) => (
                                   <span key={tech} className="tag">
@@ -147,8 +143,8 @@ export function Experience() {
           })}
         </div>
 
-        <p className="mono-sm mt-5 max-w-[80ch] text-[8px] leading-relaxed text-fog">
-          ⚠ {experienceDisclaimer}
+        <p className="mt-5 max-w-[80ch] font-sans text-[14px] leading-relaxed text-fog">
+          {experienceDisclaimer}
         </p>
       </div>
     </section>
