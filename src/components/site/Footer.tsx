@@ -54,7 +54,7 @@ export function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="relative overflow-hidden border-t border-white/10 bg-[#0a0b0f]">
+    <footer className="relative overflow-hidden border-t border-white/10 bg-paper-deep">
       <div className="grid-field pointer-events-none absolute inset-0 opacity-30" aria-hidden />
       <div className="radial-bleed pointer-events-none absolute inset-x-0 -top-40 h-80 opacity-60" aria-hidden />
 

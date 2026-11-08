@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 import "./globals.css";
 import { AccentProvider, accentBootstrapScript } from "@/components/providers/AccentProvider";
+import { ThemeProvider, themeBootstrapScript } from "@/components/providers/ThemeProvider";
+import { ThemeRail } from "@/components/site/ThemeRail";
 import { CustomCursor } from "@/components/site/CustomCursor";
 import { Navigation } from "@/components/site/Navigation";
 import { Footer } from "@/components/site/Footer";
@@ -63,6 +65,10 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
+  // The server always renders the dark theme, so these defaults describe dark.
+  // ThemeProvider rewrites both at runtime (the <html> inline `color-scheme`
+  // and the theme-color meta) when a visitor switches to light — which is why
+  // the hardcoded value here only ever needs to be right for the no-JS case.
   themeColor: "#08090C",
   colorScheme: "dark",
   width: "device-width",
@@ -84,8 +90,17 @@ const personSchema = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" data-accent="blue" className={fontVariables} suppressHydrationWarning>
+    <html
+      lang="en"
+      data-theme="dark"
+      data-accent="blue"
+      className={fontVariables}
+      suppressHydrationWarning
+    >
       <head>
+        {/* Both read stored prefs before first paint, so a light-mode visitor
+            never sees a dark flash (and vice versa). */}
+        <script dangerouslySetInnerHTML={{ __html: themeBootstrapScript }} />
         <script dangerouslySetInnerHTML={{ __html: accentBootstrapScript }} />
         <script
           type="application/ld+json"
@@ -93,20 +108,23 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         />
       </head>
       <body className="min-h-screen bg-ink text-bone antialiased">
-        <AccentProvider>
-          <a
-            href="#main"
-            className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[120] focus:border focus:border-accent focus:bg-ink focus:px-4 focus:py-2 focus:font-mono focus:text-[14px] focus:uppercase focus:tracking-widest focus:text-accent"
-          >
-            Skip to main content
-          </a>
-          <ScrollProgress />
-          <CustomCursor />
-          <Navigation />
-          <main id="main">{children}</main>
-          <Footer />
-          <CommandPalette />
-        </AccentProvider>
+        <ThemeProvider>
+          <AccentProvider>
+            <a
+              href="#main"
+              className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[120] focus:border focus:border-accent focus:bg-ink focus:px-4 focus:py-2 focus:font-mono focus:text-[14px] focus:uppercase focus:tracking-widest focus:text-accent"
+            >
+              Skip to main content
+            </a>
+            <ScrollProgress />
+            <CustomCursor />
+            <Navigation />
+            <ThemeRail />
+            <main id="main">{children}</main>
+            <Footer />
+            <CommandPalette />
+          </AccentProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

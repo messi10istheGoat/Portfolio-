@@ -8,7 +8,7 @@ const manifesto = [
 
 export function Manifesto() {
   return (
-    <section aria-label="Design manifesto" className="relative overflow-hidden border-y border-white/10 bg-[#0a0b0f]">
+    <section aria-label="Design manifesto" className="relative overflow-hidden border-y border-white/10 bg-paper-deep">
       <div className="grid-field pointer-events-none absolute inset-0 opacity-20" aria-hidden />
       <div className="shell relative">
         <div className="flex flex-col gap-2 border-b border-white/10 py-4 sm:flex-row sm:items-center sm:justify-between">

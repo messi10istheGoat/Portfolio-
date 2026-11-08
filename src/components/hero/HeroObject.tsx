@@ -2,6 +2,7 @@
 
 import { useMotionValue, useReducedMotion, useSpring, useTransform, motion } from "framer-motion";
 import { useEffect, useId, useRef } from "react";
+import { Constellation } from "./Constellation";
 
 /**
  * Hero centerpiece — a layered glass/metal structure built entirely from CSS
@@ -63,12 +64,12 @@ export function HeroObject() {
       {/* structural frame */}
       <div className="absolute inset-0 border border-white/10" />
       <div className="absolute inset-x-0 top-0 flex justify-between">
-        <span className="mono-sm -mt-2 bg-ink pr-2 text-[14px] text-fog">OBJ / 001</span>
-        <span className="mono-sm -mt-2 bg-ink pl-2 text-[14px] text-fog">LIVE_RENDER</span>
+        <span className="mono-sm -mt-2 bg-paper pr-2 text-[14px] text-fog">OBJ / 001</span>
+        <span className="mono-sm -mt-2 bg-paper pl-2 text-[14px] text-fog">LIVE_RENDER</span>
       </div>
       <div className="absolute inset-x-0 bottom-0 flex justify-between">
-        <span className="mono-sm -mb-2 bg-ink pr-2 text-[14px] text-fog">GLASS × CHROME</span>
-        <span className="mono-sm -mb-2 bg-ink pl-2 text-[14px] text-accent">● ACTIVE</span>
+        <span className="mono-sm -mb-2 bg-paper pr-2 text-[14px] text-fog">GLASS × CHROME</span>
+        <span className="mono-sm -mb-2 bg-paper pl-2 text-[14px] text-accent">● ACTIVE</span>
       </div>
       <span className="absolute -left-px -top-px h-3 w-3 border-l border-t border-accent/70" />
       <span className="absolute -right-px -top-px h-3 w-3 border-r border-t border-accent/70" />
@@ -79,6 +80,15 @@ export function HeroObject() {
       <div className="absolute inset-0 overflow-hidden">
         <div className="radial-bleed absolute inset-0 opacity-90" />
         <div className="grid-field-sm absolute inset-0 opacity-40" />
+        {/*
+          Interactive constellation field. Sits behind the sculpture and fades
+          out before the frame edge so the mesh feels like it fills the volume
+          rather than sitting inside a box. The pointer listener is on window,
+          so the mesh responds even while the cursor is over the glass.
+        */}
+        <Constellation
+          className="absolute inset-0 [mask-image:radial-gradient(circle_at_50%_48%,#000_42%,transparent_78%)]"
+        />
         <div className="noise-layer absolute inset-0" />
       </div>
 
@@ -94,8 +104,8 @@ export function HeroObject() {
           <svg viewBox="0 0 400 400" className="h-[92%] w-[92%] opacity-60">
             <defs>
               <linearGradient id={ringGradientId} x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%" stopColor="rgba(255,255,255,0.35)" />
-                <stop offset="55%" stopColor="rgba(255,255,255,0.05)" />
+                <stop offset="0%" stopColor="rgba(var(--edge),0.35)" />
+                <stop offset="55%" stopColor="rgba(var(--edge),0.05)" />
                 <stop offset="100%" stopColor="rgba(var(--accent-rgb),0.5)" />
               </linearGradient>
             </defs>
@@ -105,14 +115,14 @@ export function HeroObject() {
               cy="200"
               r="118"
               fill="none"
-              stroke="rgba(255,255,255,0.12)"
+              stroke="rgba(var(--edge),0.12)"
               strokeWidth="0.75"
               strokeDasharray="2 6"
             />
-            <line x1="200" y1="18" x2="200" y2="58" stroke="rgba(255,255,255,0.22)" strokeWidth="0.75" />
-            <line x1="200" y1="342" x2="200" y2="382" stroke="rgba(255,255,255,0.22)" strokeWidth="0.75" />
-            <line x1="18" y1="200" x2="58" y2="200" stroke="rgba(255,255,255,0.22)" strokeWidth="0.75" />
-            <line x1="342" y1="200" x2="382" y2="200" stroke="rgba(255,255,255,0.22)" strokeWidth="0.75" />
+            <line x1="200" y1="18" x2="200" y2="58" stroke="rgba(var(--edge),0.22)" strokeWidth="0.75" />
+            <line x1="200" y1="342" x2="200" y2="382" stroke="rgba(var(--edge),0.22)" strokeWidth="0.75" />
+            <line x1="18" y1="200" x2="58" y2="200" stroke="rgba(var(--edge),0.22)" strokeWidth="0.75" />
+            <line x1="342" y1="200" x2="382" y2="200" stroke="rgba(var(--edge),0.22)" strokeWidth="0.75" />
           </svg>
         </motion.div>
 
@@ -125,10 +135,9 @@ export function HeroObject() {
             className="absolute right-[4%] top-[6%] h-[42%] w-[42%] overflow-hidden rounded-full"
             style={{
               transform: "translateZ(60px)",
-              background:
-                "radial-gradient(circle at 32% 24%, #f7f8fb 0%, #b9c0cc 16%, #666f7e 44%, #23272f 72%, #101216 100%)",
-              boxShadow:
-                "inset -18px -24px 48px rgba(0,0,0,0.85), inset 12px 12px 32px rgba(255,255,255,0.25), 0 40px 80px -30px rgba(0,0,0,0.9), 0 0 60px rgba(var(--accent-rgb),0.16)",
+              // Tokens, not literals: the sphere becomes ceramic in light mode.
+              background: "var(--chrome-fill)",
+              boxShadow: "var(--chrome-shade)",
             }}
           >
             <div
@@ -139,7 +148,10 @@ export function HeroObject() {
                 mixBlendMode: "screen",
               }}
             />
-            <div className="absolute left-[18%] top-[12%] h-[20%] w-[28%] rounded-full bg-white/60 blur-[6px]" />
+            <div
+              className="absolute left-[18%] top-[12%] h-[20%] w-[28%] rounded-full blur-[6px]"
+              style={{ background: "var(--chrome-specular)" }}
+            />
             <div className="scan-line absolute inset-0 rounded-full opacity-40" />
           </div>
 
@@ -184,7 +196,7 @@ export function HeroObject() {
                   style={{
                     height: `${height}%`,
                     background:
-                      index > 8 ? "var(--accent)" : "rgba(255,255,255,0.22)",
+                      index > 8 ? "var(--accent)" : "rgba(var(--edge),0.22)",
                     animation: reduced ? undefined : `bar-rise 1.4s ${index * 0.05 + 0.6}s cubic-bezier(0.16,1,0.3,1) both`,
                   }}
                 />
@@ -198,7 +210,7 @@ export function HeroObject() {
 
           {/* small chip */}
           <div
-            className="absolute left-[2%] top-[26%] flex items-center gap-1.5 border border-white/20 bg-black/45 px-2 py-1.5 backdrop-blur-md"
+            className="absolute left-[2%] top-[26%] flex items-center gap-1.5 border border-white/20 bg-white/[0.06] px-2 py-1.5 backdrop-blur-md"
             style={{ transform: "translateZ(110px)" }}
           >
             <span className="h-1 w-1 rounded-full bg-lime" />
@@ -227,8 +239,8 @@ export function HeroObject() {
         className="pointer-events-none absolute inset-0"
         style={{ x: shiftNearX, y: shiftNearY }}
       >
-        <div className="absolute right-2 top-[14%] border border-white/15 bg-[rgba(8,9,12,0.6)] px-2 py-1.5 backdrop-blur-sm">
-          <span className="mono-sm block text-[14px] text-white/50">X / Y</span>
+        <div className="absolute right-2 top-[14%] border border-white/15 bg-[color-mix(in_srgb,var(--paper)_72%,transparent)] px-2 py-1.5 backdrop-blur-sm">
+          <span className="mono-sm block text-[14px] text-fog">X / Y</span>
           <span className="mono-sm block text-[14px] text-bone">23.81°N 90.41°E</span>
         </div>
         <div className="float-slow absolute bottom-[28%] left-0 border-l border-accent/60 pl-2">

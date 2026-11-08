@@ -58,7 +58,7 @@ export function Experience() {
                         <div className="flex flex-wrap items-center gap-2">
                           <h3 className="display-tight text-xl text-bone sm:text-2xl">{entry.organization}</h3>
                           {!entry.verified && (
-                            <span className="border border-[#febc2e]/40 px-2 py-0.5 font-mono text-[12px] leading-5 text-[#febc2e]/90">
+                            <span className="border border-amber/40 px-2 py-0.5 font-mono text-[12px] leading-5 text-amber">
                               DRAFT
                             </span>
                           )}

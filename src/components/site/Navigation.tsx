@@ -8,6 +8,8 @@ import { ArrowUpRight, Command, Menu, X } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "@/components/ui/BrandIcons";
 import { profile } from "@/data/profile";
 import { ACCENTS, useAccent } from "@/components/providers/AccentProvider";
+import { useTheme } from "@/components/providers/ThemeProvider";
+import { MoonGlyph, SunGlyph } from "@/components/ui/ThemeGlyphs";
 import { cn } from "@/lib/utils";
 import { Magnetic } from "@/components/ui/Magnetic";
 import { lockScroll, unlockScroll } from "@/lib/scroll-lock";
@@ -28,6 +30,9 @@ export function Navigation() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const { accent, setAccent } = useAccent();
+  // The desktop rail owns these controls; the mobile menu mirrors them because
+  // the rail is hidden below lg.
+  const { theme, toggleTheme, isDark } = useTheme();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -98,8 +103,8 @@ export function Navigation() {
           className={cn(
             "mx-auto flex max-w-[1440px] items-center justify-between gap-3 border px-3 py-2.5 transition-all duration-500 sm:px-4",
             scrolled
-              ? "border-white/15 bg-[rgba(8,9,12,0.82)] shadow-[0_20px_60px_-30px_rgba(0,0,0,0.95)] backdrop-blur-2xl"
-              : "border-white/10 bg-[rgba(13,15,19,0.44)] backdrop-blur-xl",
+              ? "border-white/15 bg-[color-mix(in_srgb,var(--paper)_86%,transparent)] shadow-[var(--shadow-float)] backdrop-blur-2xl"
+              : "border-white/10 bg-[color-mix(in_srgb,var(--ink-2)_46%,transparent)] backdrop-blur-xl",
           )}
           style={{ borderRadius: 2 }}
         >
@@ -109,7 +114,7 @@ export function Navigation() {
             className="group flex items-center gap-3"
             aria-label={`${profile.name} — home`}
           >
-            <span className="relative grid h-10 w-10 place-items-center border border-white/25 bg-[rgba(255,255,255,0.045)]">
+            <span className="relative grid h-10 w-10 place-items-center border border-white/25 bg-[rgba(var(--edge),0.045)]">
               <span className="display text-[14px] tracking-[-0.02em] text-bone">{profile.monogram}</span>
               <span className="absolute -right-px -top-px h-1.5 w-1.5 bg-accent transition-transform duration-300 group-hover:scale-150" />
             </span>
@@ -166,25 +171,6 @@ export function Navigation() {
               <span className="font-mono text-[14px] uppercase tracking-[0.03em] text-ash">
                 OPEN TO WORK
               </span>
-            </div>
-
-            <div className="hidden items-center gap-0.5 border border-white/10 p-0.5 sm:flex">
-              {ACCENTS.map((option) => (
-                <button
-                  key={option.key}
-                  type="button"
-                  onClick={() => setAccent(option.key)}
-                  title={`Accent — ${option.label}`}
-                  aria-label={`Set accent colour to ${option.label}`}
-                  aria-pressed={accent === option.key}
-                  className="grid h-7 w-7 place-items-center transition-transform hover:scale-110"
-                >
-                  <span
-                    className={cn("block h-3.5 w-3.5 transition-all", accent === option.key && "ring-1 ring-white/80 ring-offset-2 ring-offset-[#0d0f13]")}
-                    style={{ backgroundColor: option.hex }}
-                  />
-                </button>
-              ))}
             </div>
 
             <Magnetic strength={5}>
@@ -246,7 +232,7 @@ export function Navigation() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-[55] flex flex-col bg-[rgba(8,9,12,0.96)] pt-24 backdrop-blur-2xl lg:hidden"
+            className="fixed inset-0 z-[55] flex flex-col bg-[color-mix(in_srgb,var(--paper)_97%,transparent)] pt-24 backdrop-blur-2xl lg:hidden"
           >
             <div className="grid-field pointer-events-none absolute inset-0 opacity-40" aria-hidden />
             <div className="relative flex flex-1 flex-col justify-between overflow-y-auto px-6 pb-10">
@@ -295,22 +281,35 @@ export function Navigation() {
                     <span className="status-dot" />
                     <span className="font-mono text-[14px] tracking-[0.02em] text-ash">{profile.availability}</span>
                   </div>
-                  <div className="flex gap-2">
-                    {ACCENTS.map((option) => (
-                      <button
-                        key={option.key}
-                        type="button"
-                        onClick={() => setAccent(option.key)}
-                        aria-label={`Set accent colour to ${option.label}`}
-                        aria-pressed={accent === option.key}
-                        className="h-7 w-7"
-                        style={{
-                          backgroundColor: option.hex,
-                          outline: accent === option.key ? "1px solid #fff" : "none",
-                          outlineOffset: 2,
-                        }}
-                      />
-                    ))}
+                  <div className="flex items-center gap-3">
+                    <button
+                      type="button"
+                      onClick={toggleTheme}
+                      aria-pressed={isDark}
+                      aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+                      className="flex h-9 items-center gap-2 border border-white/15 px-2.5 font-mono text-[14px] uppercase tracking-[0.06em] text-ash transition-colors hover:border-accent/60 hover:text-accent"
+                    >
+                      {isDark ? <SunGlyph size={14} /> : <MoonGlyph size={14} />}
+                      {isDark ? "Light" : "Dark"}
+                    </button>
+                    <div className="flex gap-2">
+                      {ACCENTS.map((option) => (
+                        <button
+                          key={option.key}
+                          type="button"
+                          onClick={() => setAccent(option.key)}
+                          aria-label={`Set accent colour to ${option.label}`}
+                          aria-pressed={accent === option.key}
+                          className="h-7 w-7"
+                          style={{
+                            backgroundColor: option.hex,
+                            outline:
+                              accent === option.key ? "1px solid rgba(var(--edge),0.85)" : "none",
+                            outlineOffset: 2,
+                          }}
+                        />
+                      ))}
+                    </div>
                   </div>
                 </div>
                 <a

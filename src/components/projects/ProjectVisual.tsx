@@ -23,7 +23,7 @@ export function ProjectVisual({
   return (
     <div
       className={cn(
-        "relative isolate h-full w-full overflow-hidden bg-[#0a0c10] text-bone",
+        "relative isolate h-full w-full overflow-hidden bg-paper-deep text-bone",
         className,
       )}
       style={style}
@@ -36,7 +36,7 @@ export function ProjectVisual({
           <span className="h-1.5 w-1.5 rounded-full bg-white/15" />
           <span className="h-1.5 w-1.5 rounded-full bg-white/10" />
         </span>
-        <div className="mx-2 flex h-4 flex-1 items-center border border-white/10 bg-black/30 px-2">
+        <div className="mx-2 flex h-4 flex-1 items-center border border-white/10 bg-white/[0.06] px-2">
           <span className="mono-sm text-[6px] tracking-[0.14em] text-white/35">
             {kind === "dashboard"
               ? "budget-tracker.app/budget"
@@ -102,7 +102,7 @@ function DashboardPreview({ compact }: { compact: boolean }) {
         <div className="grid grid-cols-3 gap-1.5">
           {[
             { label: "INCOME", value: "৳42,000", color: "var(--pv-accent)" },
-            { label: "EXPENSES", value: "−৳13,000", color: "#ffffff" },
+            { label: "EXPENSES", value: "−৳13,000", color: "rgba(var(--edge),0.9)" },
             { label: "EST. TAX", value: "৳4,200", color: "var(--pv-accent)" },
           ].map((metric) => (
             <div key={metric.label} className="border border-white/10 bg-white/[0.03] p-1.5">
@@ -203,7 +203,7 @@ function AiPreview({ compact }: { compact: boolean }) {
         </div>
         <div className="m-2 flex items-center justify-between border border-white/15 px-2 py-1.5">
           <span className="mono-sm text-[6px] text-white/30">ASK A FOLLOW-UP…</span>
-          <span className="mono-sm text-[6px]" style={{ background: "var(--pv-accent)", color: "#08090c", padding: "1px 4px" }}>
+          <span className="mono-sm text-[6px]" style={{ background: "var(--pv-accent)", color: "var(--accent-ink)", padding: "1px 4px" }}>
             ↵
           </span>
         </div>
@@ -269,7 +269,7 @@ function CommercePreview({ compact }: { compact: boolean }) {
             }}
           />
           <div className="absolute left-1/2 top-[22%] h-[46%] w-[46%] -translate-x-1/2 rounded-t-full border border-white/25 bg-gradient-to-b from-white/25 to-transparent" />
-          <div className="absolute bottom-[26%] left-1/2 h-[9%] w-[54%] -translate-x-1/2 border border-white/20 bg-black/40" />
+          <div className="absolute bottom-[26%] left-1/2 h-[9%] w-[54%] -translate-x-1/2 border border-white/20 bg-white/[0.05]" />
           <span className="mono-sm relative text-[5px]" style={{ color: "var(--pv-accent)" }}>
             ৳25% OFF
           </span>
@@ -302,7 +302,7 @@ function CommercePreview({ compact }: { compact: boolean }) {
         </div>
       </div>
       {!compact && (
-        <div className="flex items-center justify-between border border-white/10 bg-black/40 px-2 py-1.5">
+        <div className="flex items-center justify-between border border-white/10 bg-white/[0.05] px-2 py-1.5">
           <span className="mono-sm text-[6px] text-white/35">ঢাকা ডেলিভারি · ২ ঘণ্টায়</span>
           <span className="mono-sm text-[6px]" style={{ color: "var(--pv-accent)" }}>
             CHECKOUT ↗
@@ -326,7 +326,7 @@ function TerminalPreview({ compact }: { compact: boolean }) {
     { prefix: "✓", text: "wrote tests/fixtures/orderList.ts (stable keys)" },
   ];
   return (
-    <div className="flex h-full flex-col border border-white/10 bg-black/35">
+    <div className="flex h-full flex-col border border-white/10 bg-white/[0.05]">
       <div className="flex items-center justify-between border-b border-white/10 px-2 py-1.5">
         <div className="flex gap-1">
           {["CAPTURE", "INSPECT", "EXPORT"].map((tab, index) => (
@@ -334,7 +334,7 @@ function TerminalPreview({ compact }: { compact: boolean }) {
               key={tab}
               className="mono-sm px-1.5 py-0.5 text-[6px]"
               style={{
-                color: index === 0 ? "#08090c" : "rgba(255,255,255,0.4)",
+                color: index === 0 ? "var(--accent-ink)" : "rgba(var(--edge),0.4)",
                 backgroundColor: index === 0 ? "var(--pv-accent)" : "transparent",
               }}
             >
@@ -347,7 +347,7 @@ function TerminalPreview({ compact }: { compact: boolean }) {
       <div className="flex-1 space-y-[3px] overflow-hidden p-2 font-mono text-[7px] leading-relaxed sm:text-[8px]">
         {lines.slice(0, compact ? 6 : lines.length).map((line, index) => (
           <p key={index} className="flex gap-1.5">
-            <span style={{ color: line.accent ? "var(--pv-accent)" : "rgba(255,255,255,0.3)" }}>{line.prefix}</span>
+            <span style={{ color: line.accent ? "var(--pv-accent)" : "rgba(var(--edge),0.3)" }}>{line.prefix}</span>
             <span className={line.accent ? "text-white/90" : "text-white/55"}>{line.text}</span>
           </p>
         ))}
@@ -401,7 +401,7 @@ function ObservabilityPreview({ compact }: { compact: boolean }) {
           <div key={index} className="border border-white/10 bg-white/[0.02] p-1.5">
             <div className="flex justify-between">
               <span className="mono-sm text-[5px] text-white/30">USER 0{index + 1}</span>
-              <span className="mono-sm text-[5px]" style={{ color: index === 1 ? "var(--pv-accent)" : "rgba(255,255,255,0.3)" }}>
+              <span className="mono-sm text-[5px]" style={{ color: index === 1 ? "var(--pv-accent)" : "rgba(var(--edge),0.3)" }}>
                 {index === 1 ? "▲" : "●"}
               </span>
             </div>
@@ -409,7 +409,7 @@ function ObservabilityPreview({ compact }: { compact: boolean }) {
               <polyline
                 points={points.map((point, i) => `${(i / (points.length - 1)) * 100},${32 - point}`).join(" ")}
                 fill="none"
-                stroke={index === 1 ? "var(--pv-accent)" : "rgba(255,255,255,0.4)"}
+                stroke={index === 1 ? "var(--pv-accent)" : "rgba(var(--edge),0.4)"}
                 strokeWidth="1.1"
               />
             </svg>
@@ -428,7 +428,7 @@ function ObservabilityPreview({ compact }: { compact: boolean }) {
 
 function TypePreview({ compact }: { compact: boolean }) {
   return (
-    <div className="relative flex h-full flex-col justify-between overflow-hidden border border-white/10 bg-[#08090c] p-3">
+    <div className="relative flex h-full flex-col justify-between overflow-hidden border border-white/10 bg-paper-deep p-3">
       <div className="grid-field-sm absolute inset-0 opacity-50" />
       <div className="relative flex items-center justify-between">
         <span className="mono-sm text-[6px] text-white/35">CHRONOCLOCK / TTY 01</span>
@@ -464,7 +464,7 @@ function TypePreview({ compact }: { compact: boolean }) {
             <span
               key={mode}
               className="mono-sm text-[5px]"
-              style={{ color: index === 1 ? "var(--pv-accent)" : "rgba(255,255,255,0.28)" }}
+              style={{ color: index === 1 ? "var(--pv-accent)" : "rgba(var(--edge),0.28)" }}
             >
               {mode}
             </span>

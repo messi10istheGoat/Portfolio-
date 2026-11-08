@@ -28,7 +28,7 @@ export function CaseVisual({
 
   return (
     <figure className={cn("group relative", className)}>
-      <div className="relative overflow-hidden border border-white/12 bg-[#0a0c10]">
+      <div className="relative overflow-hidden border border-white/12 bg-paper-deep">
         <div className="flex items-center justify-between border-b border-white/10 px-3 py-2">
           <span className="font-mono text-[13px] text-fog">Product surface</span>
           

@@ -131,7 +131,7 @@ export function Projects() {
                       href={`/work/${project.slug}`}
                       aria-label={`Open case study: ${project.title}`}
                       data-cursor="view"
-                      className="relative block overflow-hidden border-b border-white/10 bg-[#0a0c10] lg:border-b-0 lg:border-r"
+                      className="relative block overflow-hidden border-b border-white/10 bg-paper-deep lg:border-b-0 lg:border-r"
                     >
                       <div className="flex items-center justify-between gap-3 border-b border-white/10 px-3 py-2">
                         <span className="font-mono text-[13px] text-accent">{project.number}</span>
@@ -144,7 +144,7 @@ export function Projects() {
                         )}
                       >
                         <ProjectVisual kind={project.preview} accent={project.accent} compact={!wide} />
-                        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#08090c]/70 via-transparent to-transparent opacity-60 transition-opacity duration-500 group-hover:opacity-40" />
+                        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-paper/70 via-transparent to-transparent opacity-60 transition-opacity duration-500 group-hover:opacity-40" />
                       </div>
                     </Link>
 
